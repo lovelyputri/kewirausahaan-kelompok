@@ -63,6 +63,7 @@ class ProdukController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'id' => $produk->id,
+                'kode_produk' => $produk->kode_produk,
                 'nama_produk' => $produk->nama_produk,
                 'kategori' => $produk->kategori->nama_kategori ?? '-',
                 'harga_beli' => $produk->harga_beli,
@@ -88,7 +89,7 @@ class ProdukController extends Controller
     }
 
     // ============================
-    // STORE
+    // STORE - Simpan produk baru + auto-generate kode
     // ============================
     public function store(Request $request)
     {
@@ -101,6 +102,7 @@ class ProdukController extends Controller
         ]);
 
         Produk::create([
+            'kode_produk' => Produk::generateKodeProduk(),   // ✅ AUTO GENERATE
             'nama_produk' => $request->nama_produk,
             'harga_beli' => $request->harga_beli,
             'harga_jual' => $request->harga_jual,

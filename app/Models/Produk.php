@@ -12,6 +12,7 @@ class Produk extends Model
     protected $table = 'produk';
 
     protected $fillable = [
+        'kode_produk',
         'id_kategori',
         'nama_produk',
         'harga_beli',
@@ -43,16 +44,35 @@ class Produk extends Model
     }
 
     // ============================
+    // AUTO GENERATE KODE PRODUK
+    // ============================
+    public static function generateKodeProduk()
+    {
+        // Cari produk terakhir berdasarkan kode
+        $lastProduk = self::whereNotNull('kode_produk')
+                         ->orderBy('id', 'desc')
+                         ->first();
+
+        if ($lastProduk && $lastProduk->kode_produk) {
+            // Ambil angka dari kode terakhir (contoh: R005 → 5)
+            $lastNumber = intval(substr($lastProduk->kode_produk, 1));
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+
+        // Format: R + 3 digit (R001, R002, ...)
+        return 'R' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
+    }
+
+    // ============================
     // ACCESSOR
     // ============================
-
-    // Hitung laba per unit
     public function getLabaAttribute()
     {
         return $this->harga_jual - $this->harga_beli;
     }
 
-    // Status stok: tersedia / menipis / habis
     public function getStatusStokAttribute()
     {
         if ($this->stok <= 0) {
@@ -63,7 +83,6 @@ class Produk extends Model
         return 'tersedia';
     }
 
-    // Label status untuk badge
     public function getLabelStatusAttribute()
     {
         if ($this->status_stok == 'habis') {
@@ -74,7 +93,6 @@ class Produk extends Model
         return 'Tersedia';
     }
 
-    // Warna badge
     public function getWarnaStatusAttribute()
     {
         if ($this->status_stok == 'habis') {
@@ -85,7 +103,6 @@ class Produk extends Model
         return 'bg-green-100 text-green-700';
     }
 
-    // Cek stok menipis
     public function isStokMenipis()
     {
         return $this->stok <= 5;
