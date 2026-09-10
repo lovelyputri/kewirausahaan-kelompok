@@ -86,6 +86,7 @@
             overflow: hidden;
         }
 
+
         .top-renda img {
             display: block;
 
@@ -170,6 +171,7 @@
 
         .brand-info {
             color: white;
+
             min-width: 0;
         }
 
@@ -245,7 +247,9 @@
 
         .nav-item:hover {
             background: var(--cream-active);
+
             border-color: var(--cream-active);
+
             color: var(--brown);
         }
 
@@ -312,12 +316,15 @@
         }
 
 
-        /* Gambar roti — di kiri */
+        /* =====================================================
+           GAMBAR ROTI
+        ===================================================== */
+
         .bakery-decoration .bakery-image {
             position: absolute;
 
             left: -20px;
-            bottom: -15px;
+            bottom: -35px;
 
             width: 220px;
             height: auto;
@@ -328,14 +335,17 @@
         }
 
 
-        /* Tulisan — di kanan gambar roti */
+        /* =====================================================
+           TEKS BAKERY
+        ===================================================== */
+
         .bakery-copy {
             position: absolute;
 
-            right: 10px;
+            right: 5px;
             bottom: 95px;
 
-            width: 110px;
+            width: 125px;
 
             color: #ffffff;
 
@@ -345,7 +355,7 @@
 
             overflow: visible;
 
-            word-wrap: break-word;
+            word-wrap: normal;
         }
 
 
@@ -356,15 +366,16 @@
 
             font-weight: 400;
 
-            font-width: 400;
-
             line-height: 1.15;
 
             margin-bottom: 6px;
 
             letter-spacing: 0.5px;
 
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+            white-space: nowrap;
+
+            text-shadow:
+                0 1px 3px rgba(0, 0, 0, 0.35);
         }
 
 
@@ -375,7 +386,8 @@
 
             color: rgba(255, 255, 255, 0.95);
 
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+            text-shadow:
+                0 1px 3px rgba(0, 0, 0, 0.35);
         }
 
 
@@ -400,35 +412,43 @@
 
 
         /* =====================================================
-           GLOBAL LOGOUT STYLE
+           GLOBAL LOGOUT STYLE (HANYA UNTUK LOGOUT)
         ===================================================== */
 
         .logout-btn,
         a.logout-btn,
         button.logout-btn,
-        .content a[href*="logout"],
-        .content button[type="submit"] {
+        .content a[href*="logout"] {
             background: transparent !important;
-            background-color: transparent !important;
+
             border: none !important;
+
             box-shadow: none !important;
+
             color: #3f3025 !important;
+
             text-decoration: none !important;
+
             padding: 0 !important;
+
             margin: 0 !important;
+
             cursor: pointer;
+
             font-family: inherit;
+
             font-size: inherit;
+
             outline: none;
         }
+
 
         .logout-btn:hover,
         a.logout-btn:hover,
         button.logout-btn:hover,
-        .content a[href*="logout"]:hover,
-        .content button[type="submit"]:hover {
+        .content a[href*="logout"]:hover {
             background: transparent !important;
-            background-color: transparent !important;
+
             text-decoration: underline !important;
         }
 
@@ -631,16 +651,18 @@
 
 
             .bakery-copy {
-                right: 8px;
+                right: 3px;
+
                 bottom: 85px;
 
-                width: 110px;
+                width: 120px;
             }
 
 
             .bakery-copy h2 {
                 font-size: 22px;
             }
+
 
             .bakery-copy p {
                 font-size: 10px;
@@ -715,6 +737,7 @@
 
             .sidebar {
                 width: 250px;
+
                 left: -270px;
             }
 
@@ -723,20 +746,25 @@
                 height: 210px;
             }
 
+
             .bakery-decoration .bakery-image {
                 width: 170px;
             }
 
+
             .bakery-copy {
-                right: 6px;
+                right: 3px;
+
                 bottom: 78px;
 
-                width: 100px;
+                width: 112px;
             }
+
 
             .bakery-copy h2 {
                 font-size: 20px;
             }
+
 
             .bakery-copy p {
                 font-size: 9px;
@@ -758,7 +786,7 @@
 
 
     <!-- =====================================================
-         RENDA
+         RENDA ATAS
     ====================================================== -->
 
     <div class="top-renda">
@@ -900,7 +928,7 @@
 
             <a
                 href="{{ route('produk.index') }}"
-                class="nav-item"
+                class="nav-item {{ request()->is('produk*') ? 'active' : '' }}"
             >
 
                 <i
@@ -920,7 +948,7 @@
 
             <a
                 href="#"
-                class="nav-item"
+                class="nav-item {{ request()->is('penjualan*') ? 'active' : '' }}"
             >
 
                 <i
@@ -946,7 +974,7 @@
 
             <a
                 href="#"
-                class="nav-item"
+                class="nav-item {{ request()->is('laporan*') ? 'active' : '' }}"
             >
 
                 <i
@@ -966,7 +994,7 @@
 
             <a
                 href="#"
-                class="nav-item"
+                class="nav-item {{ request()->is('riwayat*') ? 'active' : '' }}"
             >
 
                 <i
@@ -986,7 +1014,7 @@
 
             <a
                 href="#"
-                class="nav-item"
+                class="nav-item {{ request()->is('pengaturan*') ? 'active' : '' }}"
             >
 
                 <i
@@ -1004,9 +1032,13 @@
 
 
 
-        <!-- BOTTOM BAKERY -->
+        <!-- =================================================
+             BOTTOM BAKERY
+        ================================================== -->
 
         <div class="bakery-decoration">
+
+            <!-- Gambar roti -->
 
             <img
                 src="{{ asset('images/roti.png') }}"
@@ -1014,6 +1046,8 @@
                 class="bakery-image"
             >
 
+
+            <!-- Tulisan -->
 
             <div class="bakery-copy">
 
@@ -1037,7 +1071,7 @@
 
 
     <!-- =====================================================
-         MAIN
+         MAIN CONTENT
     ====================================================== -->
 
     <main class="main">
@@ -1058,9 +1092,11 @@
 
     <script>
 
+        // Lucide Icons
         lucide.createIcons();
 
 
+        // Toggle Sidebar
         function toggleSidebar() {
 
             const sidebar =
@@ -1077,6 +1113,7 @@
         }
 
 
+        // Tutup sidebar ketika menu dipilih di mobile
         document
             .querySelectorAll(".nav-item")
             .forEach(function(item) {
