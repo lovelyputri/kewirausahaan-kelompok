@@ -48,7 +48,7 @@
 
             --white: #ffffff;
 
-            --sidebar-width: 320px;
+            --sidebar-width: 268px;
         }
 
 
@@ -77,7 +77,7 @@
             width: 100%;
 
             height: auto;
-            min-height: 70px;
+            min-height: 60px;
 
             z-index: 1200;
 
@@ -113,11 +113,14 @@
 
             background: var(--brown);
 
-            padding: 78px 15px 20px;
+            padding: 74px 18px 22px;
 
             z-index: 1000;
 
             overflow: hidden;
+
+            display: flex;
+            flex-direction: column;
         }
 
 
@@ -130,17 +133,19 @@
 
             align-items: center;
 
-            gap: 18px;
+            gap: 14px;
 
-            padding: 0 5px;
+            padding: 0 6px;
 
-            margin-bottom: 22px;
+            margin-bottom: 26px;
+
+            flex-shrink: 0;
         }
 
 
         .brand-logo {
-            width: 100px;
-            height: 100px;
+            width: 70px;
+            height: 70px;
 
             flex-shrink: 0;
 
@@ -165,22 +170,20 @@
 
         .brand-info {
             color: white;
+            min-width: 0;
         }
 
 
-        /* 
-         * DIUBAH: font-family ROTIÉRA memakai "Ginzel"
-         */
         .brand-name {
             font-family: "Ginzel", serif;
 
-            font-size: 20px;
+            font-size: 17px;
 
             font-weight: 600;
 
             line-height: 1.2;
 
-            margin-bottom: 3px;
+            margin-bottom: 4px;
 
             letter-spacing: 1px;
         }
@@ -189,13 +192,13 @@
         .brand-subtitle {
             font-family: "Inter", sans-serif;
 
-            font-size: 13px;
+            font-size: 11px;
 
             font-weight: 400;
 
             opacity: 0.85;
 
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
         }
 
 
@@ -208,21 +211,23 @@
 
             flex-direction: column;
 
-            gap: 20px;
+            gap: 14px;
+
+            flex-shrink: 0;
         }
 
 
         .nav-item {
             width: 100%;
-            height: 59px;
+            height: 54px;
 
             display: flex;
 
             align-items: center;
 
-            gap: 25px;
+            gap: 18px;
 
-            padding: 0 20px;
+            padding: 0 18px;
 
             border: 1px solid rgba(255, 255, 255, 0.9);
 
@@ -255,8 +260,8 @@
 
 
         .nav-icon {
-            width: 27px;
-            height: 27px;
+            width: 22px;
+            height: 22px;
 
             flex-shrink: 0;
 
@@ -265,7 +270,7 @@
 
 
         .nav-text {
-            font-size: 16px;
+            font-size: 14px;
 
             font-weight: 600;
 
@@ -281,6 +286,8 @@
             font-size: 9px;
 
             font-weight: 600;
+
+            opacity: 0.9;
         }
 
 
@@ -289,68 +296,86 @@
         ===================================================== */
 
         .bakery-decoration {
-            position: absolute;
+            position: relative;
 
-            left: 0;
-            bottom: 0;
+            margin-top: auto;
 
             width: 100%;
 
-            height: 280px;
+            height: 260px;
+
+            flex-shrink: 0;
 
             pointer-events: none;
+
+            overflow: visible;
         }
 
 
-        .bakery-image {
+        /* Gambar roti — di kiri */
+        .bakery-decoration .bakery-image {
             position: absolute;
 
-            left: -10px;
+            left: -20px;
+            bottom: -15px;
 
-            bottom: -20px;
-
-            width: 250px;
+            width: 220px;
             height: auto;
 
-            object-fit: contain;
+            pointer-events: none;
 
-            z-index: 2;
+            z-index: 1;
         }
 
 
+        /* Tulisan — di kanan gambar roti */
         .bakery-copy {
             position: absolute;
 
-            left: 155px;
-            bottom: 100px;
+            right: 10px;
+            bottom: 95px;
 
-            width: 130px;
+            width: 110px;
 
             color: #ffffff;
 
-            z-index: 3;
+            z-index: 5;
+
+            text-align: left;
+
+            overflow: visible;
+
+            word-wrap: break-word;
         }
 
 
         .bakery-copy h2 {
             font-family: "DM Serif Display", serif;
 
-            font-size: 22px;
+            font-size: 23px;
 
             font-weight: 400;
+
+            font-width: 400;
 
             line-height: 1.15;
 
             margin-bottom: 6px;
+
+            letter-spacing: 0.5px;
+
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
         }
 
 
         .bakery-copy p {
-            font-size: 9px;
+            font-size: 11px;
 
             line-height: 1.4;
 
-            color: rgba(255, 255, 255, 0.88);
+            color: rgba(255, 255, 255, 0.95);
+
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
         }
 
 
@@ -370,7 +395,7 @@
         .content {
             min-height: 100vh;
 
-            padding: 100px 40px 40px 40px;
+            padding: 92px 36px 36px 36px;
         }
 
 
@@ -421,7 +446,7 @@
             left: 0;
 
             width: 100%;
-            height: 65px;
+            height: 60px;
 
             background: var(--brown);
 
@@ -447,8 +472,8 @@
 
 
         .mobile-logo {
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
 
             background: transparent;
 
@@ -469,15 +494,12 @@
         }
 
 
-        /* 
-         * DIUBAH: font ROTIÉRA di mobile juga memakai "Ginzel"
-         */
         .mobile-brand-text strong {
             display: block;
 
             font-family: "Ginzel", serif;
 
-            font-size: 14px;
+            font-size: 13px;
 
             font-weight: 600;
 
@@ -488,7 +510,7 @@
         .mobile-brand-text span {
             display: block;
 
-            font-size: 10px;
+            font-size: 9px;
 
             opacity: 0.85;
         }
@@ -502,12 +524,14 @@
             color: white;
 
             cursor: pointer;
+
+            padding: 4px;
         }
 
 
         .mobile-menu-button i {
-            width: 25px;
-            height: 25px;
+            width: 22px;
+            height: 22px;
         }
 
 
@@ -535,55 +559,96 @@
         @media (max-width: 900px) {
 
             :root {
-                --sidebar-width: 270px;
+                --sidebar-width: 246px;
+            }
+
+
+            .sidebar {
+                padding: 68px 14px 18px;
             }
 
 
             .brand {
-                gap: 15px;
+                gap: 12px;
 
-                margin-bottom: 20px;
+                margin-bottom: 22px;
             }
 
 
             .brand-logo {
-                width: 80px;
-                height: 80px;
+                width: 60px;
+                height: 60px;
             }
 
 
             .brand-name {
-                font-size: 17px;
+                font-size: 15px;
             }
 
 
             .brand-subtitle {
-                font-size: 11px;
+                font-size: 10px;
+            }
+
+
+            .navigation {
+                gap: 12px;
             }
 
 
             .nav-item {
-                gap: 18px;
+                height: 50px;
+
+                gap: 15px;
+
+                padding: 0 15px;
             }
 
 
-            .bakery-image {
-                left: -10px;
+            .nav-icon {
+                width: 20px;
+                height: 20px;
+            }
 
-                bottom: -20px;
 
-                width: 200px;
+            .nav-text {
+                font-size: 13px;
+            }
+
+
+            .bakery-decoration {
+                height: 230px;
+            }
+
+
+            .bakery-decoration .bakery-image {
+                left: -20px;
+
+                bottom: -12px;
+
+                width: 190px;
             }
 
 
             .bakery-copy {
-                left: 130px;
-                bottom: 90px;
+                right: 8px;
+                bottom: 85px;
+
+                width: 110px;
+            }
+
+
+            .bakery-copy h2 {
+                font-size: 22px;
+            }
+
+            .bakery-copy p {
+                font-size: 10px;
             }
 
 
             .content {
-                padding: 100px 25px 25px 25px;
+                padding: 86px 26px 26px 26px;
             }
 
         }
@@ -608,9 +673,9 @@
             .sidebar {
                 left: -290px;
 
-                width: 280px;
+                width: 268px;
 
-                padding-top: 85px;
+                padding-top: 78px;
 
                 transition: left 0.3s ease;
             }
@@ -629,14 +694,14 @@
             .main {
                 margin-left: 0;
 
-                padding-top: 65px;
+                padding-top: 60px;
             }
 
 
             .content {
-                min-height: calc(100vh - 65px);
+                min-height: calc(100vh - 60px);
 
-                padding: 20px;
+                padding: 22px 20px 26px 20px;
             }
 
         }
@@ -649,12 +714,37 @@
         @media (max-width: 400px) {
 
             .sidebar {
-                width: 270px;
+                width: 250px;
+                left: -270px;
+            }
+
+
+            .bakery-decoration {
+                height: 210px;
+            }
+
+            .bakery-decoration .bakery-image {
+                width: 170px;
+            }
+
+            .bakery-copy {
+                right: 6px;
+                bottom: 78px;
+
+                width: 100px;
+            }
+
+            .bakery-copy h2 {
+                font-size: 20px;
+            }
+
+            .bakery-copy p {
+                font-size: 9px;
             }
 
 
             .content {
-                padding: 15px;
+                padding: 18px 16px 22px 16px;
             }
 
         }
@@ -933,7 +1023,8 @@
                 </h2>
 
                 <p>
-                    freshly baked just for you
+                    freshly baked<br>
+                    just for you
                 </p>
 
             </div>
