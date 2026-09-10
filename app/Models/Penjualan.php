@@ -25,9 +25,4 @@ class Penjualan extends Model
         return $this->hasMany(DetailPenjualan::class, 'id_penjualan');
     }
 
-    // FILTER TANGGAL
-    public function scopeFilterTanggal($query, $startDate, $endDate)
-    {
-        return $query->whereBetween('tanggal', [$startDate, $endDate]);
-    }
 }

@@ -28,10 +28,4 @@ class PemasukanBarang extends Model
     {
         return $this->belongsTo(Produk::class, 'id_produk');
     }
-
-    // FILTER TANGGAL
-    public function scopeFilterTanggal($query, $startDate, $endDate)
-    {
-        return $query->whereBetween('tanggal', [$startDate, $endDate]);
-    }
 }

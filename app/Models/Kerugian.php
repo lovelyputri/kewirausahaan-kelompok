@@ -29,19 +29,4 @@ class Kerugian extends Model
     {
         return $this->belongsTo(Produk::class, 'id_produk');
     }
-
-    // FILTER TANGGAL
-    public function scopeFilterTanggal($query, $startDate, $endDate)
-    {
-        return $query->whereBetween('tanggal', [$startDate, $endDate]);
-    }
-
-    // FILTER ALASAN
-    public function scopeFilterAlasan($query, $alasan)
-    {
-        if ($alasan) {
-            return $query->where('alasan', $alasan);
-        }
-        return $query;
-    }
 }

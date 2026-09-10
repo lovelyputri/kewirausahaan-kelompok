@@ -51,19 +51,4 @@ class Produk extends Model
     {
         return $this->stok <= 5;
     }
-
-    // SEARCH
-    public function scopeSearch($query, $keyword)
-    {
-        return $query->where('nama_produk', 'LIKE', "%{$keyword}%");
-    }
-
-    // FILTER KATEGORI
-    public function scopeFilterKategori($query, $kategoriId)
-    {
-        if ($kategoriId) {
-            return $query->where('id_kategori', $kategoriId);
-        }
-        return $query;
-    }
 }
