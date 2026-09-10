@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Aplikasi Kasir')</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    {{-- ✅ Flatpickr (date range picker) --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
 
@@ -32,6 +36,12 @@
                    class="block px-3 py-2 rounded mb-1 text-sm
                           {{ request()->routeIs('produk.*') ? 'bg-gray-700' : 'hover:bg-gray-700' }}">
                     📦 Produk
+                </a>
+
+                <a href="{{ route('penjualan.index') }}"
+                   class="block px-3 py-2 rounded mb-1 text-sm
+                          {{ request()->routeIs('penjualan.*') ? 'bg-gray-700' : 'hover:bg-gray-700' }}">
+                    🕐 Riwayat Transaksi
                 </a>
 
             </nav>
