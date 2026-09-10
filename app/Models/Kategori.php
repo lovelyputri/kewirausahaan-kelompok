@@ -2,15 +2,21 @@
 
 namespace App\Models;
 
+use App\Models\Produk;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Kategori extends Model
 {
+    use HasFactory;
+
+    protected $table = 'kategori';
+
     protected $fillable = [
-        'nama_kategori'
+        'nama_kategori',
     ];
 
-    public function produks()
+    public function produk()
     {
         return $this->hasMany(Produk::class, 'id_kategori');
     }
