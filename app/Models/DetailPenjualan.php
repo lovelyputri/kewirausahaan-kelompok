@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Penjualan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +21,9 @@ class DetailPenjualan extends Model
         'laba',
     ];
 
+    // ============================
+    // RELASI
+    // ============================
     public function penjualan()
     {
         return $this->belongsTo(Penjualan::class, 'id_penjualan');
