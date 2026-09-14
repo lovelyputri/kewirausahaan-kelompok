@@ -21,6 +21,10 @@
     <!-- Lucide Icon -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    {{-- ✅ Flatpickr (date range picker) --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <style>
 
         /* =====================================================
@@ -907,8 +911,8 @@
             <!-- Dashboard -->
 
             <a
-                href="{{ url('/dashboard') }}"
-                class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}"
+                href="{{ route('dashboard') }}"
+                class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}"
             >
 
                 <i
@@ -928,7 +932,7 @@
 
             <a
                 href="{{ route('produk.index') }}"
-                class="nav-item {{ request()->is('produk*') ? 'active' : '' }}"
+                class="nav-item {{ request()->routeIs('produk.*') ? 'active' : '' }}"
             >
 
                 <i
@@ -947,8 +951,8 @@
             <!-- Penjualan -->
 
             <a
-                href="#"
-                class="nav-item {{ request()->is('penjualan*') ? 'active' : '' }}"
+                href="{{ route('penjualan.index') }}"
+                class="nav-item {{ request()->routeIs('penjualan.*') ? 'active' : '' }}"
             >
 
                 <i
@@ -964,6 +968,46 @@
                         (Kurangi Stok)
                     </small>
 
+                </span>
+
+            </a>
+
+
+
+            <!-- Pemasukan Barang -->
+
+            <a
+                href="{{ route('pemasukan_barang.index') }}"
+                class="nav-item {{ request()->routeIs('pemasukan_barang.*') ? 'active' : '' }}"
+            >
+
+                <i
+                    data-lucide="package-plus"
+                    class="nav-icon"
+                ></i>
+
+                <span class="nav-text">
+                    Pemasukan Barang
+                </span>
+
+            </a>
+
+
+
+            <!-- Kerugian -->
+
+            <a
+                href="{{ route('kerugian.index') }}"
+                class="nav-item {{ request()->routeIs('kerugian.*') ? 'active' : '' }}"
+            >
+
+                <i
+                    data-lucide="alert-triangle"
+                    class="nav-icon"
+                ></i>
+
+                <span class="nav-text">
+                    Kerugian
                 </span>
 
             </a>
@@ -993,8 +1037,8 @@
             <!-- Riwayat -->
 
             <a
-                href="#"
-                class="nav-item {{ request()->is('riwayat*') ? 'active' : '' }}"
+                href="{{ route('riwayat_transaksi.index') }}"
+                class="nav-item {{ request()->routeIs('riwayat_transaksi.*') ? 'active' : '' }}"
             >
 
                 <i

@@ -1,11 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\PemasukanBarangController;
 use App\Http\Controllers\KerugianController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RiwayatTransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,9 +44,7 @@ Route::middleware('auth')->group(function () {
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 
@@ -61,8 +61,25 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
+| ROUTE RIWAYAT TRANSAKSI
+|--------------------------------------------------------------------------
+| Halaman untuk melihat riwayat transaksi (read-only + filter)
+*/
+
+Route::middleware('auth')->group(function () {
+    Route::get('/riwayat-transaksi', [RiwayatTransaksiController::class, 'index'])
+        ->name('riwayat_transaksi.index');
+
+    Route::get('/riwayat-transaksi/{id}', [RiwayatTransaksiController::class, 'show'])
+        ->name('riwayat_transaksi.show');
+});
+
+
+/*
+|--------------------------------------------------------------------------
 | ROUTE PENJUALAN
 |--------------------------------------------------------------------------
+| Halaman untuk input transaksi penjualan baru (kasir)
 */
 
 Route::middleware('auth')->group(function () {

@@ -72,6 +72,7 @@ class ProdukController extends Controller
                 'stok' => $produk->stok,
                 'label_status' => $produk->label_status,
                 'warna_status' => $produk->warna_status,
+                'gambar' => $produk->gambar ? asset('images/' . $produk->gambar) : null,   // ✅ TAMBAH
             ]);
         }
 
@@ -85,7 +86,11 @@ class ProdukController extends Controller
     public function create()
     {
         $kategoris = Kategori::all();
-        return view('produk.create', compact('kategoris'));
+
+        // ✅ Ambil daftar gambar dari public/images
+        $gambarList = $this->getGambarList();
+
+        return view('produk.create', compact('kategoris', 'gambarList'));
     }
 
     // ============================
@@ -98,16 +103,18 @@ class ProdukController extends Controller
             'harga_beli' => 'required|numeric',
             'harga_jual' => 'required|numeric',
             'stok' => 'required|integer',
-            'id_kategori' => 'required'
+            'id_kategori' => 'required',
+            'gambar' => 'nullable|string',   // ✅ TAMBAH
         ]);
 
         Produk::create([
-            'kode_produk' => Produk::generateKodeProduk(),   // ✅ AUTO GENERATE
+            'kode_produk' => Produk::generateKodeProduk(),
             'nama_produk' => $request->nama_produk,
             'harga_beli' => $request->harga_beli,
             'harga_jual' => $request->harga_jual,
             'stok' => $request->stok,
-            'id_kategori' => $request->id_kategori
+            'id_kategori' => $request->id_kategori,
+            'gambar' => $request->gambar,   // ✅ SIMPAN NAMA FILE
         ]);
 
         return redirect()->route('produk.index')
@@ -122,7 +129,10 @@ class ProdukController extends Controller
         $produk = Produk::findOrFail($id);
         $kategoris = Kategori::all();
 
-        return view('produk.edit', compact('produk', 'kategoris'));
+        // ✅ Ambil daftar gambar dari public/images
+        $gambarList = $this->getGambarList();
+
+        return view('produk.edit', compact('produk', 'kategoris', 'gambarList'));
     }
 
     // ============================
@@ -135,7 +145,8 @@ class ProdukController extends Controller
             'harga_beli' => 'required|numeric',
             'harga_jual' => 'required|numeric',
             'stok' => 'required|integer',
-            'id_kategori' => 'required'
+            'id_kategori' => 'required',
+            'gambar' => 'nullable|string',   // ✅ TAMBAH
         ]);
 
         $produk = Produk::findOrFail($id);
@@ -145,7 +156,8 @@ class ProdukController extends Controller
             'harga_beli' => $request->harga_beli,
             'harga_jual' => $request->harga_jual,
             'stok' => $request->stok,
-            'id_kategori' => $request->id_kategori
+            'id_kategori' => $request->id_kategori,
+            'gambar' => $request->gambar,   // ✅ SIMPAN NAMA FILE
         ]);
 
         return redirect()->route('produk.index')
@@ -162,5 +174,25 @@ class ProdukController extends Controller
 
         return redirect()->route('produk.index')
             ->with('success', 'Produk berhasil dihapus!');
+    }
+
+    // ============================
+    // HELPER: Ambil daftar gambar dari public/images
+    // ============================
+    private function getGambarList()
+    {
+        $gambarList = [];
+        $path = public_path('images');
+
+        if (is_dir($path)) {
+            $files = scandir($path);
+            foreach ($files as $file) {
+                if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+                    $gambarList[] = $file;
+                }
+            }
+        }
+
+        return $gambarList;
     }
 }
