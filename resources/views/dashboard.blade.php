@@ -5,30 +5,51 @@
 @section('content')
 
 <style>
-    /* =====================================================
-       DASHBOARD
-    ===================================================== */
     .dashboard-wrap { display: flex; flex-direction: column; gap: 18px; padding-top: 28px; width: 100%; max-width: 100%; overflow: hidden; }
 
     /* HEADER */
-    .dash-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 0; width: 100%; }
+    .dash-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 0; width: 100%; position: relative; }
     .dash-welcome { min-width: 0; }
     .dash-welcome h1 { font-family: "Inter", sans-serif; font-size: 28px; font-weight: 700; color: #3f3025; margin-bottom: 6px; line-height: 1.25; }
     .dash-welcome p { font-size: 14px; color: #7a6a5a; line-height: 1.5; }
 
-    .dash-header-right { display: flex; align-items: center; justify-content: flex-end; gap: 12px; flex-shrink: 0; }
+    .dash-header-right { display: flex; align-items: center; justify-content: flex-end; gap: 12px; flex-shrink: 0; position: relative; }
 
-    .dash-date { display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #e8ded3; border-radius: 8px; padding: 8px 14px; font-size: 13px; color: #3f3025; font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 0; max-width: 100%; }
+    .dash-date { display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #e8ded3; border-radius: 8px; padding: 8px 14px; font-size: 13px; color: #3f3025; font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
     .dash-date-icon { width: 15px; height: 15px; flex-shrink: 0; color: #6b4d38; }
     .dash-clock-text { display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     .dash-icon-btn { width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 1px solid #e8ded3; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #6b4d38; flex-shrink: 0; }
 
-    .dash-user { display: flex; align-items: center; gap: 8px; cursor: pointer; flex-shrink: 0; }
+    /* USER + DROPDOWN */
+    .dash-user-wrap { position: relative; }
+    .dash-user { display: flex; align-items: center; gap: 8px; cursor: pointer; flex-shrink: 0; padding: 4px 8px 4px 4px; border-radius: 30px; transition: background .18s; }
+    .dash-user:hover { background: #f5efe8; }
     .dash-user-avatar { width: 38px; height: 38px; border-radius: 50%; background: #6b4d38; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 600; flex-shrink: 0; }
     .dash-user-info { line-height: 1.2; }
     .dash-user-info strong { display: block; font-size: 13px; color: #3f3025; font-weight: 600; }
     .dash-user-info span { display: block; font-size: 11px; color: #7a6a5a; margin-top: 2px; }
+    .dash-user > i { width: 14px; height: 14px; color: #7a6a5a; transition: transform .2s; }
+    .dash-user-wrap.open .dash-user > i { transform: rotate(180deg); }
+
+    /* DROPDOWN PROFIL */
+    .dash-user-dropdown { position: absolute; top: calc(100% + 10px); right: 0; width: 260px; background: #fff; border: 1px solid #e8ded3; border-radius: 14px; box-shadow: 0 12px 32px rgba(50, 35, 25, .15); z-index: 100; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all .2s ease; overflow: hidden; }
+    .dash-user-wrap.open .dash-user-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    .dropdown-head { padding: 16px; background: #faf7f3; border-bottom: 1px solid #eee5dc; display: flex; gap: 12px; align-items: center; }
+    .dropdown-avatar { width: 48px; height: 48px; border-radius: 50%; background: #6b4d38; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; flex-shrink: 0; }
+    .dropdown-info { min-width: 0; }
+    .dropdown-info strong { display: block; color: #3f3025; font-size: 14px; font-weight: 700; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .dropdown-info span { display: block; color: #7a6a5a; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .dropdown-body { padding: 8px; }
+    .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 9px; color: #4a3d33; font-size: 13px; font-weight: 500; text-decoration: none; cursor: pointer; transition: .15s; border: none; background: transparent; width: 100%; text-align: left; font-family: inherit; }
+    .dropdown-item:hover { background: #faf7f3; color: #6b4d38; }
+    .dropdown-item i { width: 16px; height: 16px; stroke-width: 1.8; color: #8e7b6a; }
+    .dropdown-item.danger { color: #bd4b59; }
+    .dropdown-item.danger:hover { background: #fde8eb; color: #a43e4a; }
+    .dropdown-item.danger i { color: #bd4b59; }
+    .dropdown-divider { height: 1px; background: #eee5dc; margin: 6px 4px; }
 
     /* HERO */
     .dash-hero { position: relative; width: 100%; height: 100px; margin: 0; display: flex; justify-content: flex-end; align-items: flex-end; overflow: hidden; }
@@ -55,14 +76,11 @@
 
     /* MIDDLE GRID */
     .mid-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 12px; width: 100%; }
-
-    /* PANEL */
     .panel { background: #fff; border: 1px solid #f0e8dd; border-radius: 12px; padding: 20px 22px; min-width: 0; overflow: hidden; }
     .panel-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; margin-bottom: 18px; min-width: 0; }
     .panel-title { display: flex; align-items: center; gap: 12px; min-width: 0; }
     .panel-icon { width: 38px; height: 38px; border-radius: 8px; background: #f7f1e8; display: flex; align-items: center; justify-content: center; color: #6b4d38; flex-shrink: 0; }
     .panel-icon i { width: 18px; height: 18px; }
-    .panel-title > div:last-child { min-width: 0; }
     .panel-title h3 { font-size: 14px; font-weight: 700; color: #3f3025; margin-bottom: 2px; }
     .panel-title span { font-size: 11px; color: #8a7a6a; }
     .panel-total { text-align: right; flex-shrink: 0; }
@@ -92,8 +110,6 @@
 
     /* BOTTOM GRID */
     .bottom-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: 100%; }
-
-    /* LIST */
     .list-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; min-width: 0; }
     .list-item:not(:last-child) { border-bottom: 1px solid #f5efe6; }
     .list-thumb { width: 36px; height: 36px; border-radius: 8px; background: #f7f1e8; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; overflow: hidden; }
@@ -105,10 +121,8 @@
     .progress-fill { height: 100%; background: #6b4d38; border-radius: 99px; }
     .qty-label { font-size: 10px; color: #8a7a6a; margin-left: 6px; flex-shrink: 0; white-space: nowrap; }
     .badge-stock { font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: #6b4d38; color: #fff; flex-shrink: 0; white-space: nowrap; }
-
     .empty-list { padding: 20px 0; text-align: center; color: #a89a8c; font-size: 11px; }
 
-    /* RESPONSIVE */
     @media (max-width: 1200px) {
         .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .mid-grid { grid-template-columns: 1fr; }
@@ -116,13 +130,8 @@
     }
     @media (max-width: 900px) {
         .dashboard-wrap { gap: 14px; padding-top: 20px; }
-        .dash-header { gap: 14px; }
         .dash-welcome h1 { font-size: 24px; }
         .dash-welcome p { font-size: 13px; }
-        .dash-header-right { gap: 8px; }
-        .dash-date { font-size: 12px; padding: 7px 10px; }
-        .dash-icon-btn { width: 36px; height: 36px; }
-        .dash-user-avatar { width: 36px; height: 36px; }
         .dash-user-info { display: none; }
         .stat-info .stat-value { font-size: 22px; }
         .doughnut-wrap { gap: 16px; }
@@ -131,15 +140,11 @@
     @media (max-width: 700px) {
         .dashboard-wrap { gap: 12px; padding-top: 6px; }
         .dash-header { flex-direction: column; gap: 12px; }
-        .dash-welcome { width: 100%; }
-        .dash-welcome h1 { font-size: 21px; margin-bottom: 5px; }
-        .dash-welcome p { font-size: 12px; line-height: 1.5; }
+        .dash-welcome h1 { font-size: 21px; }
+        .dash-welcome p { font-size: 12px; }
         .dash-header-right { width: 100%; display: flex; flex-wrap: nowrap; align-items: center; justify-content: flex-start; gap: 7px; }
         .dash-date { flex: 1; min-width: 0; font-size: 11px; padding: 7px 9px; }
-        .dash-date-icon { width: 13px; height: 13px; }
-        .dash-clock-text { font-size: 11px; }
         .dash-icon-btn { width: 34px; height: 34px; }
-        .dash-user { gap: 0; }
         .dash-user-avatar { width: 34px; height: 34px; font-size: 12px; }
         .dash-user-info { display: none; }
         .dash-user > i { display: none; }
@@ -147,73 +152,11 @@
         .dash-hero img { height: 85px; max-width: 85%; }
         .stat-grid { grid-template-columns: 1fr; gap: 10px; }
         .stat-card { min-height: 120px; padding: 16px 18px; }
-        .stat-icon { width: 44px; height: 44px; }
-        .stat-icon i { width: 20px; height: 20px; }
-        .stat-info h4 { font-size: 12px; }
-        .stat-info .stat-value { font-size: 21px; }
-        .stat-info .stat-desc { font-size: 10px; }
         .mid-grid { grid-template-columns: 1fr; gap: 10px; }
-        .panel { padding: 16px 17px; border-radius: 11px; }
-        .panel-header { gap: 10px; margin-bottom: 14px; }
-        .panel-title { gap: 9px; }
-        .panel-icon { width: 34px; height: 34px; border-radius: 7px; }
-        .panel-icon i { width: 16px; height: 16px; }
-        .panel-title h3 { font-size: 13px; }
-        .panel-title span { font-size: 9px; }
-        .panel-total span { font-size: 9px; }
-        .panel-total strong { font-size: 11px; }
-        .chart-line-wrap { height: 160px; }
-        .chart-line-wrap svg { width: calc(100% - 40px); margin-left: 40px; }
-        .chart-y-labels { width: 35px; font-size: 9px; }
-        .chart-x-labels { padding-left: 40px; font-size: 8px; margin-top: 6px; }
-        .doughnut-wrap { flex-direction: column; align-items: center; gap: 18px; }
-        .doughnut-svg { width: 145px; height: 145px; }
-        .doughnut-legend { width: 100%; gap: 11px; }
+        .panel { padding: 16px 17px; }
         .bottom-grid { grid-template-columns: 1fr; gap: 10px; }
-        .list-item { gap: 10px; padding: 9px 0; }
-        .list-thumb { width: 34px; height: 34px; font-size: 16px; }
-        .list-info strong { font-size: 11px; }
-        .list-info span { font-size: 9px; }
-        .qty-label { font-size: 9px; }
-        .badge-stock { font-size: 9px; padding: 4px 8px; }
-    }
-    @media (max-width: 450px) {
-        .dashboard-wrap { padding-top: 4px; gap: 10px; }
-        .dash-welcome h1 { font-size: 18px; }
-        .dash-welcome p { font-size: 11px; }
-        .dash-header-right { gap: 6px; }
-        .dash-date { padding: 6px 8px; gap: 5px; }
-        .dash-clock-text { font-size: 9px; }
-        .dash-date-icon { width: 11px; height: 11px; }
-        .dash-icon-btn { width: 32px; height: 32px; }
-        .dash-icon-btn i { width: 15px !important; height: 15px !important; }
-        .dash-user-avatar { width: 32px; height: 32px; font-size: 11px; }
-        .dash-hero { height: 62px; }
-        .dash-hero img { height: 72px; }
-        .stat-card { padding: 14px 15px; min-height: 112px; }
-        .stat-icon { width: 40px; height: 40px; }
-        .stat-icon i { width: 18px; height: 18px; }
-        .stat-top { gap: 10px; }
-        .stat-info h4 { font-size: 11px; }
-        .stat-info .stat-value { font-size: 19px; }
-        .stat-info .stat-desc { font-size: 9px; }
-        .stat-link { font-size: 10px; margin-top: 10px; padding-top: 8px; }
-        .stat-link i { width: 14px; height: 14px; }
-        .panel { padding: 14px 14px; }
-        .panel-title h3 { font-size: 12px; }
-        .panel-title span { font-size: 8px; }
-        .panel-total strong { font-size: 10px; }
-        .chart-line-wrap { height: 140px; }
-        .chart-x-labels { font-size: 7px; padding-left: 35px; }
-        .chart-line-wrap svg { width: calc(100% - 35px); margin-left: 35px; }
-        .chart-y-labels { width: 30px; font-size: 8px; }
-        .doughnut-svg { width: 125px; height: 125px; }
-        .doughnut-center span { font-size: 8px; }
-        .doughnut-center strong { font-size: 9px; }
-        .list-thumb { width: 32px; height: 32px; }
-        .list-info strong { font-size: 10px; }
-        .qty-label { font-size: 8px; }
-        .badge-stock { font-size: 8px; padding: 3px 7px; }
+        .doughnut-wrap { flex-direction: column; align-items: center; gap: 18px; }
+        .doughnut-legend { width: 100%; }
     }
 </style>
 
@@ -222,27 +165,82 @@
 
     {{-- HEADER --}}
     <div class="dash-header">
+
         <div class="dash-welcome">
-            <h1>Selamat Datang, Admin 👋</h1>
+            <h1>Selamat Datang, {{ Auth::user()->name ?? 'Admin' }} 👋</h1>
             <p>Kelola stok roti dan pantau keuntungan toko dengan mudah</p>
         </div>
 
         <div class="dash-header-right">
+
+            {{-- Jam Real-time --}}
             <div class="dash-date">
                 <i data-lucide="clock" class="dash-date-icon"></i>
                 <span id="realtime-clock" class="dash-clock-text">Memuat...</span>
             </div>
+
+            {{-- Notification --}}
             <div class="dash-icon-btn">
                 <i data-lucide="bell" style="width:17px;height:17px;"></i>
             </div>
-            <div class="dash-user">
-                <div class="dash-user-avatar">P</div>
-                <div class="dash-user-info">
-                    <strong>{{ Auth::user()->name ?? 'Penjual' }}</strong>
-                    <span>Pemilik Toko</span>
+
+            {{-- USER + DROPDOWN --}}
+            <div class="dash-user-wrap" id="userWrap">
+
+                <div class="dash-user" onclick="toggleUserDropdown(event)">
+                    <div class="dash-user-avatar">
+                        {{ strtoupper(substr(Auth::user()->name ?? 'P', 0, 1)) }}
+                    </div>
+                    <div class="dash-user-info">
+                        <strong>{{ Auth::user()->name ?? 'Penjual' }}</strong>
+                        <span>Pemilik Toko</span>
+                    </div>
+                    <i data-lucide="chevron-down"></i>
                 </div>
-                <i data-lucide="chevron-down" style="width:14px;height:14px;color:#7a6a5a;"></i>
+
+                {{-- Dropdown --}}
+                <div class="dash-user-dropdown">
+
+                    <div class="dropdown-head">
+                        <div class="dropdown-avatar">
+                            {{ strtoupper(substr(Auth::user()->name ?? 'P', 0, 1)) }}
+                        </div>
+                        <div class="dropdown-info">
+                            <strong>{{ Auth::user()->name ?? 'Penjual' }}</strong>
+                            <span>{{ Auth::user()->email ?? '-' }}</span>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-body">
+                        <a href="javascript:void(0)"
+                           onclick="alert('Halaman profil belum tersedia')"
+                           class="dropdown-item">
+                            <i data-lucide="user"></i>
+                            Profil Saya
+                        </a>
+
+                        <a href="javascript:void(0)"
+                           onclick="alert('Halaman pengaturan belum tersedia')"
+                           class="dropdown-item">
+                            <i data-lucide="settings"></i>
+                            Pengaturan
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+
+                        <form method="POST" action="{{ route('logout') }}" style="margin:0;">
+                            @csrf
+                            <button type="submit" class="dropdown-item danger">
+                                <i data-lucide="log-out"></i>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
     </div>
 
@@ -253,7 +251,8 @@
 
     {{-- STAT CARDS --}}
     <div class="stat-grid">
-        {{-- TOTAL PRODUK --}}
+
+        {{-- Total Produk --}}
         <div class="stat-card">
             <div class="stat-top">
                 <div class="stat-icon brown"><i data-lucide="box"></i></div>
@@ -264,12 +263,11 @@
                 </div>
             </div>
             <a href="{{ route('produk.index') }}" class="stat-link">
-                Lihat produk
-                <i data-lucide="arrow-right"></i>
+                Lihat produk <i data-lucide="arrow-right"></i>
             </a>
         </div>
 
-        {{-- TOTAL STOK --}}
+        {{-- Total Stok --}}
         <div class="stat-card">
             <div class="stat-top">
                 <div class="stat-icon yellow"><i data-lucide="package"></i></div>
@@ -280,12 +278,11 @@
                 </div>
             </div>
             <a href="{{ route('produk.index') }}" class="stat-link">
-                Lihat stok
-                <i data-lucide="arrow-right"></i>
+                Lihat stok <i data-lucide="arrow-right"></i>
             </a>
         </div>
 
-        {{-- PENJUALAN HARI INI --}}
+        {{-- Penjualan Hari Ini --}}
         <div class="stat-card">
             <div class="stat-top">
                 <div class="stat-icon green"><i data-lucide="shopping-cart"></i></div>
@@ -296,12 +293,11 @@
                 </div>
             </div>
             <a href="{{ route('penjualan.index') }}" class="stat-link">
-                Lihat penjualan
-                <i data-lucide="arrow-right"></i>
+                Lihat penjualan <i data-lucide="arrow-right"></i>
             </a>
         </div>
 
-        {{-- LABA HARI INI --}}
+        {{-- Laba Hari Ini --}}
         <div class="stat-card">
             <div class="stat-top">
                 <div class="stat-icon red"><i data-lucide="dollar-sign"></i></div>
@@ -311,15 +307,16 @@
                     <div class="stat-desc">Laba bersih</div>
                 </div>
             </div>
-            <a href="#" class="stat-link">
-                Lihat laporan laba
-                <i data-lucide="arrow-right"></i>
+            <a href="{{ route('laporan_laba.index') }}" class="stat-link">
+                Lihat laporan laba <i data-lucide="arrow-right"></i>
             </a>
         </div>
+
     </div>
 
     {{-- MIDDLE --}}
     <div class="mid-grid">
+
         {{-- RINGKASAN PENJUALAN --}}
         <div class="panel">
             <div class="panel-header">
@@ -332,19 +329,35 @@
                 </div>
                 <div class="panel-total">
                     <span>Total</span>
-                    <strong>Rp {{ number_format($penjualanHariIni, 0, ',', '.') }}</strong>
+                    <strong>Rp {{ number_format($totalChart, 0, ',', '.') }}</strong>
                 </div>
             </div>
 
             <div class="chart-line-wrap">
+
+                {{-- Y Labels --}}
                 <div class="chart-y-labels">
-                    <span>500 rb</span>
-                    <span>400 rb</span>
-                    <span>300 rb</span>
-                    <span>200 rb</span>
-                    <span>100 rb</span>
+                    <span>{{ $maxChart > 0 ? number_format($maxChart / 1000, 0) . ' rb' : '0' }}</span>
+                    <span>{{ $maxChart > 0 ? number_format(($maxChart * 0.8) / 1000, 0) . ' rb' : '0' }}</span>
+                    <span>{{ $maxChart > 0 ? number_format(($maxChart * 0.6) / 1000, 0) . ' rb' : '0' }}</span>
+                    <span>{{ $maxChart > 0 ? number_format(($maxChart * 0.4) / 1000, 0) . ' rb' : '0' }}</span>
+                    <span>{{ $maxChart > 0 ? number_format(($maxChart * 0.2) / 1000, 0) . ' rb' : '0' }}</span>
                     <span>0</span>
                 </div>
+
+                @php
+                    // Hitung titik chart (viewBox 600x200)
+                    $points = [];
+                    $count = count($chartData);
+                    $stepX = $count > 1 ? 600 / ($count - 1) : 0;
+
+                    foreach ($chartData as $i => $value) {
+                        $x = $i * $stepX;
+                        $y = $maxChart > 0 ? 200 - (($value / $maxChart) * 180) : 180;
+                        $points[] = round($x, 1) . ',' . round($y, 1);
+                    }
+                @endphp
+
                 <svg viewBox="0 0 600 200" preserveAspectRatio="none">
                     <g stroke="#f0e8dd" stroke-width="1">
                         <line x1="0" y1="0" x2="600" y2="0" />
@@ -354,28 +367,33 @@
                         <line x1="0" y1="160" x2="600" y2="160" />
                         <line x1="0" y1="200" x2="600" y2="200" />
                     </g>
-                    <polyline points="30,140 130,165 230,110 330,85 430,135 530,90" fill="none" stroke="#6b4d38" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+                    <polyline
+                        points="{{ implode(' ', $points) }}"
+                        fill="none"
+                        stroke="#6b4d38"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
                     <g fill="#6b4d38">
-                        <circle cx="30" cy="140" r="4" />
-                        <circle cx="130" cy="165" r="4" />
-                        <circle cx="230" cy="110" r="4" />
-                        <circle cx="330" cy="85" r="4" />
-                        <circle cx="430" cy="135" r="4" />
-                        <circle cx="530" cy="90" r="4" />
+                        @foreach($points as $point)
+                            @php [$cx, $cy] = explode(',', $point); @endphp
+                            <circle cx="{{ $cx }}" cy="{{ $cy }}" r="4" />
+                        @endforeach
                     </g>
                 </svg>
             </div>
+
             <div class="chart-x-labels">
-                <span>12 Sep</span>
-                <span>13 Sep</span>
-                <span>14 Sep</span>
-                <span>15 Sep</span>
-                <span>16 Sep</span>
-                <span>17 Sep</span>
+                @foreach($chartLabels as $label)
+                    <span>{{ $label }}</span>
+                @endforeach
             </div>
         </div>
 
-        {{-- LABA BERSIH --}}
+        {{-- LABA BERSIH (DOUGHNUT) --}}
         <div class="panel">
             <div class="panel-header">
                 <div class="panel-title">
@@ -388,43 +406,75 @@
             </div>
 
             <div class="doughnut-wrap">
+
+                @php
+                    // Hitung proporsi doughnut
+                    $total = $totalPenjualan6Hari ?: 1;
+                    $persenPenjualan = $totalPenjualan6Hari / $total;
+                    $persenModal = $totalModal6Hari / $total;
+                    $persenLaba = max($labaBersih6Hari, 0) / $total;
+
+                    // Keliling circle r=38 → 2πr = 238.76
+                    $circ = 238.76;
+
+                    $dashPenjualan = $persenPenjualan * $circ;
+                    $dashModal = $persenModal * $circ;
+                    $dashLaba = $persenLaba * $circ;
+                @endphp
+
                 <div class="doughnut-svg">
                     <svg viewBox="0 0 100 100">
+                        {{-- Background --}}
                         <circle cx="50" cy="50" r="38" fill="none" stroke="#f0e8dd" stroke-width="18" />
-                        <circle cx="50" cy="50" r="38" fill="none" stroke="#6b4d38" stroke-width="18" stroke-dasharray="143 96" stroke-dashoffset="0" />
-                        <circle cx="50" cy="50" r="38" fill="none" stroke="#a88a6d" stroke-width="18" stroke-dasharray="72 167" stroke-dashoffset="-143" />
-                        <circle cx="50" cy="50" r="38" fill="none" stroke="#e8ded3" stroke-width="18" stroke-dasharray="24 215" stroke-dashoffset="-215" />
+
+                        {{-- Penjualan --}}
+                        <circle cx="50" cy="50" r="38" fill="none" stroke="#6b4d38" stroke-width="18"
+                                stroke-dasharray="{{ $dashPenjualan }} {{ $circ }}"
+                                stroke-dashoffset="0" />
+
+                        {{-- Modal --}}
+                        <circle cx="50" cy="50" r="38" fill="none" stroke="#a88a6d" stroke-width="18"
+                                stroke-dasharray="{{ $dashModal }} {{ $circ }}"
+                                stroke-dashoffset="-{{ $dashPenjualan }}" />
+
+                        {{-- Laba --}}
+                        <circle cx="50" cy="50" r="38" fill="none" stroke="#e8ded3" stroke-width="18"
+                                stroke-dasharray="{{ $dashLaba }} {{ $circ }}"
+                                stroke-dashoffset="-{{ $dashPenjualan + $dashModal }}" />
                     </svg>
+
                     <div class="doughnut-center">
                         <span>Total Laba</span>
-                        <strong>Rp {{ number_format($labaHariIni, 0, ',', '.') }}</strong>
+                        <strong>Rp {{ number_format($labaBersih6Hari, 0, ',', '.') }}</strong>
                     </div>
                 </div>
+
                 <div class="doughnut-legend">
                     <div class="legend-item">
                         <div class="legend-dot" style="background:#6b4d38;"></div>
                         <div class="legend-item-info">
                             <strong>Penjualan</strong>
-                            <span>Rp {{ number_format($penjualanHariIni, 0, ',', '.') }}</span>
+                            <span>Rp {{ number_format($totalPenjualan6Hari, 0, ',', '.') }}</span>
                         </div>
                     </div>
                     <div class="legend-item">
                         <div class="legend-dot" style="background:#a88a6d;"></div>
                         <div class="legend-item-info">
                             <strong>Modal</strong>
-                            <span>Rp {{ number_format($penjualanHariIni - $labaHariIni, 0, ',', '.') }}</span>
+                            <span>Rp {{ number_format($totalModal6Hari, 0, ',', '.') }}</span>
                         </div>
                     </div>
                     <div class="legend-item">
                         <div class="legend-dot" style="background:#e8ded3;"></div>
                         <div class="legend-item-info">
                             <strong>Laba Bersih</strong>
-                            <span>Rp {{ number_format($labaHariIni, 0, ',', '.') }}</span>
+                            <span>Rp {{ number_format($labaBersih6Hari, 0, ',', '.') }}</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     {{-- BOTTOM --}}
@@ -443,20 +493,11 @@
             </div>
 
             @forelse($kategoriTerlaris as $kategori)
-                @php
-                    $persen = $maxTerjual > 0 ? round(($kategori->total_terjual / $maxTerjual) * 100) : 0;
-                @endphp
+                @php $persen = $maxTerjual > 0 ? round(($kategori->total_terjual / $maxTerjual) * 100) : 0; @endphp
                 <div class="list-item">
                     <div class="list-thumb">
-                        {{-- ✅ Ambil gambar dari produk pertama di kategori ini --}}
-                        @php
-                            $produkKategori = \App\Models\Produk::where('id_kategori', $kategori->id)
-                                                                ->whereNotNull('gambar')
-                                                                ->first();
-                        @endphp
-                        @if($produkKategori && $produkKategori->gambar)
-                            <img src="{{ asset('images/' . $produkKategori->gambar) }}"
-                                 alt="{{ $kategori->nama_kategori }}">
+                        @if($kategori->gambar_sample)
+                            <img src="{{ asset('images/' . $kategori->gambar_sample) }}" alt="{{ $kategori->nama_kategori }}">
                         @else
                             <i data-lucide="package" style="width:16px;height:16px;color:#6b4d38;"></i>
                         @endif
@@ -489,10 +530,8 @@
             @forelse($stokMenipisList as $produk)
                 <div class="list-item">
                     <div class="list-thumb">
-                        {{-- ✅ Pakai gambar produk --}}
                         @if($produk->gambar)
-                            <img src="{{ asset('images/' . $produk->gambar) }}"
-                                 alt="{{ $produk->nama_produk }}">
+                            <img src="{{ asset('images/' . $produk->gambar) }}" alt="{{ $produk->nama_produk }}">
                         @else
                             <i data-lucide="package" style="width:16px;height:16px;color:#6b4d38;"></i>
                         @endif
@@ -531,7 +570,7 @@
                             {{ $aktivitas->produk->nama_produk ?? '-' }}
                         </strong>
                         <span>
-                            {{ $aktivitas->penjualan->tanggal->format('d M Y') }},
+                            {{ $aktivitas->penjualan->tanggal->format('d M Y') ?? '-' }},
                             {{ $aktivitas->created_at->format('H:i') }}
                         </span>
                     </div>
@@ -568,6 +607,31 @@
     }
     updateClock();
     setInterval(updateClock, 1000);
+</script>
+
+{{-- DROPDOWN USER --}}
+<script>
+    function toggleUserDropdown(event) {
+        event.stopPropagation();
+        const wrap = document.getElementById('userWrap');
+        wrap.classList.toggle('open');
+    }
+
+    // Klik di luar → tutup dropdown
+    document.addEventListener('click', function (event) {
+        const wrap = document.getElementById('userWrap');
+        if (wrap && !wrap.contains(event.target)) {
+            wrap.classList.remove('open');
+        }
+    });
+
+    // ESC → tutup
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            const wrap = document.getElementById('userWrap');
+            if (wrap) wrap.classList.remove('open');
+        }
+    });
 </script>
 
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\helper;
 use App\Models\Produk;
 use App\Models\Kategori;
+use App\Models\Kerugian;
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
@@ -16,13 +17,9 @@ class ProdukController extends Controller
     {
         $query = Produk::with('kategori');
 
-        // Search (pakai helper)
         $query = helper::search($query, $request->keyword);
-
-        // Filter kategori (pakai helper)
         $query = helper::kategori($query, $request->id_kategori);
 
-        // Filter status stok
         if ($request->status == 'tersedia') {
             $query->where('stok', '>', 5);
         } elseif ($request->status == 'menipis') {
@@ -32,11 +29,8 @@ class ProdukController extends Controller
         }
 
         $produks = $query->get();
-
-        // Data dropdown kategori (dari seeder)
         $kategoris = Kategori::all();
 
-        // Statistik 4 kotak
         $totalProduk = Produk::count();
         $totalStok = Produk::sum('stok');
         $stokMenipis = Produk::where('stok', '>', 0)->where('stok', '<=', 5)->count();
@@ -59,7 +53,6 @@ class ProdukController extends Controller
     {
         $produk = Produk::with('kategori')->findOrFail($id);
 
-        // Kalau request AJAX → balikin JSON untuk panel slide-in
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'id' => $produk->id,
@@ -72,11 +65,10 @@ class ProdukController extends Controller
                 'stok' => $produk->stok,
                 'label_status' => $produk->label_status,
                 'warna_status' => $produk->warna_status,
-                'gambar' => $produk->gambar ? asset('images/' . $produk->gambar) : null,   // ✅ TAMBAH
+                'gambar' => $produk->gambar ? asset('images/' . $produk->gambar) : null,
             ]);
         }
 
-        // Request biasa → balikin view
         return view('produk.show', compact('produk'));
     }
 
@@ -86,15 +78,13 @@ class ProdukController extends Controller
     public function create()
     {
         $kategoris = Kategori::all();
-
-        // ✅ Ambil daftar gambar dari public/images
         $gambarList = $this->getGambarList();
 
         return view('produk.create', compact('kategoris', 'gambarList'));
     }
 
     // ============================
-    // STORE - Simpan produk baru + auto-generate kode
+    // STORE
     // ============================
     public function store(Request $request)
     {
@@ -104,7 +94,7 @@ class ProdukController extends Controller
             'harga_jual' => 'required|numeric',
             'stok' => 'required|integer',
             'id_kategori' => 'required',
-            'gambar' => 'nullable|string',   // ✅ TAMBAH
+            'gambar' => 'nullable|string',
         ]);
 
         Produk::create([
@@ -114,7 +104,7 @@ class ProdukController extends Controller
             'harga_jual' => $request->harga_jual,
             'stok' => $request->stok,
             'id_kategori' => $request->id_kategori,
-            'gambar' => $request->gambar,   // ✅ SIMPAN NAMA FILE
+            'gambar' => $request->gambar,
         ]);
 
         return redirect()->route('produk.index')
@@ -128,8 +118,6 @@ class ProdukController extends Controller
     {
         $produk = Produk::findOrFail($id);
         $kategoris = Kategori::all();
-
-        // ✅ Ambil daftar gambar dari public/images
         $gambarList = $this->getGambarList();
 
         return view('produk.edit', compact('produk', 'kategoris', 'gambarList'));
@@ -146,7 +134,7 @@ class ProdukController extends Controller
             'harga_jual' => 'required|numeric',
             'stok' => 'required|integer',
             'id_kategori' => 'required',
-            'gambar' => 'nullable|string',   // ✅ TAMBAH
+            'gambar' => 'nullable|string',
         ]);
 
         $produk = Produk::findOrFail($id);
@@ -157,7 +145,7 @@ class ProdukController extends Controller
             'harga_jual' => $request->harga_jual,
             'stok' => $request->stok,
             'id_kategori' => $request->id_kategori,
-            'gambar' => $request->gambar,   // ✅ SIMPAN NAMA FILE
+            'gambar' => $request->gambar,
         ]);
 
         return redirect()->route('produk.index')
@@ -177,7 +165,56 @@ class ProdukController extends Controller
     }
 
     // ============================
-    // HELPER: Ambil daftar gambar dari public/images
+    // FORM CATAT KERUGIAN
+    // ============================
+    public function catatKerugian()
+    {
+        $produks = Produk::orderBy('nama_produk')->get();
+
+        return view('kerugian.create', compact('produks'));
+    }
+
+    // ============================
+    // SIMPAN KERUGIAN
+    // ============================
+    public function simpanKerugian(Request $request)
+    {
+        $request->validate([
+            'id_produk' => 'required|exists:produk,id',
+            'jumlah' => 'required|integer|min:1',
+            'tanggal' => 'required|date',
+            'alasan' => 'required|in:rusak,kedaluwarsa,hilang,lainnya',
+            'catatan' => 'nullable|string',
+        ]);
+
+        $produk = Produk::findOrFail($request->id_produk);
+
+        if ($produk->stok < $request->jumlah) {
+            return redirect()->back()
+                ->with('error', 'Stok tidak cukup! Stok tersedia: ' . $produk->stok . ' pcs')
+                ->withInput();
+        }
+
+        $nilaiRugi = $produk->harga_beli * $request->jumlah;
+
+        Kerugian::create([
+            'id_produk' => $produk->id,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah,
+            'nilai_rugi' => $nilaiRugi,
+            'alasan' => $request->alasan,
+            'catatan' => $request->catatan,
+        ]);
+
+        $produk->stok -= $request->jumlah;
+        $produk->save();
+
+        return redirect()->route('produk.index')
+            ->with('success', 'Kerugian berhasil dicatat! Stok berkurang ' . $request->jumlah . ' pcs.');
+    }
+
+    // ============================
+    // HELPER
     // ============================
     private function getGambarList()
     {

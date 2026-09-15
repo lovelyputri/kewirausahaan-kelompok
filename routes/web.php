@@ -8,12 +8,12 @@ use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\PemasukanBarangController;
 use App\Http\Controllers\KerugianController;
 use App\Http\Controllers\RiwayatTransaksiController;
+use App\Http\Controllers\LaporanLabaController;
 
 /*
 |--------------------------------------------------------------------------
 | ROUTE UTAMA
 |--------------------------------------------------------------------------
-| Redirect halaman utama ke login
 */
 
 Route::get('/', function () {
@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| ROUTE AUTH (LOGIN & LOGOUT)
+| ROUTE AUTH
 |--------------------------------------------------------------------------
 */
 
@@ -56,6 +56,24 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('produk', ProdukController::class);
+
+    // Catat kerugian dari halaman produk
+    Route::get('/kerugian/create', [ProdukController::class, 'catatKerugian'])
+        ->name('kerugian.create');
+
+    Route::post('/kerugian/store', [ProdukController::class, 'simpanKerugian'])
+        ->name('kerugian.simpan');
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| ROUTE KERUGIAN (resource)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')->group(function () {
+    Route::resource('kerugian', KerugianController::class)->except(['create', 'store']);
 });
 
 
@@ -63,7 +81,6 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 | ROUTE RIWAYAT TRANSAKSI
 |--------------------------------------------------------------------------
-| Halaman untuk melihat riwayat transaksi (read-only + filter)
 */
 
 Route::middleware('auth')->group(function () {
@@ -79,7 +96,6 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 | ROUTE PENJUALAN
 |--------------------------------------------------------------------------
-| Halaman untuk input transaksi penjualan baru (kasir)
 */
 
 Route::middleware('auth')->group(function () {
@@ -100,10 +116,15 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| ROUTE KERUGIAN
+| ROUTE LAPORAN LABA
 |--------------------------------------------------------------------------
 */
 
 Route::middleware('auth')->group(function () {
-    Route::resource('kerugian', KerugianController::class);
+    Route::get('/laporan-laba', [LaporanLabaController::class, 'index'])
+        ->name('laporan_laba.index');
+
+    // ✅ Export Excel
+    Route::get('/laporan-laba/export', [LaporanLabaController::class, 'export'])
+        ->name('laporan_laba.export');
 });
