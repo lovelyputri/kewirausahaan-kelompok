@@ -18,6 +18,7 @@ class Produk extends Model
         'harga_beli',
         'harga_jual',
         'stok',
+        'gambar',
     ];
 
     // ============================
@@ -103,6 +104,20 @@ class Produk extends Model
         return 'bg-green-100 text-green-700';
     }
 
+    // ============================
+    // GAMBAR URL
+    // ============================
+    public function getGambarUrlAttribute()
+    {
+        if ($this->gambar) {
+            return asset('images/' . $this->gambar);
+        }
+        return asset('images/default.png');
+    }
+
+    // ============================
+    // CEK STOK MENIPIS
+    // ============================
     public function isStokMenipis()
     {
         return $this->stok <= 5;

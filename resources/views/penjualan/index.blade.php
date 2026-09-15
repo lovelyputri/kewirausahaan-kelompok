@@ -1,193 +1,338 @@
 @extends('layout')
 
-@section('title', 'Riwayat Transaksi')
+@section('title', 'Penjualan')
 
 @section('content')
 
+<style>
+    .pj-page { width: 100%; color: #4f3929; font-family: "Inter", sans-serif; }
+    .pj-page * { box-sizing: border-box; }
+
+    /* HEADER */
+    .pj-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 22px; flex-wrap: wrap; }
+    .pj-header-left { display: flex; align-items: center; gap: 14px; }
+    .pj-header-icon { width: 48px; height: 48px; background: #6b4d38; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .pj-header-icon i { width: 23px; height: 23px; stroke-width: 1.8; }
+    .pj-title { margin: 0; color: #3f3025; font-family: "DM Serif Display", serif; font-size: 28px; font-weight: 400; line-height: 1.15; }
+    .pj-subtitle { margin: 4px 0 0; color: #a89a8c; font-size: 12px; }
+    .btn-tambah { display: inline-flex; align-items: center; gap: 8px; background: #6b4d38; color: white; padding: 11px 18px; border-radius: 9px; text-decoration: none; font-size: 12px; font-weight: 600; transition: .2s; }
+    .btn-tambah:hover { background: #58402f; }
+    .btn-tambah i { width: 16px; height: 16px; stroke-width: 2; }
+
+    /* FILTER */
+    .pj-filter-card { background: #fff; border: 1px solid #eee5dc; border-radius: 13px; padding: 15px 16px; margin-bottom: 16px; }
+    .pj-filter-form { display: grid; grid-template-columns: minmax(220px, 1.5fr) minmax(160px, 1fr) auto; gap: 9px; align-items: end; }
+    .pj-filter-group { display: flex; flex-direction: column; gap: 5px; }
+    .pj-filter-label { color: #8e7b6a; font-size: 10px; font-weight: 600; }
+    .pj-input { width: 100%; height: 38px; border: 1px solid #e8ddd2; border-radius: 8px; background: #fffdfb; color: #4f3929; padding: 0 11px; outline: none; font-family: "Inter", sans-serif; font-size: 11px; transition: .18s ease; }
+    .pj-input:focus { border-color: #8b6a50; box-shadow: 0 0 0 3px rgba(107, 77, 56, .08); background: #fff; }
+    .pj-search-wrap { position: relative; }
+    .pj-search-wrap i { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: #9c8a79; pointer-events: none; }
+    .pj-search-wrap .pj-input { padding-left: 34px; }
+    .pj-filter-actions { display: flex; gap: 7px; }
+    .btn-filter, .btn-reset { height: 38px; border-radius: 8px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+    .btn-filter { padding: 0 15px; border: none; background: #6b4d38; color: white; }
+    .btn-filter:hover { background: #58402f; }
+    .btn-filter i { width: 14px; height: 14px; stroke-width: 1.8; }
+    .btn-reset { padding: 0 13px; background: #f5eee7; color: #6b4d38; text-decoration: none; border: 1px solid #eaded2; }
+    .btn-reset:hover { background: #eee2d6; }
+
+    /* CONTENT LAYOUT */
+    .pj-content-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; transition: .25s ease; }
+    .pj-content-layout.has-detail { grid-template-columns: minmax(0, 1fr) 380px; }
+
+    /* TABLE */
+    .pj-table-card { background: white; border: 1px solid #eee5dc; border-radius: 13px; overflow: hidden; min-width: 0; }
+    .pj-table-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 16px; border-bottom: 1px solid #eee5dc; }
+    .pj-table-title { margin: 0; color: #3f3025; font-size: 13px; font-weight: 700; }
+    .pj-table-count { margin-top: 2px; color: #a89a8c; font-size: 10px; }
+    .pj-table-wrapper { width: 100%; overflow-x: auto; }
+    .pj-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+    .pj-table th { background: #faf7f3; color: #927e6c; padding: 10px 13px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .45px; text-align: left; white-space: nowrap; }
+    .pj-table td { padding: 10px 13px; border-top: 1px solid #f4eee8; color: #5f4b3a; font-size: 11px; vertical-align: middle; }
+    .pj-table tbody tr:hover { background: #fffbf7; }
+    .pj-date { font-weight: 600; color: #3f3025; white-space: nowrap; }
+    .pj-kode { font-family: "Courier New", monospace; font-size: 10px; color: #6b4d38; font-weight: 600; }
+    .pj-nama { color: #3f3025; font-weight: 500; }
+    .pj-total { color: #3f3025; font-weight: 700; white-space: nowrap; }
+
+    /* AKSI */
+    .pj-actions { display: inline-flex; align-items: center; gap: 3px; }
+    .pj-action { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 7px; background: transparent; text-decoration: none; padding: 0; cursor: pointer; transition: background .18s ease, color .18s ease; }
+    .pj-action i { width: 15px; height: 15px; stroke-width: 1.7; }
+    .action-view { color: #80644f; }
+    .action-view:hover { background: #f4eee8; color: #5f432f; }
+    .action-delete { color: #b96670; }
+    .action-delete:hover { background: #fdf0f1; color: #a44854; }
+
+    /* DETAIL PANEL */
+    .pj-detail-panel { display: none; background: #fff; border: 1px solid #eee5dc; border-radius: 13px; overflow: hidden; min-width: 0; align-self: start; position: sticky; top: 20px; }
+    .pj-detail-panel.is-open { display: block; }
+    .detail-panel-head { display: flex; align-items: center; justify-content: space-between; padding: 13px 15px; border-bottom: 1px solid #eee5dc; }
+    .detail-panel-title { color: #3f3025; font-size: 12px; font-weight: 700; }
+    .detail-panel-close { width: 27px; height: 27px; display: inline-flex; align-items: center; justify-content: center; border: none; background: #f7f1eb; color: #806b59; border-radius: 7px; cursor: pointer; }
+    .detail-panel-close:hover { background: #eee3d8; }
+    .detail-panel-close i { width: 14px; height: 14px; }
+    .detail-panel-body { padding: 16px; }
+
+    .detail-info { display: flex; justify-content: space-between; font-size: 11px; padding: 6px 0; border-bottom: 1px dashed #f4eee8; }
+    .detail-info:last-of-type { border-bottom: none; }
+    .detail-info span:first-child { color: #8a7a6a; }
+    .detail-info span:last-child { color: #3f3025; font-weight: 600; }
+
+    .detail-section-title { display: flex; align-items: center; gap: 6px; color: #745840; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; padding: 12px 0 8px; margin-bottom: 8px; border-bottom: 1px solid #eee5dc; }
+    .detail-section-title i { width: 13px; height: 13px; stroke-width: 1.8; }
+
+    /* PRODUK DI DETAIL (dengan foto) */
+    .detail-produk-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px dashed #f4eee8; }
+    .detail-produk-item:last-child { border-bottom: none; }
+    .detail-produk-thumb { width: 44px; height: 44px; border-radius: 8px; overflow: hidden; background: #f7f2ed; border: 1px solid #eee5dc; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #a89a8c; }
+    .detail-produk-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .detail-produk-thumb i { width: 18px; height: 18px; }
+    .detail-produk-info { flex: 1; min-width: 0; }
+    .detail-produk-nama { color: #3f3025; font-size: 11px; font-weight: 700; margin-bottom: 2px; }
+    .detail-produk-kode { color: #a89a8c; font-family: "Courier New", monospace; font-size: 9px; margin-bottom: 4px; }
+    .detail-produk-hitung { color: #6b4d38; font-size: 10px; }
+    .detail-produk-subtotal { color: #3f3025; font-size: 11px; font-weight: 700; text-align: right; white-space: nowrap; }
+
+    .detail-total { display: flex; justify-content: space-between; padding: 10px 0 4px; font-size: 12px; font-weight: 700; color: #3f3025; border-top: 1px solid #eee5dc; margin-top: 8px; }
+
+    .detail-thanks { background: #e3f4eb; color: #237450; border-radius: 8px; padding: 8px 12px; font-size: 10px; text-align: center; margin-top: 14px; }
+
+    .pj-loading { padding: 45px 20px; text-align: center; color: #a89a8c; font-size: 11px; }
+    .pj-loading i { width: 23px; height: 23px; margin-bottom: 8px; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* EMPTY */
+    .pj-empty { padding: 50px 20px; text-align: center; }
+    .pj-empty-icon { width: 50px; height: 50px; background: #f5efe8; color: #9c8068; border-radius: 13px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+    .pj-empty-icon i { width: 22px; height: 22px; }
+    .pj-empty-title { color: #4f3929; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .pj-empty-text { color: #a89a8c; font-size: 10px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+        .pj-filter-form { grid-template-columns: 1fr 1fr; }
+        .pj-filter-actions { grid-column: 1 / -1; }
+        .pj-content-layout.has-detail { grid-template-columns: minmax(0, 1fr) 340px; }
+    }
+    @media (max-width: 850px) {
+        .pj-content-layout.has-detail { grid-template-columns: 1fr; }
+        .pj-detail-panel { position: fixed; top: 80px; right: 15px; bottom: 15px; width: min(400px, calc(100vw - 30px)); z-index: 100; overflow-y: auto; box-shadow: 0 12px 40px rgba(50, 35, 25, .18); }
+    }
+    @media (max-width: 600px) {
+        .pj-filter-form { grid-template-columns: 1fr; }
+        .pj-filter-actions { grid-column: auto; }
+        .btn-filter, .btn-reset { flex: 1; }
+        .pj-title { font-size: 22px; }
+        .btn-tambah { width: 100%; justify-content: center; }
+    }
+</style>
+
+
+<div class="pj-page">
+
     {{-- HEADER --}}
-    <div class="flex justify-between items-center mb-6">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-800">Riwayat Transaksi</h1>
-            <p class="text-sm text-gray-500">Daftar riwayat pembelian yang sudah selesai</p>
+    <div class="pj-header">
+        <div class="pj-header-left">
+            <div class="pj-header-icon">
+                <i data-lucide="receipt-text"></i>
+            </div>
+            <div>
+                <h1 class="pj-title">Penjualan</h1>
+                <p class="pj-subtitle">Catat produk yang terjual dan kurangi stok secara manual</p>
+            </div>
         </div>
+        <a href="{{ route('penjualan.create') }}" class="btn-tambah">
+            <i data-lucide="plus"></i>
+            Tambah Penjualan
+        </a>
     </div>
 
-    {{-- ALERT SUKSES --}}
+    {{-- ALERT --}}
     @if(session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <div style="background:#e3f4eb;border:1px solid #b6e0c5;color:#237450;padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:12px;">
             {{ session('success') }}
         </div>
     @endif
 
+    @if(session('error'))
+        <div style="background:#fde8eb;border:1px solid #f5b5be;color:#bd4b59;padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:12px;">
+            {{ session('error') }}
+        </div>
+    @endif
+
     {{-- FILTER --}}
-    <div class="bg-white rounded-lg shadow p-4 mb-6">
-        <form method="GET" action="{{ route('penjualan.index') }}" class="flex flex-wrap gap-3">
+    <div class="pj-filter-card">
+        <form method="GET" action="{{ route('penjualan.index') }}" class="pj-filter-form">
 
             {{-- Search --}}
-            <input type="text"
-                   name="keyword"
-                   value="{{ request('keyword') }}"
-                   placeholder="Cari nama produk / kode barang..."
-                   class="flex-1 min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+            <div class="pj-filter-group">
+                <label class="pj-filter-label">Cari Transaksi</label>
+                <div class="pj-search-wrap">
+                    <i data-lucide="search"></i>
+                    <input type="text"
+                           name="keyword"
+                           class="pj-input"
+                           placeholder="Cari nama produk / kode barang..."
+                           value="{{ request('keyword') }}">
+                </div>
+            </div>
 
-            {{-- ✅ Date Range Picker (1 input) --}}
-            <input type="text"
-                   id="date-range"
-                   placeholder="Pilih rentang tanggal..."
-                   value="{{ request('start_date') && request('end_date') ? request('start_date') . ' to ' . request('end_date') : '' }}"
-                   class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm bg-white cursor-pointer"
-                   readonly>
+            {{-- Pilih Tanggal --}}
+            <div class="pj-filter-group">
+                <label class="pj-filter-label">Pilih Tanggal</label>
+                <input type="date"
+                       name="tanggal"
+                       class="pj-input"
+                       value="{{ request('tanggal') }}">
+            </div>
 
-            {{-- Hidden input untuk kirim ke controller --}}
-            <input type="hidden" name="start_date" id="start_date" value="{{ request('start_date') }}">
-            <input type="hidden" name="end_date" id="end_date" value="{{ request('end_date') }}">
-
-            {{-- Dropdown Status --}}
-            <select name="status"
-                    class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm">
-                <option value="">Semua Status</option>
-                <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="batal" {{ request('status') == 'batal' ? 'selected' : '' }}>Batal</option>
-            </select>
-
-            {{-- Tombol --}}
-            <button type="submit"
-                    class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-sm">
-                Cari
-            </button>
-
-            <a href="{{ route('penjualan.index') }}"
-               class="bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded-lg text-sm">
-                Reset
-            </a>
+            {{-- Action --}}
+            <div class="pj-filter-actions">
+                <button type="submit" class="btn-filter">
+                    <i data-lucide="search"></i>
+                    Cari
+                </button>
+                <a href="{{ route('penjualan.index') }}" class="btn-reset">Reset</a>
+            </div>
 
         </form>
     </div>
 
-    {{-- LAYOUT: TABEL + PANEL DETAIL --}}
-    <div class="flex gap-4">
+    {{-- CONTENT --}}
+    <div class="pj-content-layout" id="pjContentLayout">
 
-        {{-- TABEL RIWAYAT TRANSAKSI --}}
-        <div id="tabel-penjualan" class="flex-1 bg-white rounded-lg shadow overflow-hidden transition-all duration-300">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kode Barang</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Jumlah</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @forelse($penjualans as $index => $p)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-3 text-sm text-gray-700">{{ $index + 1 }}</td>
-                            <td class="px-4 py-3 text-sm text-gray-700">
-                                {{ $p->tanggal->format('d-m-Y') }}
-                            </td>
-                            <td class="px-4 py-3 text-sm font-mono text-gray-700">
-                                {{ $p->kode_barang ?: '-' }}
-                            </td>
-                            <td class="px-4 py-3 text-sm text-gray-700">{{ $p->total_item }}</td>
-                            <td class="px-4 py-3 text-sm text-gray-700">
-                                Rp {{ number_format($p->total_pemasukan, 0, ',', '.') }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                <span class="px-2 py-1 rounded text-xs {{ $p->warna_status }}">
-                                    {{ $p->label_status }}
-                                </span>
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                <div class="flex gap-1">
-
-                                    {{-- SHOW (buka panel detail) --}}
-                                    <button type="button"
-                                            onclick="showDetail({{ $p->id }})"
-                                            class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-xs">
-                                        👁
-                                    </button>
-
-                                    {{-- DELETE --}}
-                                    <form method="POST"
-                                          action="{{ route('penjualan.destroy', $p->id) }}"
-                                          onsubmit="return confirm('Yakin hapus transaksi ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                                class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs">
-                                            🗑
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="px-4 py-8 text-center text-gray-500">
-                                Belum ada riwayat transaksi.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        {{-- PANEL DETAIL (muncul saat klik show) --}}
-        <div id="panel-detail"
-             class="hidden w-96 bg-white rounded-lg shadow p-4 transition-all duration-300">
-
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="font-bold text-gray-800">Detail Transaksi</h3>
-                <button onclick="closeDetail()"
-                        class="text-gray-400 hover:text-gray-600 text-xl leading-none">
-                    &times;
-                </button>
+        {{-- TABLE --}}
+        <div class="pj-table-card">
+            <div class="pj-table-header">
+                <div>
+                    <h2 class="pj-table-title">Daftar Penjualan</h2>
+                    <div class="pj-table-count">Menampilkan {{ $penjualans->count() }} transaksi</div>
+                </div>
             </div>
 
-            <div id="panel-content">
-                <p class="text-sm text-gray-500">Memuat...</p>
-            </div>
+            @if($penjualans->count() > 0)
+                <div class="pj-table-wrapper">
+                    <table class="pj-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal</th>
+                                <th>Kode Barang</th>
+                                <th>Nama Produk</th>
+                                <th>Jumlah</th>
+                                <th>Total</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($penjualans as $index => $p)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td class="pj-date">{{ $p->tanggal->format('d-m-Y') }}</td>
+                                    <td class="pj-kode">{{ $p->kode_barang ?: '-' }}</td>
+                                    <td class="pj-nama">{{ $p->nama_produk ?: '-' }}</td>
+                                    <td>{{ $p->total_item }}</td>
+                                    <td class="pj-total">Rp {{ number_format($p->total_pemasukan, 0, ',', '.') }}</td>
+                                    <td>
+                                        <div class="pj-actions">
+                                            {{-- SHOW --}}
+                                            <button type="button"
+                                                    class="pj-action action-view js-view-penjualan"
+                                                    title="Lihat Detail"
+                                                    data-show-url="{{ route('penjualan.show', $p->id) }}">
+                                                <i data-lucide="eye"></i>
+                                            </button>
 
+                                            {{-- DELETE --}}
+                                            <form action="{{ route('penjualan.destroy', $p->id) }}"
+                                                  method="POST"
+                                                  style="margin:0;"
+                                                  onsubmit="return confirm('Yakin hapus transaksi ini? Stok akan dikembalikan.')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="pj-action action-delete"
+                                                        title="Hapus Transaksi">
+                                                    <i data-lucide="trash-2"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="pj-empty">
+                    <div class="pj-empty-icon">
+                        <i data-lucide="receipt-text"></i>
+                    </div>
+                    <div class="pj-empty-title">Belum ada penjualan</div>
+                    <div class="pj-empty-text">Klik "Tambah Penjualan" untuk mencatat transaksi baru.</div>
+                </div>
+            @endif
         </div>
+
+        {{-- DETAIL PANEL --}}
+        <aside class="pj-detail-panel" id="pjDetailPanel">
+            <div class="pj-loading">
+                <i data-lucide="loader-circle"></i>
+                <div>Memuat detail transaksi...</div>
+            </div>
+        </aside>
 
     </div>
+</div>
 
-    {{-- ============================ --}}
-    {{-- SCRIPT: Flatpickr Date Range --}}
-    {{-- ============================ --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            flatpickr("#date-range", {
-                mode: "range",
-                dateFormat: "Y-m-d",
-                altInput: true,
-                altFormat: "d M Y",
-                onChange: function (selectedDates, dateStr, instance) {
-                    if (selectedDates.length === 2) {
-                        document.getElementById('start_date').value = instance.formatDate(selectedDates[0], "Y-m-d");
-                        document.getElementById('end_date').value = instance.formatDate(selectedDates[1], "Y-m-d");
-                    }
-                }
-            });
-        });
-    </script>
+{{-- LUCIDE --}}
+<script>
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+</script>
 
-    {{-- ============================ --}}
-    {{-- SCRIPT: Panel Slide-In --}}
-    {{-- ============================ --}}
-    <script>
-        function showDetail(id) {
-            const panel = document.getElementById('panel-detail');
-            const content = document.getElementById('panel-content');
+{{-- PANEL SLIDE-IN --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
 
-            panel.classList.remove('hidden');
-            content.innerHTML = '<p class="text-sm text-gray-500">Memuat...</p>';
+        const layout = document.getElementById('pjContentLayout');
+        const panel = document.getElementById('pjDetailPanel');
 
-            fetch(`/penjualan/${id}`, {
+        function formatRupiah(value) {
+            return new Intl.NumberFormat('id-ID').format(Number(value || 0));
+        }
+
+        function escapeHtml(value) {
+            if (value === null || value === undefined) return '';
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        document.addEventListener('click', function (event) {
+            const button = event.target.closest('.js-view-penjualan');
+            if (!button) return;
+
+            const showUrl = button.dataset.showUrl || '#';
+
+            layout.classList.add('has-detail');
+            panel.classList.add('is-open');
+
+            panel.innerHTML = `
+                <div class="pj-loading">
+                    <i data-lucide="loader-circle"></i>
+                    <div>Memuat detail transaksi...</div>
+                </div>
+            `;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            fetch(showUrl, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
                     'Accept': 'application/json'
@@ -195,85 +340,98 @@
             })
             .then(res => res.json())
             .then(data => {
-                let detailRows = '';
-                data.detail.forEach((d, i) => {
-                    detailRows += `
-                        <tr class="border-b">
-                            <td class="py-1 text-xs text-gray-500">${i + 1}</td>
-                            <td class="py-1 text-xs text-gray-800">${d.nama_produk}</td>
-                            <td class="py-1 text-xs text-right text-gray-600">Rp ${formatRupiah(d.harga_jual)}</td>
-                            <td class="py-1 text-xs text-center text-gray-600">${d.jumlah}</td>
-                            <td class="py-1 text-xs text-right text-gray-800">Rp ${formatRupiah(d.subtotal)}</td>
-                        </tr>
+
+                // Bangun item produk DENGAN FOTO
+                let produkHtml = '';
+                data.detail.forEach(d => {
+                    const thumbHtml = d.gambar
+                        ? `<img src="${escapeHtml(d.gambar)}" alt="${escapeHtml(d.nama_produk)}">`
+                        : `<i data-lucide="package"></i>`;
+
+                    produkHtml += `
+                        <div class="detail-produk-item">
+                            <div class="detail-produk-thumb">${thumbHtml}</div>
+                            <div class="detail-produk-info">
+                                <div class="detail-produk-nama">${escapeHtml(d.nama_produk)}</div>
+                                <div class="detail-produk-kode">${escapeHtml(d.kode_produk)}</div>
+                                <div class="detail-produk-hitung">
+                                    ${d.jumlah} x Rp ${formatRupiah(d.harga_jual)}
+                                </div>
+                            </div>
+                            <div class="detail-produk-subtotal">
+                                Rp ${formatRupiah(d.subtotal)}
+                            </div>
+                        </div>
                     `;
                 });
 
-                content.innerHTML = `
-                    <div class="text-xs text-gray-500 mb-3">
-                        <div class="font-semibold text-gray-800">Congek Bakes</div>
-                        <div>${data.tanggal}</div>
+                panel.innerHTML = `
+                    <div class="detail-panel-head">
+                        <div class="detail-panel-title">Detail Penjualan</div>
+                        <button type="button" class="detail-panel-close" id="closePjDetail" title="Tutup">
+                            <i data-lucide="x"></i>
+                        </button>
                     </div>
+                    <div class="detail-panel-body">
 
-                    <div class="space-y-1 text-xs mb-4">
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">No. Struk</span>
-                            <span class="font-mono text-gray-800">${data.no_struk}</span>
+                        <div class="detail-info">
+                            <span>No. Struk</span>
+                            <span>${escapeHtml(data.no_struk)}</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">Total Item</span>
-                            <span class="text-gray-800">${data.total_item}</span>
+                        <div class="detail-info">
+                            <span>Tanggal</span>
+                            <span>${escapeHtml(data.tanggal)}</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">Status</span>
-                            <span class="px-2 py-0.5 rounded ${data.warna_status}">${data.label_status}</span>
+                        <div class="detail-info">
+                            <span>Total Item</span>
+                            <span>${data.total_item}</span>
                         </div>
-                    </div>
 
-                    <div class="border-t pt-2">
-                        <table class="w-full">
-                            <thead>
-                                <tr class="border-b">
-                                    <th class="text-left text-xs text-gray-500 pb-1">No</th>
-                                    <th class="text-left text-xs text-gray-500 pb-1">Produk</th>
-                                    <th class="text-right text-xs text-gray-500 pb-1">Harga</th>
-                                    <th class="text-center text-xs text-gray-500 pb-1">Jml</th>
-                                    <th class="text-right text-xs text-gray-500 pb-1">Subtotal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${detailRows}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="border-t mt-3 pt-3 space-y-1 text-xs">
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">Total Produk</span>
-                            <span class="text-gray-800">${data.total_item}</span>
+                        <div class="detail-section-title">
+                            <i data-lucide="shopping-bag"></i>
+                            Produk yang Dibeli
                         </div>
-                        <div class="flex justify-between font-semibold">
-                            <span class="text-gray-700">Total Harga</span>
-                            <span class="text-gray-800">Rp ${formatRupiah(data.total_pemasukan)}</span>
-                        </div>
-                    </div>
 
-                    <div class="bg-green-100 text-green-700 rounded p-2 mt-4 text-xs text-center">
-                        Terima kasih telah berbelanja! 🙏
+                        ${produkHtml}
+
+                        <div class="detail-total">
+                            <span>Total</span>
+                            <span>Rp ${formatRupiah(data.total_pemasukan)}</span>
+                        </div>
+
+                        <div class="detail-thanks">
+                            Terima kasih telah berbelanja! 🙏
+                        </div>
+
                     </div>
                 `;
+
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+
+                const closeBtn = document.getElementById('closePjDetail');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function () {
+                        panel.classList.remove('is-open');
+                        layout.classList.remove('has-detail');
+                    });
+                }
             })
             .catch(err => {
-                content.innerHTML = '<p class="text-sm text-red-500">Gagal memuat data.</p>';
+                panel.innerHTML = `
+                    <div class="detail-panel-head">
+                        <div class="detail-panel-title">Detail Penjualan</div>
+                        <button type="button" class="detail-panel-close" onclick="document.getElementById('pjDetailPanel').classList.remove('is-open');document.getElementById('pjContentLayout').classList.remove('has-detail');">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+                    <div class="detail-panel-body">
+                        <p style="color:#bd4b59;font-size:11px;">Gagal memuat data.</p>
+                    </div>
+                `;
+                if (typeof lucide !== 'undefined') lucide.createIcons();
             });
-        }
-
-        function closeDetail() {
-            document.getElementById('panel-detail').classList.add('hidden');
-        }
-
-        function formatRupiah(angka) {
-            return new Intl.NumberFormat('id-ID').format(angka);
-        }
-    </script>
+        });
+    });
+</script>
 
 @endsection

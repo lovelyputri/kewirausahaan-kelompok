@@ -21,6 +21,10 @@
     <!-- Lucide Icon -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    {{-- ✅ Flatpickr (date range picker) --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <style>
 
         /* =====================================================
@@ -263,6 +267,23 @@
         }
 
 
+        /* ✅ Menu nonaktif (Pengaturan) */
+        .nav-item.nav-disabled {
+            opacity: 0.55;
+
+            cursor: not-allowed;
+        }
+
+
+        .nav-item.nav-disabled:hover {
+            background: transparent;
+
+            border-color: rgba(255, 255, 255, 0.9);
+
+            color: #ffffff;
+        }
+
+
         .nav-icon {
             width: 22px;
             height: 22px;
@@ -408,48 +429,6 @@
             min-height: 100vh;
 
             padding: 92px 36px 36px 36px;
-        }
-
-
-        /* =====================================================
-           GLOBAL LOGOUT STYLE (HANYA UNTUK LOGOUT)
-        ===================================================== */
-
-        .logout-btn,
-        a.logout-btn,
-        button.logout-btn,
-        .content a[href*="logout"] {
-            background: transparent !important;
-
-            border: none !important;
-
-            box-shadow: none !important;
-
-            color: #3f3025 !important;
-
-            text-decoration: none !important;
-
-            padding: 0 !important;
-
-            margin: 0 !important;
-
-            cursor: pointer;
-
-            font-family: inherit;
-
-            font-size: inherit;
-
-            outline: none;
-        }
-
-
-        .logout-btn:hover,
-        a.logout-btn:hover,
-        button.logout-btn:hover,
-        .content a[href*="logout"]:hover {
-            background: transparent !important;
-
-            text-decoration: underline !important;
         }
 
 
@@ -903,129 +882,70 @@
 
         <nav class="navigation">
 
-
             <!-- Dashboard -->
-
             <a
-                href="{{ url('/dashboard') }}"
-                class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}"
+                href="{{ route('dashboard') }}"
+                class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}"
             >
-
-                <i
-                    data-lucide="house"
-                    class="nav-icon"
-                ></i>
-
-                <span class="nav-text">
-                    Dashboard
-                </span>
-
+                <i data-lucide="house" class="nav-icon"></i>
+                <span class="nav-text">Dashboard</span>
             </a>
-
 
 
             <!-- Produk -->
-
             <a
                 href="{{ route('produk.index') }}"
-                class="nav-item {{ request()->is('produk*') ? 'active' : '' }}"
+                class="nav-item {{ request()->routeIs('produk.*') ? 'active' : '' }}"
             >
-
-                <i
-                    data-lucide="box"
-                    class="nav-icon"
-                ></i>
-
-                <span class="nav-text">
-                    Produk
-                </span>
-
+                <i data-lucide="box" class="nav-icon"></i>
+                <span class="nav-text">Produk</span>
             </a>
-
 
 
             <!-- Penjualan -->
-
             <a
-                href="#"
-                class="nav-item {{ request()->is('penjualan*') ? 'active' : '' }}"
+                href="{{ route('penjualan.index') }}"
+                class="nav-item {{ request()->routeIs('penjualan.*') ? 'active' : '' }}"
             >
-
-                <i
-                    data-lucide="receipt-text"
-                    class="nav-icon"
-                ></i>
-
+                <i data-lucide="receipt-text" class="nav-icon"></i>
                 <span class="nav-text">
-
                     Penjualan
-
-                    <small>
-                        (Kurangi Stok)
-                    </small>
-
+                    
                 </span>
-
             </a>
-
 
 
             <!-- Laporan Laba -->
-
             <a
-                href="#"
-                class="nav-item {{ request()->is('laporan*') ? 'active' : '' }}"
+                href="{{ route('laporan_laba.index') }}"
+                class="nav-item {{ request()->routeIs('laporan_laba.*') ? 'active' : '' }}"
             >
-
-                <i
-                    data-lucide="chart-column"
-                    class="nav-icon"
-                ></i>
-
-                <span class="nav-text">
-                    Laporan Laba
-                </span>
-
+                <i data-lucide="chart-column" class="nav-icon"></i>
+                <span class="nav-text">Laporan Laba</span>
             </a>
 
 
-
-            <!-- Riwayat -->
-
+            <!-- Riwayat Transaksi -->
             <a
-                href="#"
-                class="nav-item {{ request()->is('riwayat*') ? 'active' : '' }}"
+                href="{{ route('riwayat_transaksi.index') }}"
+                class="nav-item {{ request()->routeIs('riwayat_transaksi.*') ? 'active' : '' }}"
             >
-
-                <i
-                    data-lucide="history"
-                    class="nav-icon"
-                ></i>
-
-                <span class="nav-text">
-                    Riwayat Transaksi
-                </span>
-
+                <i data-lucide="history" class="nav-icon"></i>
+                <span class="nav-text">Riwayat Transaksi</span>
             </a>
 
 
-
-            <!-- Pengaturan -->
-
+            <!-- Pengaturan (NONAKTIF) -->
             <a
-                href="#"
-                class="nav-item {{ request()->is('pengaturan*') ? 'active' : '' }}"
+                href="javascript:void(0)"
+                onclick="alert('Halaman Pengaturan belum tersedia')"
+                class="nav-item nav-disabled"
             >
-
-                <i
-                    data-lucide="settings"
-                    class="nav-icon"
-                ></i>
-
+                <i data-lucide="settings" class="nav-icon"></i>
                 <span class="nav-text">
                     Pengaturan
+                    <small>(Segera Hadir)</small>
                 </span>
-
             </a>
 
         </nav>
@@ -1038,16 +958,12 @@
 
         <div class="bakery-decoration">
 
-            <!-- Gambar roti -->
-
             <img
                 src="{{ asset('images/roti.png') }}"
                 alt="Aneka roti"
                 class="bakery-image"
             >
 
-
-            <!-- Tulisan -->
 
             <div class="bakery-copy">
 
