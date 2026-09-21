@@ -5,430 +5,64 @@
 @section('content')
 
 <style>
-    .produk-form-page * {
-        box-sizing: border-box;
-    }
+    .produk-form-page * { box-sizing: border-box; }
 
-    .produk-form-page {
-        width: 100%;
-    }
+    .produk-form-page .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #a89a8c; margin-bottom: 14px; max-width: 720px; margin-left: auto; margin-right: auto; }
+    .produk-form-page .breadcrumb a { color: #a89a8c; text-decoration: none; display: flex; align-items: center; transition: color .2s; }
+    .produk-form-page .breadcrumb a:hover { color: #6b4d38; }
+    .produk-form-page .breadcrumb .sep { color: #d6c9bb; font-size: 14px; }
+    .produk-form-page .breadcrumb .current { color: #3f3025; font-weight: 600; }
 
-    /* =========================
-       BREADCRUMB
-    ========================= */
-    .produk-form-page .breadcrumb {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        font-size: 12px;
-        color: #a89a8c;
-        margin-bottom: 14px;
-        max-width: 660px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+    .produk-form-page .page-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; max-width: 720px; margin-left: auto; margin-right: auto; }
+    .produk-form-page .page-header-left { display: flex; align-items: center; gap: 14px; }
+    .produk-form-page .page-icon { width: 48px; height: 48px; background: #6b4d38; color: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 8px rgba(107,77,56,.28); }
+    .produk-form-page .page-icon i { width: 24px; height: 24px; stroke-width: 2; }
+    .produk-form-page .page-title { font-family: "DM Serif Display", serif; font-size: 26px; font-weight: 400; color: #3f3025; margin: 0 0 2px 0; }
+    .produk-form-page .page-subtitle { font-size: 12px; color: #a89a8c; margin: 0; }
+    .produk-form-page .btn-back { display: inline-flex; align-items: center; gap: 6px; background: #f5efe8; color: #6b4d38; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 500; text-decoration: none; }
+    .produk-form-page .btn-back:hover { background: #e8ded3; }
 
-    .produk-form-page .breadcrumb a {
-        color: #a89a8c;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-    }
+    .produk-form-page .form-card { background: #fff; border: 1px solid #f0e8de; border-radius: 16px; padding: 28px; box-shadow: 0 1px 4px rgba(107,77,56,.04); max-width: 720px; margin: 0 auto; }
 
-    .produk-form-page .breadcrumb a:hover {
-        color: #6f4d36;
-    }
+    .produk-form-page .form-section-title { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: #6b4d38; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #f0e8de; }
+    .produk-form-page .form-section-title i { width: 15px; height: 15px; stroke-width: 2.2; color: #a89a8c; }
 
-    .produk-form-page .breadcrumb .sep {
-        color: #d2c4b6;
-    }
+    .produk-form-page .form-group { margin-bottom: 18px; }
+    .produk-form-page .form-label { display: block; font-size: 12.5px; font-weight: 600; color: #4a3d33; margin-bottom: 7px; }
+    .produk-form-page .form-label .req { color: #e11d48; }
 
-    .produk-form-page .breadcrumb .current {
-        color: #3f3025;
-        font-weight: 600;
-    }
+    .produk-form-page .form-input, .produk-form-page .form-select { width: 100%; height: 46px; padding: 0 16px; background: #faf7f3; border: 1px solid #f0e8de; border-radius: 10px; font-size: 13.5px; color: #3f3025; outline: none; transition: .2s; appearance: none; -webkit-appearance: none; -moz-appearance: none; }
+    .produk-form-page .form-input::placeholder { color: #b8aa9c; }
+    .produk-form-page .form-input:focus, .produk-form-page .form-select:focus { border-color: #6b4d38; background: #fff; box-shadow: 0 0 0 3px rgba(107,77,56,.08); }
 
-    /* =========================
-       HEADER
-    ========================= */
-    .produk-form-page .page-header {
-        max-width: 660px;
-        margin: 0 auto 22px auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-    }
+    .produk-form-page .input-wrap { position: relative; }
+    .produk-form-page .input-wrap .input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: #a89a8c; pointer-events: none; z-index: 2; }
+    .produk-form-page .input-wrap .form-input { padding-left: 40px; }
 
-    .produk-form-page .page-header-left {
-        display: flex;
-        align-items: center;
-        gap: 13px;
-    }
+    .produk-form-page .input-rp { position: relative; }
+    .produk-form-page .input-rp .rp-prefix { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 13px; font-weight: 600; color: #6b4d38; pointer-events: none; z-index: 2; }
+    .produk-form-page .input-rp .form-input { padding-left: 40px; }
 
-    .produk-form-page .page-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        background: #6f4d36;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        box-shadow: 0 3px 8px rgba(111, 77, 54, .14);
-    }
+    .produk-form-page .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-    .produk-form-page .page-icon i {
-        width: 22px;
-        height: 22px;
-    }
+    .produk-form-page .alert-error { background: #fff1f2; border: 1px solid #fecdd3; color: #be123c; padding: 14px 16px; border-radius: 12px; margin-bottom: 20px; font-size: 13px; }
+    .produk-form-page .alert-error ul { margin: 6px 0 0 16px; padding: 0; }
 
-    .produk-form-page .page-title {
-        margin: 0;
-        color: #30231b;
-        font-family: "DM Serif Display", Georgia, serif;
-        font-size: 25px;
-        line-height: 1.1;
-        font-weight: 400;
-    }
+    .produk-form-page .form-actions { display: flex; gap: 10px; padding-top: 20px; border-top: 1px solid #f0e8de; margin-top: 24px; }
+    .produk-form-page .btn-submit { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #6b4d38; color: #fff; padding: 12px 26px; border-radius: 10px; font-size: 13.5px; font-weight: 600; border: none; cursor: pointer; min-width: 160px; }
+    .produk-form-page .btn-submit:hover { background: #4a3526; }
+    .produk-form-page .btn-cancel { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #f5efe8; color: #6b4d38; padding: 12px 26px; border-radius: 10px; font-size: 13.5px; font-weight: 500; text-decoration: none; min-width: 120px; }
+    .produk-form-page .btn-cancel:hover { background: #e8ded3; }
 
-    .produk-form-page .page-subtitle {
-        margin: 4px 0 0;
-        color: #a89a8c;
-        font-size: 11.5px;
-        line-height: 1.4;
-    }
+    .produk-form-page .gambar-preview { margin-top: 10px; width: 110px; height: 110px; border-radius: 12px; border: 1px dashed #e8ddd2; background: #faf7f3; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #b8aa9c; font-size: 11px; }
+    .produk-form-page .gambar-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    .produk-form-page .btn-back {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        padding: 10px 17px;
-        background: #f5efe8;
-        color: #654832;
-        text-decoration: none;
-        border-radius: 10px;
-        font-size: 12px;
-        font-weight: 500;
-        white-space: nowrap;
-        transition: .2s ease;
-    }
-
-    .produk-form-page .btn-back i {
-        width: 17px;
-        height: 17px;
-    }
-
-    .produk-form-page .btn-back:hover {
-        background: #ebe1d7;
-        color: #4f3524;
-    }
-
-    /* =========================
-       FORM CARD
-    ========================= */
-    .produk-form-page .form-card {
-        width: 100%;
-        max-width: 660px;
-        margin: 0 auto;
-        background: #fff;
-        border: 1px solid #eee4da;
-        border-radius: 15px;
-        padding: 25px 27px 26px;
-        box-shadow: 0 2px 8px rgba(85, 61, 43, .045);
-    }
-
-    /* =========================
-       ALERT
-    ========================= */
-    .produk-form-page .alert-error {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        background: #fff6f4;
-        border: 1px solid #efd4cb;
-        color: #9f4636;
-        border-radius: 10px;
-        padding: 12px 14px;
-        margin-bottom: 20px;
-        font-size: 12px;
-    }
-
-    .produk-form-page .alert-error i {
-        width: 17px;
-        height: 17px;
-        flex-shrink: 0;
-        margin-top: 1px;
-    }
-
-    .produk-form-page .alert-error ul {
-        margin: 5px 0 0 16px;
-        padding: 0;
-    }
-
-    /* =========================
-       SECTION TITLE
-    ========================= */
-    .produk-form-page .form-section {
-        margin-bottom: 20px;
-    }
-
-    .produk-form-page .section-title {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: #6f4d36;
-        font-size: 11.5px;
-        font-weight: 700;
-        letter-spacing: .55px;
-        text-transform: uppercase;
-        padding-bottom: 9px;
-        border-bottom: 1px solid #eee4da;
-        margin-bottom: 15px;
-    }
-
-    .produk-form-page .section-title i {
-        width: 17px;
-        height: 17px;
-    }
-
-    /* =========================
-       FORM GROUP
-    ========================= */
-    .produk-form-page .form-group {
-        margin-bottom: 16px;
-    }
-
-    .produk-form-page .form-label {
-        display: block;
-        color: #4a382b;
-        font-size: 11.5px;
-        font-weight: 600;
-        margin-bottom: 6px;
-    }
-
-    .produk-form-page .required {
-        color: #dc3545;
-    }
-
-    .produk-form-page .input-wrap {
-        position: relative;
-    }
-
-    .produk-form-page .input-wrap > i {
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 15px;
-        height: 15px;
-        color: #b6a79a;
-        pointer-events: none;
-        z-index: 2;
-    }
-
-    .produk-form-page .form-input,
-    .produk-form-page .form-select {
-        width: 100%;
-        height: 42px;
-        border: 1px solid #eee4da;
-        background: #fbf8f5;
-        border-radius: 10px;
-        color: #4a382b;
-        font-family: inherit;
-        font-size: 12px;
-        padding: 0 13px;
-        outline: none;
-        transition: .2s ease;
-    }
-
-    .produk-form-page .input-wrap .form-input,
-    .produk-form-page .input-wrap .form-select {
-        padding-left: 37px;
-    }
-
-    .produk-form-page .form-input:focus,
-    .produk-form-page .form-select:focus {
-        border-color: #b99a80;
-        background: #fff;
-        box-shadow: 0 0 0 3px rgba(111, 77, 54, .07);
-    }
-
-    .produk-form-page .form-select {
-        cursor: pointer;
-        appearance: auto;
-    }
-
-    .produk-form-page .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-    }
-
-    /* =========================
-       IMAGE SELECT
-    ========================= */
-    .produk-form-page .image-select-wrap {
-        position: relative;
-    }
-
-    .produk-form-page .image-select-wrap > i {
-        position: absolute;
-        left: 12px;
-        top: 13px;
-        width: 15px;
-        height: 15px;
-        color: #b6a79a;
-        pointer-events: none;
-        z-index: 2;
-    }
-
-    .produk-form-page .image-select-wrap .form-select {
-        padding-left: 37px;
-    }
-
-    .produk-form-page .image-preview {
-        margin-top: 9px;
-        width: 100px;
-        height: 100px;
-        border: 1px dashed #dfd2c6;
-        border-radius: 10px;
-        background: #fcfaf8;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-    }
-
-    .produk-form-page .image-preview span {
-        color: #b8a99c;
-        font-size: 10px;
-        text-align: center;
-    }
-
-    .produk-form-page .image-preview img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: none;
-    }
-
-    /* =========================
-       INFO
-    ========================= */
-    .produk-form-page .helper-text {
-        margin-top: 5px;
-        font-size: 10px;
-        color: #afa095;
-    }
-
-    /* =========================
-       ACTION
-    ========================= */
-    .produk-form-page .form-actions {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 9px;
-        border-top: 1px solid #eee4da;
-        padding-top: 18px;
-        margin-top: 7px;
-    }
-
-    .produk-form-page .btn-cancel {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        height: 40px;
-        min-width: 100px;
-        padding: 0 17px;
-        border-radius: 9px;
-        background: #f5efe8;
-        color: #654832;
-        text-decoration: none;
-        font-size: 12px;
-        font-weight: 500;
-        transition: .2s ease;
-    }
-
-    .produk-form-page .btn-cancel:hover {
-        background: #ebe1d7;
-    }
-
-    .produk-form-page .btn-submit {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        height: 40px;
-        min-width: 145px;
-        padding: 0 18px;
-        border: none;
-        border-radius: 9px;
-        background: #6f4d36;
-        color: #fff;
-        font-family: inherit;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: .2s ease;
-        box-shadow: 0 3px 7px rgba(111, 77, 54, .13);
-    }
-
-    .produk-form-page .btn-submit i {
-        width: 16px;
-        height: 16px;
-    }
-
-    .produk-form-page .btn-submit:hover {
-        background: #5e402d;
-        transform: translateY(-1px);
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-    @media (max-width: 760px) {
-        .produk-form-page .breadcrumb,
-        .produk-form-page .page-header,
-        .produk-form-page .form-card {
-            max-width: 100%;
-        }
-
-        .produk-form-page .page-header {
-            align-items: flex-start;
-        }
-    }
-
-    @media (max-width: 600px) {
-        .produk-form-page .page-header {
-            flex-direction: column;
-        }
-
-        .produk-form-page .btn-back {
-            width: 100%;
-        }
-
-        .produk-form-page .form-card {
-            padding: 20px 17px;
-        }
-
-        .produk-form-page .form-row {
-            grid-template-columns: 1fr;
-            gap: 0;
-        }
-
-        .produk-form-page .form-actions {
-            flex-direction: column-reverse;
-        }
-
-        .produk-form-page .btn-cancel,
-        .produk-form-page .btn-submit {
-            width: 100%;
-        }
+    @media (max-width: 700px) {
+        .produk-form-page .page-title { font-size: 22px; }
+        .produk-form-page .form-card { padding: 20px; }
+        .produk-form-page .form-row { grid-template-columns: 1fr; }
+        .produk-form-page .form-actions { flex-direction: column-reverse; }
+        .produk-form-page .btn-submit, .produk-form-page .btn-cancel { width: 100%; }
     }
 </style>
 
@@ -450,11 +84,7 @@
         </a>
 
         <span class="sep">›</span>
-
-        <span class="current">
-            Tambah
-        </span>
-
+        <span class="current">Tambah</span>
     </div>
 
 
@@ -464,19 +94,10 @@
     <div class="page-header">
 
         <div class="page-header-left">
-
-            <div class="page-icon">
-                <i data-lucide="package-plus"></i>
-            </div>
-
+            <div class="page-icon"><i data-lucide="package-plus"></i></div>
             <div>
-                <h1 class="page-title">
-                    Tambah Produk
-                </h1>
-
-                <p class="page-subtitle">
-                    Tambahkan produk baru yang tersedia di toko Anda.
-                </p>
+                <h1 class="page-title">Tambah Produk</h1>
+                <p class="page-subtitle">Lengkapi data produk baru yang akan dijual.</p>
             </div>
 
         </div>
@@ -524,228 +145,62 @@
 
                 </div>
 
-            </div>
-
-        @endif
-
-
-        <form
-            action="{{ route('produk.store') }}"
-            method="POST"
-        >
-
+        <form method="POST" action="{{ route('produk.store') }}">
             @csrf
 
-
-            {{-- =========================
-                 INFORMASI PRODUK
-            ========================= --}}
-            <div class="form-section">
-
-                <div class="section-title">
-
-                    <i data-lucide="circle-info"></i>
-
-                    Informasi Produk
-
-                </div>
-
-
-                {{-- KATEGORI --}}
-                <div class="form-group">
-
-                    <label class="form-label">
-
-                        Kategori
-                        <span class="required">*</span>
-
-                    </label>
-
-                    <div class="input-wrap">
-
-                        <i data-lucide="grid-2x2"></i>
-
-                        <select
-                            name="id_kategori"
-                            class="form-select"
-                            required
-                        >
-
-                            <option value="">
-                                -- Pilih Kategori --
-                            </option>
-
-                            @foreach($kategoris as $kategori)
-
-                                <option
-                                    value="{{ $kategori->id }}"
-                                    {{ old('id_kategori') == $kategori->id ? 'selected' : '' }}
-                                >
-                                    {{ $kategori->nama_kategori }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-
-                {{-- NAMA PRODUK --}}
-                <div class="form-group">
-
-                    <label class="form-label">
-
-                        Nama Produk
-                        <span class="required">*</span>
-
-                    </label>
-
-                    <div class="input-wrap">
-
-                        <i data-lucide="tag"></i>
-
-                        <input
-                            type="text"
-                            name="nama_produk"
-                            class="form-input"
-                            value="{{ old('nama_produk') }}"
-                            placeholder="Contoh: Croissant"
-                            required
-                        >
-
-                    </div>
-
-                </div>
-
+            {{-- SECTION: Informasi Produk --}}
+            <div class="form-section-title">
+                <i data-lucide="info"></i>
+                Informasi Produk
             </div>
 
-
-            {{-- =========================
-                 HARGA
-            ========================= --}}
-            <div class="form-section">
-
-                <div class="section-title">
-
-                    <i data-lucide="wallet-cards"></i>
-
-                    Harga
-
-                </div>
-
-
-                <div class="form-row">
-
-                    {{-- HARGA BELI --}}
-                    <div class="form-group">
-
-                        <label class="form-label">
-
-                            Harga Beli
-                            <span class="required">*</span>
-
-                        </label>
-
-                        <div class="input-wrap">
-
-                            <i data-lucide="banknote"></i>
-
-                            <input
-                                type="number"
-                                name="harga_beli"
-                                class="form-input"
-                                value="{{ old('harga_beli') }}"
-                                placeholder="0"
-                                min="0"
-                                step="1"
-                                required
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- HARGA JUAL --}}
-                    <div class="form-group">
-
-                        <label class="form-label">
-
-                            Harga Jual
-                            <span class="required">*</span>
-
-                        </label>
-
-                        <div class="input-wrap">
-
-                            <i data-lucide="badge-dollar-sign"></i>
-
-                            <input
-                                type="number"
-                                name="harga_jual"
-                                class="form-input"
-                                value="{{ old('harga_jual') }}"
-                                placeholder="0"
-                                min="0"
-                                step="1"
-                                required
-                            >
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+            {{-- Kategori --}}
+            <div class="form-group">
+                <label class="form-label">Kategori <span class="req">*</span></label>
+                <select name="id_kategori" class="form-select" required>
+                    <option value="">-- Pilih Kategori --</option>
+                    @foreach($kategoris as $k)
+                        <option value="{{ $k->id }}" {{ old('id_kategori') == $k->id ? 'selected' : '' }}>
+                            {{ $k->nama_kategori }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
+            {{-- Nama Produk --}}
+            <div class="form-group">
+                <label class="form-label">Nama Produk <span class="req">*</span></label>
+                <div class="input-wrap">
+                    <i data-lucide="tag" class="input-icon"></i>
+                    <input type="text" name="nama_produk" value="{{ old('nama_produk') }}"
+                           placeholder="Contoh: Croissant Butter" class="form-input" required>
+                </div>
+            </div>
 
-            {{-- =========================
-                 STOK
-            ========================= --}}
-            <div class="form-section">
+            {{-- SECTION: Harga --}}
+            <div class="form-section-title" style="margin-top:8px;">
+                <i data-lucide="wallet"></i>
+                Harga
+            </div>
 
-                <div class="section-title">
-
-                    <i data-lucide="boxes"></i>
-
-                    Stok
-
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Harga Beli <span class="req">*</span></label>
+                    <div class="input-rp">
+                        <span class="rp-prefix">Rp</span>
+                        <input type="number" name="harga_beli" value="{{ old('harga_beli') }}"
+                               placeholder="0" class="form-input" min="0" required>
+                    </div>
                 </div>
 
 
                 <div class="form-group">
-
-                    <label class="form-label">
-
-                        Jumlah Stok
-                        <span class="required">*</span>
-
-                    </label>
-
-                    <div class="input-wrap">
-
-                        <i data-lucide="package"></i>
-
-                        <input
-                            type="number"
-                            name="stok"
-                            class="form-input"
-                            value="{{ old('stok', 0) }}"
-                            placeholder="Masukkan jumlah stok"
-                            min="0"
-                            required
-                        >
-
+                    <label class="form-label">Harga Jual <span class="req">*</span></label>
+                    <div class="input-rp">
+                        <span class="rp-prefix">Rp</span>
+                        <input type="number" name="harga_jual" value="{{ old('harga_jual') }}"
+                               placeholder="0" class="form-input" min="0" required>
                     </div>
-
-                    <div class="helper-text">
-                        Masukkan jumlah stok awal produk.
-                    </div>
-
                 </div>
 
             </div>
@@ -765,67 +220,44 @@
                 </div>
 
 
-                <div class="form-group">
-
-                    <label class="form-label">
-                        Pilih Gambar
-                    </label>
-
-                    <div class="image-select-wrap">
-
-                        <i data-lucide="image"></i>
-
-                        <select
-                            name="gambar"
-                            id="gambar"
-                            class="form-select"
-                            onchange="previewGambar()"
-                        >
-
-                            <option value="">
-                                -- Pilih Gambar --
-                            </option>
-
-                            @foreach($gambarList as $gambar)
-
-                                <option
-                                    value="{{ $gambar }}"
-                                    data-src="{{ asset('images/' . $gambar) }}"
-                                    {{ old('gambar') == $gambar ? 'selected' : '' }}
-                                >
-                                    {{ $gambar }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                    </div>
-
-
-                    {{-- PREVIEW --}}
-                    <div class="image-preview" id="imagePreview">
-
-                        <span id="previewText">
-                            Preview
-                        </span>
-
-                        <img
-                            id="previewImage"
-                            src=""
-                            alt="Preview gambar produk"
-                        >
-
-                    </div>
-
-                </div>
-
+            {{-- SECTION: Stok --}}
+            <div class="form-section-title" style="margin-top:8px;">
+                <i data-lucide="boxes"></i>
+                Stok
             </div>
 
+            <div class="form-group">
+                <label class="form-label">Jumlah Stok <span class="req">*</span></label>
+                <div class="input-wrap">
+                    <i data-lucide="package" class="input-icon"></i>
+                    <input type="number" name="stok" value="{{ old('stok', 0) }}"
+                           placeholder="0" class="form-input" min="0" required>
+                </div>
+            </div>
 
-            {{-- =========================
-                 ACTION
-            ========================= --}}
+            {{-- SECTION: Gambar --}}
+            <div class="form-group">
+                <label class="form-label">Gambar Produk</label>
+
+                <select name="gambar" id="gambarSelect" class="form-select" onchange="previewGambar(this)">
+                    <option value="">-- Pilih Gambar --</option>
+                    @foreach($gambarList as $gbr)
+                        <option value="{{ $gbr }}" {{ old('gambar') == $gbr ? 'selected' : '' }}>
+                            {{ $gbr }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <div class="gambar-preview" id="gambarPreview">
+                    <span>Preview</span>
+                </div>
+
+                <small style="color:#a89a8c; font-size:11px; margin-top:6px; display:block;">
+                    Pilih gambar dari folder <code>public/images</code>.
+                </small>
+            </div>
+
+            {{-- Actions --}}
             <div class="form-actions">
 
                 <a
@@ -841,9 +273,7 @@
                 >
 
                     <i data-lucide="save"></i>
-
                     Simpan Produk
-
                 </button>
 
             </div>
@@ -894,8 +324,19 @@
             lucide.createIcons();
         }
 
-        previewGambar();
+    function previewGambar(select) {
+        const preview = document.getElementById('gambarPreview');
+        const val = select.value;
+        if (val) {
+            preview.innerHTML = '<img src="/images/' + val + '" alt="Preview">';
+        } else {
+            preview.innerHTML = '<span>Preview</span>';
+        }
+    }
 
+    document.addEventListener('DOMContentLoaded', function () {
+        const sel = document.getElementById('gambarSelect');
+        if (sel && sel.value) previewGambar(sel);
     });
 </script>
 
