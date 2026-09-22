@@ -360,8 +360,6 @@
     <div class="breadcrumb">
         <a href="#"><i data-lucide="house" style="width:14px;height:14px;"></i></a>
         <span class="sep">›</span>
-        <a href="#">Dashboard</a>
-        <span class="sep">›</span>
         <a href="{{ route('penjualan.index') }}">Penjualan</a>
         <span class="sep">›</span>
         <span class="current">Tambah</span>

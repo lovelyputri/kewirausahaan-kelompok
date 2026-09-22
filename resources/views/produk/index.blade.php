@@ -15,7 +15,9 @@
         box-sizing: border-box;
     }
 
-    /* BREADCRUMB */
+    /* ========================================
+       BREADCRUMB
+    ======================================== */
     .produk-breadcrumb {
         display: flex;
         align-items: center;
@@ -28,8 +30,9 @@
     .produk-breadcrumb a {
         color: #a89a8c;
         text-decoration: none;
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        justify-content: center;
     }
 
     .produk-breadcrumb a:hover {
@@ -45,67 +48,404 @@
     .produk-breadcrumb svg {
         width: 14px !important;
         height: 14px !important;
+        display: block;
+        flex-shrink: 0;
     }
 
 
-    .produk-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 22px; flex-wrap: wrap; }
-    .produk-header-left { display: flex; align-items: center; gap: 14px; }
-    .produk-header-icon { width: 48px; height: 48px; background: #6b4d38; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .produk-header-icon i { width: 23px; height: 23px; stroke-width: 1.8; }
-    .produk-title { margin: 0; color: #3f3025; font-family: "DM Serif Display", serif; font-size: 28px; font-weight: 400; line-height: 1.15; }
-    .produk-subtitle { margin: 4px 0 0; color: #a89a8c; font-size: 12px; }
+    /* ========================================
+       HEADER
+    ======================================== */
+    .produk-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 22px;
+        flex-wrap: wrap;
+    }
 
-    .produk-header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    .btn-tambah-produk { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #6b4d38; color: white; padding: 11px 18px; border-radius: 9px; text-decoration: none; font-size: 12px; font-weight: 600; transition: .2s; }
-    .btn-tambah-produk:hover { background: #58402f; }
-    .btn-tambah-produk i { width: 16px; height: 16px; stroke-width: 2; }
-    .btn-tambah-kerugian { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #bd4b59; color: white; padding: 11px 18px; border-radius: 9px; text-decoration: none; font-size: 12px; font-weight: 600; transition: .2s; }
-    .btn-tambah-kerugian:hover { background: #a43e4a; }
-    .btn-tambah-kerugian i { width: 16px; height: 16px; stroke-width: 2; }
+    .produk-header-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
 
-    .produk-stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
-    .produk-stat-card { background: #fff; border: 1px solid #eee5dc; border-radius: 13px; padding: 15px 16px; display: flex; align-items: center; gap: 12px; }
-    .produk-stat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .produk-stat-icon i { width: 19px; height: 19px; stroke-width: 1.8; }
-    .stat-total { background: #f5eee7; color: #76553d; }
-    .stat-kategori { background: #f2edf8; color: #8063a0; }
-    .stat-menipis { background: #fff6df; color: #b47a20; }
-    .stat-habis { background: #fcedef; color: #c45260; }
-    .produk-stat-label { color: #a89a8c; font-size: 10px; margin-bottom: 3px; }
-    .produk-stat-value { color: #3f3025; font-size: 19px; font-weight: 700; }
+    .produk-header-icon {
+        width: 48px;
+        height: 48px;
+        background: #6b4d38;
+        color: white;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
 
-    .produk-filter-card { background: #fff; border: 1px solid #eee5dc; border-radius: 13px; padding: 15px 16px; margin-bottom: 16px; }
-    .produk-filter-form { display: grid; grid-template-columns: minmax(220px, 1.5fr) minmax(160px, 1fr) minmax(150px, 1fr) auto; gap: 9px; align-items: end; }
-    .produk-filter-group { display: flex; flex-direction: column; gap: 5px; }
-    .produk-filter-label { color: #8e7b6a; font-size: 10px; font-weight: 600; }
-    .produk-input, .produk-select { width: 100%; height: 38px; border: 1px solid #e8ddd2; border-radius: 8px; background: #fffdfb; color: #4f3929; padding: 0 11px; outline: none; font-family: "Inter", sans-serif; font-size: 11px; }
-    .produk-input:focus, .produk-select:focus { border-color: #8b6a50; box-shadow: 0 0 0 3px rgba(107, 77, 56, .08); background: #fff; }
-    .produk-search-wrap { position: relative; }
-    .produk-search-wrap i { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: #9c8a79; pointer-events: none; }
-    .produk-search-wrap .produk-input { padding-left: 34px; }
-    .produk-filter-actions { display: flex; gap: 7px; }
-    .btn-filter, .btn-reset { height: 38px; border-radius: 8px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
-    .btn-filter { padding: 0 15px; border: none; background: #6b4d38; color: white; }
-    .btn-filter:hover { background: #58402f; }
-    .btn-filter i { width: 14px; height: 14px; stroke-width: 1.8; }
-    .btn-reset { padding: 0 13px; background: #f5eee7; color: #6b4d38; text-decoration: none; border: 1px solid #eaded2; }
-    .btn-reset:hover { background: #eee2d6; }
+    .produk-header-icon i,
+    .produk-header-icon svg {
+        width: 23px !important;
+        height: 23px !important;
+        stroke-width: 1.8;
+        display: block;
+        flex-shrink: 0;
+    }
 
-    .produk-content-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; transition: .25s ease; }
-    .produk-content-layout.has-detail { grid-template-columns: minmax(0, 1fr) 360px; }
+    .produk-title {
+        margin: 0;
+        color: #3f3025;
+        font-family: "DM Serif Display", serif;
+        font-size: 28px;
+        font-weight: 400;
+        line-height: 1.15;
+    }
 
-    .produk-table-card { background: white; border: 1px solid #eee5dc; border-radius: 13px; overflow: hidden; min-width: 0; }
-    .produk-table-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 16px; border-bottom: 1px solid #eee5dc; }
-    .produk-table-title { margin: 0; color: #3f3025; font-size: 13px; font-weight: 700; }
-    .produk-table-count { margin-top: 2px; color: #a89a8c; font-size: 10px; }
-    .produk-table-wrapper { width: 100%; overflow-x: auto; }
-    .produk-table { width: 100%; border-collapse: collapse; min-width: 800px; }
-    .produk-table th { background: #faf7f3; color: #927e6c; padding: 10px 13px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .45px; text-align: left; white-space: nowrap; }
-    .produk-table td { padding: 10px 13px; border-top: 1px solid #f4eee8; color: #5f4b3a; font-size: 11px; vertical-align: middle; }
-    .produk-table tbody tr:hover { background: #fffbf7; }
+    .produk-subtitle {
+        margin: 4px 0 0;
+        color: #a89a8c;
+        font-size: 12px;
+    }
+
+    .produk-header-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-tambah-produk,
+    .btn-tambah-kerugian {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: white;
+        padding: 11px 18px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 600;
+        transition: .2s;
+    }
+
+    .btn-tambah-produk {
+        background: #6b4d38;
+    }
+
+    .btn-tambah-produk:hover {
+        background: #58402f;
+    }
+
+    .btn-tambah-kerugian {
+        background: #bd4b59;
+    }
+
+    .btn-tambah-kerugian:hover {
+        background: #a43e4a;
+    }
+
+    .btn-tambah-produk i,
+    .btn-tambah-produk svg,
+    .btn-tambah-kerugian i,
+    .btn-tambah-kerugian svg {
+        width: 16px !important;
+        height: 16px !important;
+        stroke-width: 2;
+        display: block;
+        flex-shrink: 0;
+    }
 
 
-    /* PRODUCT IMAGE */
+    /* ========================================
+       STATISTIK
+    ======================================== */
+    .produk-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+
+    .produk-stat-card {
+        background: #fff;
+        border: 1px solid #eee5dc;
+        border-radius: 13px;
+        padding: 15px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .produk-stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .produk-stat-icon i,
+    .produk-stat-icon svg {
+        width: 19px !important;
+        height: 19px !important;
+        stroke-width: 1.8;
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .stat-total {
+        background: #f5eee7;
+        color: #76553d;
+    }
+
+    .stat-kategori {
+        background: #f2edf8;
+        color: #8063a0;
+    }
+
+    .stat-menipis {
+        background: #fff6df;
+        color: #b47a20;
+    }
+
+    .stat-habis {
+        background: #fcedef;
+        color: #c45260;
+    }
+
+    .produk-stat-label {
+        color: #a89a8c;
+        font-size: 10px;
+        margin-bottom: 3px;
+    }
+
+    .produk-stat-value {
+        color: #3f3025;
+        font-size: 19px;
+        font-weight: 700;
+    }
+
+
+    /* ========================================
+       FILTER
+    ======================================== */
+    .produk-filter-card {
+        background: #fff;
+        border: 1px solid #eee5dc;
+        border-radius: 13px;
+        padding: 15px 16px;
+        margin-bottom: 16px;
+    }
+
+    .produk-filter-form {
+        display: grid;
+        grid-template-columns:
+            minmax(220px, 1.5fr)
+            minmax(160px, 1fr)
+            minmax(150px, 1fr)
+            auto;
+        gap: 9px;
+        align-items: end;
+    }
+
+    .produk-filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .produk-filter-label {
+        color: #8e7b6a;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    .produk-input,
+    .produk-select {
+        width: 100%;
+        height: 38px;
+        border: 1px solid #e8ddd2;
+        border-radius: 8px;
+        background: #fffdfb;
+        color: #4f3929;
+        padding: 0 11px;
+        outline: none;
+        font-family: "Inter", sans-serif;
+        font-size: 11px;
+        transition: .18s ease;
+    }
+
+    .produk-input:focus,
+    .produk-select:focus {
+        border-color: #8b6a50;
+        box-shadow: 0 0 0 3px rgba(107, 77, 56, .08);
+        background: #fff;
+    }
+
+    .produk-search-wrap {
+        position: relative;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .produk-search-wrap i,
+    .produk-search-wrap svg {
+        position: absolute;
+        left: 11px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 15px !important;
+        height: 15px !important;
+        color: #9c8a79;
+        stroke-width: 1.8;
+        pointer-events: none;
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .produk-search-wrap .produk-input {
+        padding-left: 34px;
+    }
+
+    .produk-filter-actions {
+        display: flex;
+        gap: 7px;
+    }
+
+    .btn-filter,
+    .btn-reset {
+        height: 38px;
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .btn-filter {
+        padding: 0 15px;
+        border: none;
+        background: #6b4d38;
+        color: white;
+        gap: 7px;
+    }
+
+    .btn-filter:hover {
+        background: #58402f;
+    }
+
+    .btn-filter i,
+    .btn-filter svg {
+        width: 14px !important;
+        height: 14px !important;
+        stroke-width: 1.8;
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .btn-reset {
+        padding: 0 13px;
+        background: #f5eee7;
+        color: #6b4d38;
+        text-decoration: none;
+        border: 1px solid #eaded2;
+    }
+
+    .btn-reset:hover {
+        background: #eee2d6;
+    }
+
+
+    /* ========================================
+       CONTENT LAYOUT
+    ======================================== */
+    .produk-content-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        transition: .25s ease;
+    }
+
+    .produk-content-layout.has-detail {
+        grid-template-columns: minmax(0, 1fr) 360px;
+    }
+
+
+    /* ========================================
+       TABLE
+    ======================================== */
+    .produk-table-card {
+        background: white;
+        border: 1px solid #eee5dc;
+        border-radius: 13px;
+        overflow: hidden;
+        min-width: 0;
+    }
+
+    .produk-table-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 16px;
+        border-bottom: 1px solid #eee5dc;
+    }
+
+    .produk-table-title {
+        margin: 0;
+        color: #3f3025;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .produk-table-count {
+        margin-top: 2px;
+        color: #a89a8c;
+        font-size: 10px;
+    }
+
+    .produk-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .produk-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+    }
+
+    .produk-table th {
+        background: #faf7f3;
+        color: #927e6c;
+        padding: 10px 13px;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .45px;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .produk-table td {
+        padding: 10px 13px;
+        border-top: 1px solid #f4eee8;
+        color: #5f4b3a;
+        font-size: 11px;
+        vertical-align: middle;
+    }
+
+    .produk-table tbody tr:hover {
+        background: #fffbf7;
+    }
+
+
+    /* ========================================
+       PRODUCT IMAGE
+    ======================================== */
     .produk-image {
         width: 39px;
         height: 39px;
@@ -113,6 +453,8 @@
         object-fit: cover;
         border: 1px solid #eee5dc;
         background: #faf7f3;
+        display: block;
+        flex-shrink: 0;
     }
 
     .produk-image-placeholder {
@@ -124,6 +466,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
     }
 
     .produk-image-placeholder i,
@@ -131,6 +474,7 @@
         width: 17px !important;
         height: 17px !important;
         stroke-width: 1.6;
+        display: block;
     }
 
     .produk-name {
@@ -160,7 +504,9 @@
     }
 
 
-    /* CATEGORY */
+    /* ========================================
+       CATEGORY
+    ======================================== */
     .produk-category {
         display: inline-flex;
         align-items: center;
@@ -174,7 +520,9 @@
     }
 
 
-    /* STATUS */
+    /* ========================================
+       STATUS
+    ======================================== */
     .produk-status {
         display: inline-flex;
         align-items: center;
@@ -201,27 +549,136 @@
     }
 
 
-    .produk-actions { display: inline-flex; align-items: center; gap: 3px; }
-    .produk-action { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 7px; background: transparent; text-decoration: none; padding: 0; cursor: pointer; transition: background .18s ease, color .18s ease; }
-    .produk-action i { width: 15px; height: 15px; stroke-width: 1.7; }
-    .action-view { color: #80644f; }
-    .action-view:hover { background: #f4eee8; color: #5f432f; }
-    .action-edit { color: #a8752e; }
-    .action-edit:hover { background: #fff5df; color: #8c5f1d; }
-    .action-delete { color: #b96670; }
-    .action-delete:hover { background: #fdf0f1; color: #a44854; }
+    /* ========================================
+       ACTION
+    ======================================== */
+    .produk-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+    }
 
-    .produk-detail-panel { display: none; background: #fff; border: 1px solid #eee5dc; border-radius: 13px; overflow: hidden; min-width: 0; align-self: start; position: sticky; top: 20px; }
-    .produk-detail-panel.is-open { display: block; }
-    .detail-panel-head { display: flex; align-items: center; justify-content: space-between; padding: 13px 15px; border-bottom: 1px solid #eee5dc; }
-    .detail-panel-title { color: #3f3025; font-size: 12px; font-weight: 700; }
-    .detail-panel-close { width: 27px; height: 27px; display: inline-flex; align-items: center; justify-content: center; border: none; background: #f7f1eb; color: #806b59; border-radius: 7px; cursor: pointer; }
-    .detail-panel-close:hover { background: #eee3d8; }
-    .detail-panel-close i { width: 14px; height: 14px; }
-    .detail-panel-body { padding: 16px; }
+    .produk-action {
+        width: 30px;
+        height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 7px;
+        background: transparent;
+        text-decoration: none;
+        padding: 0;
+        cursor: pointer;
+        transition:
+            background .18s ease,
+            color .18s ease;
+    }
+
+    .produk-action i,
+    .produk-action svg {
+        width: 15px !important;
+        height: 15px !important;
+        stroke-width: 1.7;
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .action-view {
+        color: #80644f;
+    }
+
+    .action-view:hover {
+        background: #f4eee8;
+        color: #5f432f;
+    }
+
+    .action-edit {
+        color: #a8752e;
+    }
+
+    .action-edit:hover {
+        background: #fff5df;
+        color: #8c5f1d;
+    }
+
+    .action-delete {
+        color: #b96670;
+    }
+
+    .action-delete:hover {
+        background: #fdf0f1;
+        color: #a44854;
+    }
 
 
-    /* DETAIL PRODUCT */
+    /* ========================================
+       DETAIL PANEL
+    ======================================== */
+    .produk-detail-panel {
+        display: none;
+        background: #fff;
+        border: 1px solid #eee5dc;
+        border-radius: 13px;
+        overflow: hidden;
+        min-width: 0;
+        align-self: start;
+        position: sticky;
+        top: 20px;
+    }
+
+    .produk-detail-panel.is-open {
+        display: block;
+    }
+
+    .detail-panel-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 13px 15px;
+        border-bottom: 1px solid #eee5dc;
+    }
+
+    .detail-panel-title {
+        color: #3f3025;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .detail-panel-close {
+        width: 27px;
+        height: 27px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: #f7f1eb;
+        color: #806b59;
+        border-radius: 7px;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .detail-panel-close:hover {
+        background: #eee3d8;
+    }
+
+    .detail-panel-close i,
+    .detail-panel-close svg {
+        width: 14px !important;
+        height: 14px !important;
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .detail-panel-body {
+        padding: 16px;
+    }
+
+
+    /* ========================================
+       DETAIL PRODUCT
+    ======================================== */
     .detail-product-top {
         display: flex;
         gap: 12px;
@@ -244,6 +701,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        display: block;
     }
 
     .detail-product-placeholder {
@@ -260,6 +718,7 @@
         width: 25px !important;
         height: 25px !important;
         stroke-width: 1.5;
+        display: block;
     }
 
     .detail-product-info {
@@ -319,7 +778,9 @@
     }
 
 
-    /* DETAIL SECTION */
+    /* ========================================
+       DETAIL SECTION
+    ======================================== */
     .detail-section {
         margin-bottom: 17px;
     }
@@ -343,6 +804,8 @@
         width: 13px !important;
         height: 13px !important;
         stroke-width: 1.8;
+        display: block;
+        flex-shrink: 0;
     }
 
     .detail-grid {
@@ -383,7 +846,9 @@
     }
 
 
-    /* DETAIL ACTION */
+    /* ========================================
+       DETAIL ACTION
+    ======================================== */
     .detail-actions {
         display: flex;
         gap: 7px;
@@ -432,10 +897,14 @@
     .detail-delete-btn svg {
         width: 13px !important;
         height: 13px !important;
+        display: block;
+        flex-shrink: 0;
     }
 
 
-    /* LOADING */
+    /* ========================================
+       LOADING
+    ======================================== */
     .detail-loading {
         padding: 45px 20px;
         text-align: center;
@@ -447,8 +916,9 @@
     .detail-loading svg {
         width: 23px !important;
         height: 23px !important;
-        margin-bottom: 8px;
+        margin: 0 auto 8px;
         animation: spin .8s linear infinite;
+        display: block;
     }
 
     @keyframes spin {
@@ -458,7 +928,9 @@
     }
 
 
-    /* EMPTY */
+    /* ========================================
+       EMPTY
+    ======================================== */
     .produk-empty {
         padding: 50px 20px;
         text-align: center;
@@ -480,6 +952,8 @@
     .produk-empty-icon svg {
         width: 22px !important;
         height: 22px !important;
+        display: block;
+        flex-shrink: 0;
     }
 
     .produk-empty-title {
@@ -495,7 +969,51 @@
     }
 
 
-    /* RESPONSIVE */
+    /* ========================================
+       PAGINATION
+    ======================================== */
+    .produk-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 13px 16px;
+        border-top: 1px solid #eee5dc;
+    }
+
+    .produk-pagination-info {
+        color: #a89a8c;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+    .produk-pagination-info strong {
+        color: #5f4b3a;
+    }
+
+    .produk-pagination-links {
+        min-width: 0;
+    }
+
+    .produk-pagination-links nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .produk-pagination-links svg {
+        width: 15px !important;
+        height: 15px !important;
+    }
+
+    .produk-pagination-links a,
+    .produk-pagination-links span {
+        font-size: 10px !important;
+    }
+
+
+    /* ========================================
+       RESPONSIVE
+    ======================================== */
     @media (max-width: 1100px) {
 
         .produk-stat-grid {
@@ -591,7 +1109,7 @@
     {{-- BREADCRUMB --}}
     <div class="produk-breadcrumb">
 
-        <a href="{{ route('produk.index') }}">
+        <a href="{{ route('produk.index') }}" aria-label="Dashboard">
             <i data-lucide="house"></i>
         </a>
 
@@ -616,7 +1134,6 @@
             </div>
 
             <div>
-
                 <h1 class="produk-title">
                     Data Produk
                 </h1>
@@ -624,7 +1141,6 @@
                 <p class="produk-subtitle">
                     Kelola produk, stok, harga, dan informasi produk.
                 </p>
-
             </div>
 
         </div>
@@ -636,7 +1152,6 @@
                class="btn-tambah-produk">
 
                 <i data-lucide="plus"></i>
-
                 Tambah Produk
 
             </a>
@@ -646,7 +1161,6 @@
                class="btn-tambah-kerugian">
 
                 <i data-lucide="alert-triangle"></i>
-
                 Tambah Kerugian
 
             </a>
@@ -666,7 +1180,6 @@
             </div>
 
             <div>
-
                 <div class="produk-stat-label">
                     Total Produk
                 </div>
@@ -674,7 +1187,6 @@
                 <div class="produk-stat-value">
                     {{ $totalProduk }}
                 </div>
-
             </div>
 
         </div>
@@ -687,7 +1199,6 @@
             </div>
 
             <div>
-
                 <div class="produk-stat-label">
                     Kategori
                 </div>
@@ -695,7 +1206,6 @@
                 <div class="produk-stat-value">
                     {{ $kategoris->count() }}
                 </div>
-
             </div>
 
         </div>
@@ -708,7 +1218,6 @@
             </div>
 
             <div>
-
                 <div class="produk-stat-label">
                     Produk Menipis
                 </div>
@@ -716,7 +1225,6 @@
                 <div class="produk-stat-value">
                     {{ $stokMenipis }}
                 </div>
-
             </div>
 
         </div>
@@ -729,7 +1237,6 @@
             </div>
 
             <div>
-
                 <div class="produk-stat-label">
                     Produk Kosong
                 </div>
@@ -737,7 +1244,6 @@
                 <div class="produk-stat-value">
                     {{ $stokHabis }}
                 </div>
-
             </div>
 
         </div>
@@ -751,7 +1257,6 @@
         <form action="{{ route('produk.index') }}"
               method="GET"
               class="produk-filter-form">
-
 
             {{-- SEARCH --}}
             <div class="produk-filter-group">
@@ -854,7 +1359,6 @@
                         class="btn-filter">
 
                     <i data-lucide="search"></i>
-
                     Cari
 
                 </button>
@@ -877,10 +1381,8 @@
     <div class="produk-content-layout"
          id="produkContentLayout">
 
-
         {{-- TABLE --}}
         <div class="produk-table-card">
-
 
             {{-- TABLE HEADER --}}
             <div class="produk-table-header">
@@ -928,39 +1430,16 @@
                         <thead>
 
                             <tr>
-
-                                <th>
-                                    Produk
-                                </th>
-
-                                <th>
-                                    Kategori
-                                </th>
-
-                                <th>
-                                    Harga Beli
-                                </th>
-
-                                <th>
-                                    Harga Jual
-                                </th>
-
-                                <th>
-                                    Stok
-                                </th>
-
-                                <th>
-                                    Status
-                                </th>
-
-                                <th>
-                                    Aksi
-                                </th>
-
+                                <th>Produk</th>
+                                <th>Kategori</th>
+                                <th>Harga Beli</th>
+                                <th>Harga Jual</th>
+                                <th>Stok</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
 
                         </thead>
-
 
                         <tbody>
 
@@ -984,9 +1463,7 @@
                                             @else
 
                                                 <div class="produk-image-placeholder">
-
                                                     <i data-lucide="package"></i>
-
                                                 </div>
 
                                             @endif
@@ -999,9 +1476,7 @@
                                                 </div>
 
                                                 <div class="produk-code">
-
                                                     {{ $produk->kode_produk ?? sprintf('%08d', $produk->id) }}
-
                                                 </div>
 
                                             </div>
@@ -1015,9 +1490,7 @@
                                     <td>
 
                                         <span class="produk-category">
-
                                             {{ $produk->kategori->nama_kategori ?? '-' }}
-
                                         </span>
 
                                     </td>
@@ -1027,10 +1500,7 @@
                                     <td>
 
                                         <span class="produk-price">
-
-                                            Rp
-                                            {{ number_format($produk->harga_beli, 0, ',', '.') }}
-
+                                            Rp {{ number_format($produk->harga_beli, 0, ',', '.') }}
                                         </span>
 
                                     </td>
@@ -1040,10 +1510,7 @@
                                     <td>
 
                                         <span class="produk-price">
-
-                                            Rp
-                                            {{ number_format($produk->harga_jual, 0, ',', '.') }}
-
+                                            Rp {{ number_format($produk->harga_jual, 0, ',', '.') }}
                                         </span>
 
                                     </td>
@@ -1053,9 +1520,7 @@
                                     <td>
 
                                         <span class="produk-stock">
-
                                             {{ $produk->stok }}
-
                                         </span>
 
                                     </td>
@@ -1092,29 +1557,19 @@
 
                                         <div class="produk-actions">
 
-
                                             {{-- VIEW --}}
                                             <button
                                                 type="button"
                                                 class="produk-action action-view js-view-produk"
                                                 title="Lihat Detail"
-
                                                 data-nama="{{ $produk->nama_produk }}"
-
                                                 data-kode="{{ $produk->kode_produk ?? sprintf('%08d', $produk->id) }}"
-
                                                 data-kategori="{{ $produk->kategori->nama_kategori ?? '-' }}"
-
                                                 data-harga-beli="{{ $produk->harga_beli }}"
-
                                                 data-harga-jual="{{ $produk->harga_jual }}"
-
                                                 data-stok="{{ $produk->stok }}"
-
                                                 data-gambar="{{ !empty($produk->gambar) ? asset('images/' . $produk->gambar) : '' }}"
-
                                                 data-edit-url="{{ route('produk.edit', $produk->id) }}"
-
                                                 data-delete-url="{{ route('produk.destroy', $produk->id) }}"
                                             >
 
@@ -1144,7 +1599,6 @@
                                             >
 
                                                 @csrf
-
                                                 @method('DELETE')
 
                                                 <button
@@ -1158,7 +1612,6 @@
                                                 </button>
 
                                             </form>
-
 
                                         </div>
 
@@ -1180,8 +1633,6 @@
 
                     <div class="produk-pagination">
 
-
-                        {{-- INFO --}}
                         <div class="produk-pagination-info">
 
                             Menampilkan
@@ -1207,13 +1658,11 @@
                         </div>
 
 
-                        {{-- LINKS --}}
                         <div class="produk-pagination-links">
 
                             {{ $produks->withQueryString()->links() }}
 
                         </div>
-
 
                     </div>
 
@@ -1226,27 +1675,20 @@
                 <div class="produk-empty">
 
                     <div class="produk-empty-icon">
-
                         <i data-lucide="package-open"></i>
-
                     </div>
 
                     <div class="produk-empty-title">
-
                         Produk tidak ditemukan
-
                     </div>
 
                     <div class="produk-empty-text">
-
                         Belum ada produk yang sesuai dengan pencarian atau filter.
-
                     </div>
 
                 </div>
 
             @endif
-
 
         </div>
 
@@ -1269,7 +1711,6 @@
 
         </aside>
 
-
     </div>
 
 </div>
@@ -1277,25 +1718,27 @@
 
 {{-- LUCIDE --}}
 <script>
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+    });
 </script>
 
 
+{{-- DETAIL PANEL --}}
 <script>
-
 document.addEventListener('DOMContentLoaded', function () {
 
-
-    const layout =
-        document.getElementById('produkContentLayout');
-
-    const panel =
-        document.getElementById('produkDetailPanel');
+    const layout = document.getElementById('produkContentLayout');
+    const panel = document.getElementById('produkDetailPanel');
 
 
-    /* FORMAT RUPIAH */
+    /* ========================================
+       FORMAT RUPIAH
+    ======================================== */
     function formatRupiah(value) {
 
         return new Intl.NumberFormat('id-ID')
@@ -1304,7 +1747,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    /* ESCAPE HTML */
+    /* ========================================
+       ESCAPE HTML
+    ======================================== */
     function escapeHtml(value) {
 
         if (
@@ -1324,7 +1769,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    /* STATUS */
+    /* ========================================
+       STATUS
+    ======================================== */
     function getStatus(stok) {
 
         stok = Number(stok || 0);
@@ -1355,13 +1802,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    /* VIEW DETAIL */
+    /* ========================================
+       VIEW DETAIL
+    ======================================== */
     document.addEventListener('click', function (event) {
-
 
         const button =
             event.target.closest('.js-view-produk');
-
 
         if (!button) {
             return;
@@ -1404,13 +1851,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         layout.classList.add('has-detail');
-
         panel.classList.add('is-open');
 
 
-        /* IMAGE */
+        /* ========================================
+           IMAGE
+        ======================================== */
         let imageHtml = '';
-
 
         if (gambar) {
 
@@ -1425,16 +1872,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
             imageHtml = `
                 <div class="detail-product-placeholder">
-
                     <i data-lucide="package"></i>
-
                 </div>
             `;
 
         }
 
 
-        /* PANEL */
+        /* ========================================
+           PANEL
+        ======================================== */
         panel.innerHTML = `
 
             <div class="detail-panel-head">
@@ -1447,6 +1894,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     type="button"
                     class="detail-panel-close"
                     id="closeProdukDetail"
+                    title="Tutup"
                 >
 
                     <i data-lucide="x"></i>
@@ -1459,45 +1907,34 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="detail-panel-body">
 
 
+                {{-- PRODUK --}}
                 <div class="detail-product-top">
 
-
                     <div class="detail-product-image">
-
                         ${imageHtml}
-
                     </div>
 
 
                     <div class="detail-product-info">
 
                         <h2 class="detail-product-name">
-
                             ${escapeHtml(nama)}
-
                         </h2>
 
 
                         <div class="detail-product-code">
-
                             ${escapeHtml(kode)}
-
                         </div>
 
 
                         <div class="detail-badges">
 
                             <span class="detail-badge detail-category">
-
                                 ${escapeHtml(kategori)}
-
                             </span>
 
-
                             <span class="detail-badge ${status.className}">
-
                                 ${status.text}
-
                             </span>
 
                         </div>
@@ -1508,7 +1945,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
                 {{-- INFORMASI HARGA --}}
-
                 <div class="detail-section">
 
                     <div class="detail-section-title">
@@ -1522,7 +1958,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <div class="detail-grid">
 
-
                         <div class="detail-item">
 
                             <span class="detail-item-label">
@@ -1530,9 +1965,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </span>
 
                             <span class="detail-item-value">
-
                                 Rp ${formatRupiah(hargaBeli)}
-
                             </span>
 
                         </div>
@@ -1545,9 +1978,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </span>
 
                             <span class="detail-item-value">
-
                                 Rp ${formatRupiah(hargaJual)}
-
                             </span>
 
                         </div>
@@ -1560,13 +1991,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             </span>
 
                             <span class="detail-item-value laba">
-
                                 Rp ${formatRupiah(laba)}
-
                             </span>
 
                         </div>
-
 
                     </div>
 
@@ -1574,7 +2002,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
                 {{-- INFORMASI STOK --}}
-
                 <div class="detail-section">
 
                     <div class="detail-section-title">
@@ -1588,7 +2015,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <div class="detail-grid">
 
-
                         <div class="detail-item">
 
                             <span class="detail-item-label">
@@ -1596,9 +2022,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </span>
 
                             <span class="detail-item-value">
-
                                 ${stok} Pcs
-
                             </span>
 
                         </div>
@@ -1611,13 +2035,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             </span>
 
                             <span class="detail-item-value">
-
                                 ${status.text}
-
                             </span>
 
                         </div>
-
 
                     </div>
 
@@ -1625,9 +2046,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
                 {{-- ACTION --}}
-
                 <div class="detail-actions">
-
 
                     <a
                         href="${escapeHtml(editUrl)}"
@@ -1649,9 +2068,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     >
 
                         @csrf
-
                         @method('DELETE')
-
 
                         <button
                             type="submit"
@@ -1667,7 +2084,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     </form>
 
-
                 </div>
 
 
@@ -1676,18 +2092,19 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
 
 
-        /* CREATE ICON */
+        /* ========================================
+           CREATE ICON
+        ======================================== */
         if (typeof lucide !== 'undefined') {
-
             lucide.createIcons();
-
         }
 
 
-        /* CLOSE */
+        /* ========================================
+           CLOSE
+        ======================================== */
         const closeBtn =
             document.getElementById('closeProdukDetail');
-
 
         if (closeBtn) {
 
@@ -1703,9 +2120,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
-
 });
-
 </script>
 
 @endsection

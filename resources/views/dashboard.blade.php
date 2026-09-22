@@ -179,10 +179,10 @@
                 <span id="realtime-clock" class="dash-clock-text">Memuat...</span>
             </div>
 
-            {{-- Notification --}}
+            {{-- Notification
             <div class="dash-icon-btn">
                 <i data-lucide="bell" style="width:17px;height:17px;"></i>
-            </div>
+            </div> --}}
 
             {{-- USER + DROPDOWN --}}
             <div class="dash-user-wrap" id="userWrap">
