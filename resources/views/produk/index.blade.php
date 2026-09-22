@@ -14,7 +14,6 @@
     .produk-breadcrumb .current { color: #3f3025; font-weight: 600; }
     .produk-breadcrumb i { width: 14px; height: 14px; }
 
-    /* HEADER */
     .produk-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 22px; flex-wrap: wrap; }
     .produk-header-left { display: flex; align-items: center; gap: 14px; }
     .produk-header-icon { width: 48px; height: 48px; background: #6b4d38; color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -22,7 +21,6 @@
     .produk-title { margin: 0; color: #3f3025; font-family: "DM Serif Display", serif; font-size: 28px; font-weight: 400; line-height: 1.15; }
     .produk-subtitle { margin: 4px 0 0; color: #a89a8c; font-size: 12px; }
 
-    /* HEADER ACTIONS */
     .produk-header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
     .btn-tambah-produk { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #6b4d38; color: white; padding: 11px 18px; border-radius: 9px; text-decoration: none; font-size: 12px; font-weight: 600; transition: .2s; }
     .btn-tambah-produk:hover { background: #58402f; }
@@ -31,7 +29,6 @@
     .btn-tambah-kerugian:hover { background: #a43e4a; }
     .btn-tambah-kerugian i { width: 16px; height: 16px; stroke-width: 2; }
 
-    /* STATISTICS */
     .produk-stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
     .produk-stat-card { background: #fff; border: 1px solid #eee5dc; border-radius: 13px; padding: 15px 16px; display: flex; align-items: center; gap: 12px; }
     .produk-stat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -43,7 +40,6 @@
     .produk-stat-label { color: #a89a8c; font-size: 10px; margin-bottom: 3px; }
     .produk-stat-value { color: #3f3025; font-size: 19px; font-weight: 700; }
 
-    /* FILTER */
     .produk-filter-card { background: #fff; border: 1px solid #eee5dc; border-radius: 13px; padding: 15px 16px; margin-bottom: 16px; }
     .produk-filter-form { display: grid; grid-template-columns: minmax(220px, 1.5fr) minmax(160px, 1fr) minmax(150px, 1fr) auto; gap: 9px; align-items: end; }
     .produk-filter-group { display: flex; flex-direction: column; gap: 5px; }
@@ -61,11 +57,9 @@
     .btn-reset { padding: 0 13px; background: #f5eee7; color: #6b4d38; text-decoration: none; border: 1px solid #eaded2; }
     .btn-reset:hover { background: #eee2d6; }
 
-    /* CONTENT */
     .produk-content-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; transition: .25s ease; }
     .produk-content-layout.has-detail { grid-template-columns: minmax(0, 1fr) 360px; }
 
-    /* TABLE */
     .produk-table-card { background: white; border: 1px solid #eee5dc; border-radius: 13px; overflow: hidden; min-width: 0; }
     .produk-table-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 16px; border-bottom: 1px solid #eee5dc; }
     .produk-table-title { margin: 0; color: #3f3025; font-size: 13px; font-weight: 700; }
@@ -91,7 +85,6 @@
     .status-menipis { background: #fff3d5; color: #a96e16; }
     .status-habis { background: #fde8eb; color: #bd4b59; }
 
-    /* AKSI */
     .produk-actions { display: inline-flex; align-items: center; gap: 3px; }
     .produk-action { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 7px; background: transparent; text-decoration: none; padding: 0; cursor: pointer; transition: background .18s ease, color .18s ease; }
     .produk-action i { width: 15px; height: 15px; stroke-width: 1.7; }
@@ -102,7 +95,6 @@
     .action-delete { color: #b96670; }
     .action-delete:hover { background: #fdf0f1; color: #a44854; }
 
-    /* DETAIL PANEL */
     .produk-detail-panel { display: none; background: #fff; border: 1px solid #eee5dc; border-radius: 13px; overflow: hidden; min-width: 0; align-self: start; position: sticky; top: 20px; }
     .produk-detail-panel.is-open { display: block; }
     .detail-panel-head { display: flex; align-items: center; justify-content: space-between; padding: 13px 15px; border-bottom: 1px solid #eee5dc; }
@@ -412,7 +404,9 @@
 </div>
 
 <script>
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
 </script>
 
 <script>
