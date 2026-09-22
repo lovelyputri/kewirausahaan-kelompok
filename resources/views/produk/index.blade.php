@@ -5,10 +5,6 @@
 @section('content')
 
 <style>
-    /* =====================================================
-       PRODUK PAGE
-    ===================================================== */
-
     .produk-page {
         width: 100%;
         color: #4f3929;
@@ -19,10 +15,9 @@
         box-sizing: border-box;
     }
 
-    /* =====================================================
+    /* ========================================
        BREADCRUMB
-       ===================================================== */
-
+    ======================================== */
     .produk-breadcrumb {
         display: flex;
         align-items: center;
@@ -35,8 +30,9 @@
     .produk-breadcrumb a {
         color: #a89a8c;
         text-decoration: none;
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        justify-content: center;
     }
 
     .produk-breadcrumb a:hover {
@@ -48,15 +44,18 @@
         font-weight: 600;
     }
 
-    .produk-breadcrumb i {
-        width: 14px;
-        height: 14px;
+    .produk-breadcrumb i,
+    .produk-breadcrumb svg {
+        width: 14px !important;
+        height: 14px !important;
+        display: block;
+        flex-shrink: 0;
     }
 
-    /* =====================================================
-       HEADER
-       ===================================================== */
 
+    /* ========================================
+       HEADER
+    ======================================== */
     .produk-header {
         display: flex;
         align-items: center;
@@ -84,10 +83,13 @@
         flex-shrink: 0;
     }
 
-    .produk-header-icon i {
-        width: 23px;
-        height: 23px;
+    .produk-header-icon i,
+    .produk-header-icon svg {
+        width: 23px !important;
+        height: 23px !important;
         stroke-width: 1.8;
+        display: block;
+        flex-shrink: 0;
     }
 
     .produk-title {
@@ -105,12 +107,18 @@
         font-size: 12px;
     }
 
-    .btn-tambah-produk {
+    .produk-header-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-tambah-produk,
+    .btn-tambah-kerugian {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        background: #6b4d38;
         color: white;
         padding: 11px 18px;
         border-radius: 9px;
@@ -120,20 +128,37 @@
         transition: .2s;
     }
 
+    .btn-tambah-produk {
+        background: #6b4d38;
+    }
+
     .btn-tambah-produk:hover {
         background: #58402f;
     }
 
-    .btn-tambah-produk i {
-        width: 16px;
-        height: 16px;
-        stroke-width: 2;
+    .btn-tambah-kerugian {
+        background: #bd4b59;
     }
 
-    /* =====================================================
-       STATISTICS
-       ===================================================== */
+    .btn-tambah-kerugian:hover {
+        background: #a43e4a;
+    }
 
+    .btn-tambah-produk i,
+    .btn-tambah-produk svg,
+    .btn-tambah-kerugian i,
+    .btn-tambah-kerugian svg {
+        width: 16px !important;
+        height: 16px !important;
+        stroke-width: 2;
+        display: block;
+        flex-shrink: 0;
+    }
+
+
+    /* ========================================
+       STATISTIK
+    ======================================== */
     .produk-stat-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -161,10 +186,13 @@
         flex-shrink: 0;
     }
 
-    .produk-stat-icon i {
-        width: 19px;
-        height: 19px;
+    .produk-stat-icon i,
+    .produk-stat-icon svg {
+        width: 19px !important;
+        height: 19px !important;
         stroke-width: 1.8;
+        display: block;
+        flex-shrink: 0;
     }
 
     .stat-total {
@@ -199,10 +227,10 @@
         font-weight: 700;
     }
 
-    /* =====================================================
-       FILTER
-       ===================================================== */
 
+    /* ========================================
+       FILTER
+    ======================================== */
     .produk-filter-card {
         background: #fff;
         border: 1px solid #eee5dc;
@@ -256,50 +284,25 @@
         background: #fff;
     }
 
-    /*
-    =====================================================
-    DROPDOWN FILTER - COKLAT
-    =====================================================
-    */
-
-    .produk-select {
-        appearance: auto;
-        accent-color: #6b4d38;
-        cursor: pointer;
-    }
-
-    /*
-    Warna option.
-    Pada sebagian browser warna native OS tetap bisa
-    mengambil alih, tetapi Chrome/Edge biasanya mengikuti
-    styling ini.
-    */
-
-    .produk-select option {
-        background: #fffaf5;
-        color: #4f3929;
-        font-size: 11px;
-    }
-
-    .produk-select option:checked,
-    .produk-select option:hover {
-        background: #6b4d38 !important;
-        color: #ffffff !important;
-    }
-
     .produk-search-wrap {
         position: relative;
+        width: 100%;
+        min-width: 0;
     }
 
-    .produk-search-wrap i {
+    .produk-search-wrap i,
+    .produk-search-wrap svg {
         position: absolute;
         left: 11px;
         top: 50%;
         transform: translateY(-50%);
-        width: 15px;
-        height: 15px;
+        width: 15px !important;
+        height: 15px !important;
         color: #9c8a79;
+        stroke-width: 1.8;
         pointer-events: none;
+        display: block;
+        flex-shrink: 0;
     }
 
     .produk-search-wrap .produk-input {
@@ -328,17 +331,20 @@
         border: none;
         background: #6b4d38;
         color: white;
-        transition: .18s ease;
+        gap: 7px;
     }
 
     .btn-filter:hover {
         background: #58402f;
     }
 
-    .btn-filter i {
-        width: 14px;
-        height: 14px;
+    .btn-filter i,
+    .btn-filter svg {
+        width: 14px !important;
+        height: 14px !important;
         stroke-width: 1.8;
+        display: block;
+        flex-shrink: 0;
     }
 
     .btn-reset {
@@ -347,18 +353,16 @@
         color: #6b4d38;
         text-decoration: none;
         border: 1px solid #eaded2;
-        transition: .18s ease;
     }
 
     .btn-reset:hover {
         background: #eee2d6;
-        color: #58402f;
     }
 
-    /* =====================================================
-       CONTENT
-       ===================================================== */
 
+    /* ========================================
+       CONTENT LAYOUT
+    ======================================== */
     .produk-content-layout {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
@@ -370,10 +374,10 @@
         grid-template-columns: minmax(0, 1fr) 360px;
     }
 
-    /* =====================================================
-       TABLE
-       ===================================================== */
 
+    /* ========================================
+       TABLE
+    ======================================== */
     .produk-table-card {
         background: white;
         border: 1px solid #eee5dc;
@@ -411,7 +415,7 @@
     .produk-table {
         width: 100%;
         border-collapse: collapse;
-        min-width: 760px;
+        min-width: 800px;
     }
 
     .produk-table th {
@@ -434,18 +438,14 @@
         vertical-align: middle;
     }
 
-    .produk-table tbody tr {
-        transition: background .15s;
-    }
-
     .produk-table tbody tr:hover {
         background: #fffbf7;
     }
 
-    /* =====================================================
-       PRODUCT
-       ===================================================== */
 
+    /* ========================================
+       PRODUCT IMAGE
+    ======================================== */
     .produk-image {
         width: 39px;
         height: 39px;
@@ -453,6 +453,8 @@
         object-fit: cover;
         border: 1px solid #eee5dc;
         background: #faf7f3;
+        display: block;
+        flex-shrink: 0;
     }
 
     .produk-image-placeholder {
@@ -464,12 +466,15 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
     }
 
-    .produk-image-placeholder i {
-        width: 17px;
-        height: 17px;
+    .produk-image-placeholder i,
+    .produk-image-placeholder svg {
+        width: 17px !important;
+        height: 17px !important;
         stroke-width: 1.6;
+        display: block;
     }
 
     .produk-name {
@@ -498,10 +503,10 @@
         font-weight: 700;
     }
 
-    /* =====================================================
-       CATEGORY
-       ===================================================== */
 
+    /* ========================================
+       CATEGORY
+    ======================================== */
     .produk-category {
         display: inline-flex;
         align-items: center;
@@ -514,10 +519,10 @@
         white-space: nowrap;
     }
 
-    /* =====================================================
-       STATUS
-       ===================================================== */
 
+    /* ========================================
+       STATUS
+    ======================================== */
     .produk-status {
         display: inline-flex;
         align-items: center;
@@ -543,10 +548,10 @@
         color: #bd4b59;
     }
 
-    /* =====================================================
-       AKSI - CLEAN, TANPA KOTAK TEBAL
-       ===================================================== */
 
+    /* ========================================
+       ACTION
+    ======================================== */
     .produk-actions {
         display: inline-flex;
         align-items: center;
@@ -556,39 +561,28 @@
     .produk-action {
         width: 30px;
         height: 30px;
-
         display: inline-flex;
         align-items: center;
         justify-content: center;
-
         border: none;
         border-radius: 7px;
-
         background: transparent;
-
         text-decoration: none;
-
         padding: 0;
-
         cursor: pointer;
-
         transition:
             background .18s ease,
-            color .18s ease,
-            transform .18s ease;
+            color .18s ease;
     }
 
-    .produk-action:hover {
-        transform: translateY(-1px);
-    }
-
-    .produk-action i {
-        width: 15px;
-        height: 15px;
+    .produk-action i,
+    .produk-action svg {
+        width: 15px !important;
+        height: 15px !important;
         stroke-width: 1.7;
+        display: block;
+        flex-shrink: 0;
     }
-
-    /* VIEW */
 
     .action-view {
         color: #80644f;
@@ -599,8 +593,6 @@
         color: #5f432f;
     }
 
-    /* EDIT */
-
     .action-edit {
         color: #a8752e;
     }
@@ -609,8 +601,6 @@
         background: #fff5df;
         color: #8c5f1d;
     }
-
-    /* DELETE */
 
     .action-delete {
         color: #b96670;
@@ -621,41 +611,10 @@
         color: #a44854;
     }
 
-    /*
-    Garis pemisah kecil agar aksi tetap terlihat
-    sebagai satu kelompok, bukan tiga kotak.
-    */
 
-    .produk-actions .action-edit {
-        position: relative;
-    }
-
-    .produk-actions .action-edit::before {
-        content: "";
-        position: absolute;
-        left: -2px;
-        width: 1px;
-        height: 14px;
-        background: #eee5dc;
-    }
-
-    .produk-actions .action-delete {
-        position: relative;
-    }
-
-    .produk-actions .action-delete::before {
-        content: "";
-        position: absolute;
-        left: -2px;
-        width: 1px;
-        height: 14px;
-        background: #eee5dc;
-    }
-
-    /* =====================================================
+    /* ========================================
        DETAIL PANEL
-       ===================================================== */
-
+    ======================================== */
     .produk-detail-panel {
         display: none;
         background: #fff;
@@ -697,27 +656,29 @@
         color: #806b59;
         border-radius: 7px;
         cursor: pointer;
-        transition: .18s;
+        padding: 0;
     }
 
     .detail-panel-close:hover {
         background: #eee3d8;
-        color: #5f432f;
     }
 
-    .detail-panel-close i {
-        width: 14px;
-        height: 14px;
+    .detail-panel-close i,
+    .detail-panel-close svg {
+        width: 14px !important;
+        height: 14px !important;
+        display: block;
+        flex-shrink: 0;
     }
 
     .detail-panel-body {
         padding: 16px;
     }
 
-    /* =====================================================
-       DETAIL PRODUCT
-       ===================================================== */
 
+    /* ========================================
+       DETAIL PRODUCT
+    ======================================== */
     .detail-product-top {
         display: flex;
         gap: 12px;
@@ -740,6 +701,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        display: block;
     }
 
     .detail-product-placeholder {
@@ -751,10 +713,12 @@
         color: #9d826a;
     }
 
-    .detail-product-placeholder i {
-        width: 25px;
-        height: 25px;
+    .detail-product-placeholder i,
+    .detail-product-placeholder svg {
+        width: 25px !important;
+        height: 25px !important;
         stroke-width: 1.5;
+        display: block;
     }
 
     .detail-product-info {
@@ -813,10 +777,10 @@
         color: #bd4b59;
     }
 
-    /* =====================================================
-       DETAIL SECTION
-       ===================================================== */
 
+    /* ========================================
+       DETAIL SECTION
+    ======================================== */
     .detail-section {
         margin-bottom: 17px;
     }
@@ -835,10 +799,13 @@
         border-bottom: 1px solid #eee5dc;
     }
 
-    .detail-section-title i {
-        width: 13px;
-        height: 13px;
+    .detail-section-title i,
+    .detail-section-title svg {
+        width: 13px !important;
+        height: 13px !important;
         stroke-width: 1.8;
+        display: block;
+        flex-shrink: 0;
     }
 
     .detail-grid {
@@ -878,10 +845,10 @@
         color: #237450;
     }
 
-    /* =====================================================
-       DETAIL ACTION
-       ===================================================== */
 
+    /* ========================================
+       DETAIL ACTION
+    ======================================== */
     .detail-actions {
         display: flex;
         gap: 7px;
@@ -925,15 +892,19 @@
     }
 
     .detail-edit-btn i,
-    .detail-delete-btn i {
-        width: 13px;
-        height: 13px;
+    .detail-edit-btn svg,
+    .detail-delete-btn i,
+    .detail-delete-btn svg {
+        width: 13px !important;
+        height: 13px !important;
+        display: block;
+        flex-shrink: 0;
     }
 
-    /* =====================================================
-       LOADING
-       ===================================================== */
 
+    /* ========================================
+       LOADING
+    ======================================== */
     .detail-loading {
         padding: 45px 20px;
         text-align: center;
@@ -941,11 +912,13 @@
         font-size: 11px;
     }
 
-    .detail-loading i {
-        width: 23px;
-        height: 23px;
-        margin-bottom: 8px;
+    .detail-loading i,
+    .detail-loading svg {
+        width: 23px !important;
+        height: 23px !important;
+        margin: 0 auto 8px;
         animation: spin .8s linear infinite;
+        display: block;
     }
 
     @keyframes spin {
@@ -954,10 +927,10 @@
         }
     }
 
-    /* =====================================================
-       EMPTY
-       ===================================================== */
 
+    /* ========================================
+       EMPTY
+    ======================================== */
     .produk-empty {
         padding: 50px 20px;
         text-align: center;
@@ -975,9 +948,12 @@
         margin: 0 auto 12px;
     }
 
-    .produk-empty-icon i {
-        width: 22px;
-        height: 22px;
+    .produk-empty-icon i,
+    .produk-empty-icon svg {
+        width: 22px !important;
+        height: 22px !important;
+        display: block;
+        flex-shrink: 0;
     }
 
     .produk-empty-title {
@@ -992,90 +968,52 @@
         font-size: 10px;
     }
 
-    /* =====================================================
-       PAGINATION
-       ===================================================== */
 
+    /* ========================================
+       PAGINATION
+    ======================================== */
     .produk-pagination {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
+        gap: 15px;
         padding: 13px 16px;
         border-top: 1px solid #eee5dc;
-        background: #fff;
-        flex-wrap: wrap;
     }
 
     .produk-pagination-info {
         color: #a89a8c;
         font-size: 10px;
+        white-space: nowrap;
     }
 
     .produk-pagination-info strong {
-        color: #6b4d38;
-        font-weight: 700;
+        color: #5f4b3a;
     }
 
     .produk-pagination-links {
+        min-width: 0;
+    }
+
+    .produk-pagination-links nav {
         display: flex;
         align-items: center;
-        gap: 4px;
+    }
+
+    .produk-pagination-links svg {
+        width: 15px !important;
+        height: 15px !important;
     }
 
     .produk-pagination-links a,
     .produk-pagination-links span {
-        min-width: 28px;
-        height: 28px;
-        padding: 0 8px;
-
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-
-        border-radius: 7px;
-
-        font-size: 10px;
-        font-weight: 600;
-
-        text-decoration: none;
-
-        transition: .18s ease;
+        font-size: 10px !important;
     }
 
-    .produk-pagination-links a {
-        background: #faf6f1;
-        color: #745840;
-        border: 1px solid #eee5dc;
-    }
 
-    .produk-pagination-links a:hover {
-        background: #eee4da;
-        color: #5f432f;
-    }
-
-    .produk-pagination-links span {
-        background: #6b4d38;
-        color: #fff;
-        border: 1px solid #6b4d38;
-    }
-
-    .produk-pagination-links .disabled {
-        background: #faf8f6;
-        color: #c2b5a8;
-        border: 1px solid #eee9e4;
-        cursor: not-allowed;
-    }
-
-    .produk-pagination-links svg {
-        width: 13px;
-        height: 13px;
-    }
-
-    /* =====================================================
+    /* ========================================
        RESPONSIVE
-       ===================================================== */
-
+    ======================================== */
     @media (max-width: 1100px) {
 
         .produk-stat-grid {
@@ -1091,9 +1029,10 @@
         }
 
         .produk-content-layout.has-detail {
-            grid-template-columns: minmax(0, 1fr) 330px;
+            grid-template-columns: minmax(0, 1fr) 340px;
         }
     }
+
 
     @media (max-width: 850px) {
 
@@ -1106,12 +1045,13 @@
             top: 80px;
             right: 15px;
             bottom: 15px;
-            width: min(380px, calc(100vw - 30px));
+            width: min(400px, calc(100vw - 30px));
             z-index: 100;
             overflow-y: auto;
             box-shadow: 0 12px 40px rgba(50, 35, 25, .18);
         }
     }
+
 
     @media (max-width: 600px) {
 
@@ -1141,8 +1081,13 @@
             align-items: flex-start;
         }
 
-        .btn-tambah-produk {
+        .produk-header-actions {
             width: 100%;
+        }
+
+        .btn-tambah-produk,
+        .btn-tambah-kerugian {
+            flex: 1;
         }
 
         .produk-pagination {
@@ -1152,7 +1097,8 @@
 
         .produk-pagination-links {
             width: 100%;
-            justify-content: flex-end;
+            overflow-x: auto;
+            padding-bottom: 2px;
         }
     }
 </style>
@@ -1160,35 +1106,25 @@
 
 <div class="produk-page">
 
-    {{-- =====================================================
-         BREADCRUMB
-    ====================================================== --}}
-
+    {{-- BREADCRUMB --}}
     <div class="produk-breadcrumb">
 
-        <a href="{{ route('produk.index') }}">
+        <a href="{{ route('produk.index') }}" aria-label="Dashboard">
             <i data-lucide="house"></i>
         </a>
 
         <span>›</span>
 
-        <span class="current">
-            Dashboard
-        </span>
+        <span class="current">Dashboard</span>
 
         <span>›</span>
 
-        <span class="current">
-            Produk
-        </span>
+        <span class="current">Produk</span>
 
     </div>
 
 
-    {{-- =====================================================
-         HEADER
-    ====================================================== --}}
-
+    {{-- HEADER --}}
     <div class="produk-header">
 
         <div class="produk-header-left">
@@ -1198,7 +1134,6 @@
             </div>
 
             <div>
-
                 <h1 class="produk-title">
                     Data Produk
                 </h1>
@@ -1206,30 +1141,36 @@
                 <p class="produk-subtitle">
                     Kelola produk, stok, harga, dan informasi produk.
                 </p>
-
             </div>
 
         </div>
 
 
-        <a
-            href="{{ route('produk.create') }}"
-            class="btn-tambah-produk"
-        >
+        <div class="produk-header-actions">
 
-            <i data-lucide="plus"></i>
+            <a href="{{ route('produk.create') }}"
+               class="btn-tambah-produk">
 
-            Tambah Produk
+                <i data-lucide="plus"></i>
+                Tambah Produk
 
-        </a>
+            </a>
+
+
+            <a href="{{ route('kerugian.create') }}"
+               class="btn-tambah-kerugian">
+
+                <i data-lucide="alert-triangle"></i>
+                Tambah Kerugian
+
+            </a>
+
+        </div>
 
     </div>
 
 
-    {{-- =====================================================
-         STATISTIK
-    ====================================================== --}}
-
+    {{-- STATISTIK --}}
     <div class="produk-stat-grid">
 
         <div class="produk-stat-card">
@@ -1239,7 +1180,6 @@
             </div>
 
             <div>
-
                 <div class="produk-stat-label">
                     Total Produk
                 </div>
@@ -1247,7 +1187,6 @@
                 <div class="produk-stat-value">
                     {{ $totalProduk }}
                 </div>
-
             </div>
 
         </div>
@@ -1260,7 +1199,6 @@
             </div>
 
             <div>
-
                 <div class="produk-stat-label">
                     Kategori
                 </div>
@@ -1268,7 +1206,6 @@
                 <div class="produk-stat-value">
                     {{ $kategoris->count() }}
                 </div>
-
             </div>
 
         </div>
@@ -1281,7 +1218,6 @@
             </div>
 
             <div>
-
                 <div class="produk-stat-label">
                     Produk Menipis
                 </div>
@@ -1289,7 +1225,6 @@
                 <div class="produk-stat-value">
                     {{ $stokMenipis }}
                 </div>
-
             </div>
 
         </div>
@@ -1302,7 +1237,6 @@
             </div>
 
             <div>
-
                 <div class="produk-stat-label">
                     Produk Kosong
                 </div>
@@ -1310,7 +1244,6 @@
                 <div class="produk-stat-value">
                     {{ $stokHabis }}
                 </div>
-
             </div>
 
         </div>
@@ -1318,20 +1251,14 @@
     </div>
 
 
-    {{-- =====================================================
-         FILTER
-    ====================================================== --}}
-
+    {{-- FILTER --}}
     <div class="produk-filter-card">
 
-        <form
-            action="{{ route('produk.index') }}"
-            method="GET"
-            class="produk-filter-form"
-        >
+        <form action="{{ route('produk.index') }}"
+              method="GET"
+              class="produk-filter-form">
 
             {{-- SEARCH --}}
-
             <div class="produk-filter-group">
 
                 <label class="produk-filter-label">
@@ -1356,17 +1283,14 @@
 
 
             {{-- KATEGORI --}}
-
             <div class="produk-filter-group">
 
                 <label class="produk-filter-label">
                     Kategori
                 </label>
 
-                <select
-                    name="id_kategori"
-                    class="produk-select"
-                >
+                <select name="id_kategori"
+                        class="produk-select">
 
                     <option value="">
                         Semua Kategori
@@ -1389,17 +1313,14 @@
 
 
             {{-- STATUS --}}
-
             <div class="produk-filter-group">
 
                 <label class="produk-filter-label">
                     Status Stok
                 </label>
 
-                <select
-                    name="status"
-                    class="produk-select"
-                >
+                <select name="status"
+                        class="produk-select">
 
                     <option value="">
                         Semua Status
@@ -1431,27 +1352,22 @@
             </div>
 
 
-            {{-- ACTION FILTER --}}
-
+            {{-- BUTTON --}}
             <div class="produk-filter-actions">
 
-                <button
-                    type="submit"
-                    class="btn-filter"
-                >
+                <button type="submit"
+                        class="btn-filter">
 
                     <i data-lucide="search"></i>
-
                     Cari
 
                 </button>
 
+                <a href="{{ route('produk.index') }}"
+                   class="btn-reset">
 
-                <a
-                    href="{{ route('produk.index') }}"
-                    class="btn-reset"
-                >
                     Reset
+
                 </a>
 
             </div>
@@ -1461,21 +1377,14 @@
     </div>
 
 
-    {{-- =====================================================
-         CONTENT
-    ====================================================== --}}
+    {{-- CONTENT --}}
+    <div class="produk-content-layout"
+         id="produkContentLayout">
 
-    <div
-        class="produk-content-layout"
-        id="produkContentLayout"
-    >
-
-        {{-- =================================================
-             TABLE
-        ================================================== --}}
-
+        {{-- TABLE --}}
         <div class="produk-table-card">
 
+            {{-- TABLE HEADER --}}
             <div class="produk-table-header">
 
                 <div>
@@ -1485,7 +1394,25 @@
                     </h2>
 
                     <div class="produk-table-count">
-                        Menampilkan {{ $produks->count() }} produk
+
+                        @if($produks instanceof \Illuminate\Pagination\LengthAwarePaginator)
+
+                            Menampilkan
+                            {{ $produks->firstItem() ?? 0 }}
+                            -
+                            {{ $produks->lastItem() ?? 0 }}
+                            dari
+                            {{ $produks->total() }}
+                            produk
+
+                        @else
+
+                            Menampilkan
+                            {{ $produks->count() }}
+                            produk
+
+                        @endif
+
                     </div>
 
                 </div>
@@ -1493,6 +1420,7 @@
             </div>
 
 
+            {{-- DATA --}}
             @if($produks->count() > 0)
 
                 <div class="produk-table-wrapper">
@@ -1502,7 +1430,6 @@
                         <thead>
 
                             <tr>
-
                                 <th>Produk</th>
                                 <th>Kategori</th>
                                 <th>Harga Beli</th>
@@ -1510,11 +1437,9 @@
                                 <th>Stok</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
-
                             </tr>
 
                         </thead>
-
 
                         <tbody>
 
@@ -1523,21 +1448,14 @@
                                 <tr>
 
                                     {{-- PRODUK --}}
-
                                     <td>
 
-                                        <div
-                                            style="
-                                                display:flex;
-                                                align-items:center;
-                                                gap:9px;
-                                            "
-                                        >
+                                        <div style="display:flex; align-items:center; gap:9px;">
 
                                             @if(!empty($produk->gambar))
 
                                                 <img
-                                                    src="{{ asset('storage/' . $produk->gambar) }}"
+                                                    src="{{ asset('images/' . $produk->gambar) }}"
                                                     alt="{{ $produk->nama_produk }}"
                                                     class="produk-image"
                                                 >
@@ -1545,9 +1463,7 @@
                                             @else
 
                                                 <div class="produk-image-placeholder">
-
                                                     <i data-lucide="package"></i>
-
                                                 </div>
 
                                             @endif
@@ -1560,15 +1476,7 @@
                                                 </div>
 
                                                 <div class="produk-code">
-
-                                                    {{
-                                                        $produk->kode_produk
-                                                        ?? sprintf(
-                                                            '%08d',
-                                                            $produk->id
-                                                        )
-                                                    }}
-
+                                                    {{ $produk->kode_produk ?? sprintf('%08d', $produk->id) }}
                                                 </div>
 
                                             </div>
@@ -1579,65 +1487,36 @@
 
 
                                     {{-- KATEGORI --}}
-
                                     <td>
 
                                         <span class="produk-category">
-
-                                            {{
-                                                $produk->kategori->nama_kategori
-                                                ?? '-'
-                                            }}
-
+                                            {{ $produk->kategori->nama_kategori ?? '-' }}
                                         </span>
 
                                     </td>
 
 
                                     {{-- HARGA BELI --}}
-
                                     <td>
 
                                         <span class="produk-price">
-
-                                            Rp
-                                            {{
-                                                number_format(
-                                                    $produk->harga_beli,
-                                                    0,
-                                                    ',',
-                                                    '.'
-                                                )
-                                            }}
-
+                                            Rp {{ number_format($produk->harga_beli, 0, ',', '.') }}
                                         </span>
 
                                     </td>
 
 
                                     {{-- HARGA JUAL --}}
-
                                     <td>
 
                                         <span class="produk-price">
-
-                                            Rp
-                                            {{
-                                                number_format(
-                                                    $produk->harga_jual,
-                                                    0,
-                                                    ',',
-                                                    '.'
-                                                )
-                                            }}
-
+                                            Rp {{ number_format($produk->harga_jual, 0, ',', '.') }}
                                         </span>
 
                                     </td>
 
 
                                     {{-- STOK --}}
-
                                     <td>
 
                                         <span class="produk-stock">
@@ -1648,7 +1527,6 @@
 
 
                                     {{-- STATUS --}}
-
                                     <td>
 
                                         @if($produk->stok > 5)
@@ -1674,41 +1552,24 @@
                                     </td>
 
 
-                                    {{-- =================================================
-                                         AKSI
-                                    ================================================== --}}
-
+                                    {{-- AKSI --}}
                                     <td>
 
                                         <div class="produk-actions">
 
-                                            {{-- LIHAT --}}
-
+                                            {{-- VIEW --}}
                                             <button
                                                 type="button"
                                                 class="produk-action action-view js-view-produk"
                                                 title="Lihat Detail"
-
-                                                data-id="{{ $produk->id }}"
-
                                                 data-nama="{{ $produk->nama_produk }}"
-
                                                 data-kode="{{ $produk->kode_produk ?? sprintf('%08d', $produk->id) }}"
-
                                                 data-kategori="{{ $produk->kategori->nama_kategori ?? '-' }}"
-
                                                 data-harga-beli="{{ $produk->harga_beli }}"
-
                                                 data-harga-jual="{{ $produk->harga_jual }}"
-
                                                 data-stok="{{ $produk->stok }}"
-
-                                                data-gambar="{{ !empty($produk->gambar) ? asset('storage/' . $produk->gambar) : '' }}"
-
-                                                data-show-url="{{ route('produk.show', $produk->id) }}"
-
+                                                data-gambar="{{ !empty($produk->gambar) ? asset('images/' . $produk->gambar) : '' }}"
                                                 data-edit-url="{{ route('produk.edit', $produk->id) }}"
-
                                                 data-delete-url="{{ route('produk.destroy', $produk->id) }}"
                                             >
 
@@ -1718,7 +1579,6 @@
 
 
                                             {{-- EDIT --}}
-
                                             <a
                                                 href="{{ route('produk.edit', $produk->id) }}"
                                                 class="produk-action action-edit"
@@ -1731,7 +1591,6 @@
 
 
                                             {{-- DELETE --}}
-
                                             <form
                                                 action="{{ route('produk.destroy', $produk->id) }}"
                                                 method="POST"
@@ -1740,7 +1599,6 @@
                                             >
 
                                                 @csrf
-
                                                 @method('DELETE')
 
                                                 <button
@@ -1770,56 +1628,54 @@
                 </div>
 
 
-                {{-- =================================================
-                     PAGINATION
-                ================================================== --}}
+                {{-- PAGINATION --}}
+                @if($produks instanceof \Illuminate\Pagination\LengthAwarePaginator && $produks->hasPages())
 
-                <div class="produk-pagination">
+                    <div class="produk-pagination">
 
-                    <div class="produk-pagination-info">
+                        <div class="produk-pagination-info">
 
-                        Menampilkan
-                        <strong>{{ $produks->count() }}</strong>
-                        produk
+                            Menampilkan
+
+                            <strong>
+                                {{ $produks->firstItem() }}
+                            </strong>
+
+                            -
+
+                            <strong>
+                                {{ $produks->lastItem() }}
+                            </strong>
+
+                            dari
+
+                            <strong>
+                                {{ $produks->total() }}
+                            </strong>
+
+                            produk
+
+                        </div>
+
+
+                        <div class="produk-pagination-links">
+
+                            {{ $produks->withQueryString()->links() }}
+
+                        </div>
 
                     </div>
 
-                    <div class="produk-pagination-links">
-
-                        {{-- Karena controller menggunakan get(),
-                             pagination otomatis Laravel tidak tersedia.
-                             Bagian ini hanya navigasi visual. --}}
-
-                        <a
-                            href="{{ route('produk.index', request()->query()) }}"
-                            class="disabled"
-                            title="Halaman sebelumnya"
-                        >
-                            <i data-lucide="chevron-left"></i>
-                        </a>
-
-                        <span>1</span>
-
-                        <a
-                            href="{{ route('produk.index', request()->query()) }}"
-                            title="Halaman berikutnya"
-                        >
-                            <i data-lucide="chevron-right"></i>
-                        </a>
-
-                    </div>
-
-                </div>
+                @endif
 
 
             @else
 
+                {{-- EMPTY --}}
                 <div class="produk-empty">
 
                     <div class="produk-empty-icon">
-
                         <i data-lucide="package-open"></i>
-
                     </div>
 
                     <div class="produk-empty-title">
@@ -1837,10 +1693,7 @@
         </div>
 
 
-        {{-- =================================================
-             DETAIL PANEL
-        ================================================== --}}
-
+        {{-- PANEL DETAIL --}}
         <aside
             class="produk-detail-panel"
             id="produkDetailPanel"
@@ -1863,45 +1716,46 @@
 </div>
 
 
+{{-- LUCIDE --}}
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
 
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+    });
+</script>
+
+
+{{-- DETAIL PANEL --}}
+<script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-
-    const layout =
-        document.getElementById('produkContentLayout');
-
-    const panel =
-        document.getElementById('produkDetailPanel');
+    const layout = document.getElementById('produkContentLayout');
+    const panel = document.getElementById('produkDetailPanel');
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | FORMAT RUPIAH
-    |--------------------------------------------------------------------------
-    */
-
+    /* ========================================
+       FORMAT RUPIAH
+    ======================================== */
     function formatRupiah(value) {
 
-        value = Number(value || 0);
-
-        return new Intl.NumberFormat('id-ID').format(value);
+        return new Intl.NumberFormat('id-ID')
+            .format(Number(value || 0));
 
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | ESCAPE HTML
-    |--------------------------------------------------------------------------
-    */
-
+    /* ========================================
+       ESCAPE HTML
+    ======================================== */
     function escapeHtml(value) {
 
-        if (value === null || value === undefined) {
+        if (
+            value === null ||
+            value === undefined
+        ) {
             return '';
         }
 
@@ -1915,12 +1769,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | STATUS
-    |--------------------------------------------------------------------------
-    */
-
+    /* ========================================
+       STATUS
+    ======================================== */
     function getStatus(stok) {
 
         stok = Number(stok || 0);
@@ -1951,12 +1802,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | VIEW PRODUK
-    |--------------------------------------------------------------------------
-    */
-
+    /* ========================================
+       VIEW DETAIL
+    ======================================== */
     document.addEventListener('click', function (event) {
 
         const button =
@@ -1998,16 +1846,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const laba =
             hargaJual - hargaBeli;
 
-
         const status =
             getStatus(stok);
 
 
         layout.classList.add('has-detail');
-
         panel.classList.add('is-open');
 
 
+        /* ========================================
+           IMAGE
+        ======================================== */
         let imageHtml = '';
 
         if (gambar) {
@@ -2030,6 +1879,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
+        /* ========================================
+           PANEL
+        ======================================== */
         panel.innerHTML = `
 
             <div class="detail-panel-head">
@@ -2044,7 +1896,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     id="closeProdukDetail"
                     title="Tutup"
                 >
+
                     <i data-lucide="x"></i>
+
                 </button>
 
             </div>
@@ -2052,12 +1906,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             <div class="detail-panel-body">
 
+
+                {{-- PRODUK --}}
                 <div class="detail-product-top">
 
                     <div class="detail-product-image">
-
                         ${imageHtml}
-
                     </div>
 
 
@@ -2067,9 +1921,11 @@ document.addEventListener('DOMContentLoaded', function () {
                             ${escapeHtml(nama)}
                         </h2>
 
+
                         <div class="detail-product-code">
                             ${escapeHtml(kode)}
                         </div>
+
 
                         <div class="detail-badges">
 
@@ -2088,6 +1944,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
 
 
+                {{-- INFORMASI HARGA --}}
                 <div class="detail-section">
 
                     <div class="detail-section-title">
@@ -2144,6 +2001,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
 
 
+                {{-- INFORMASI STOK --}}
                 <div class="detail-section">
 
                     <div class="detail-section-title">
@@ -2187,6 +2045,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
 
 
+                {{-- ACTION --}}
                 <div class="detail-actions">
 
                     <a
@@ -2209,7 +2068,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     >
 
                         @csrf
-
                         @method('DELETE')
 
                         <button
@@ -2228,39 +2086,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 </div>
 
+
             </div>
 
         `;
 
 
+        /* ========================================
+           CREATE ICON
+        ======================================== */
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
 
 
-        const closeButton =
+        /* ========================================
+           CLOSE
+        ======================================== */
+        const closeBtn =
             document.getElementById('closeProdukDetail');
 
+        if (closeBtn) {
 
-        if (closeButton) {
+            closeBtn.addEventListener('click', function () {
 
-            closeButton.addEventListener(
-                'click',
-                function () {
+                panel.classList.remove('is-open');
 
-                    panel.classList.remove('is-open');
+                layout.classList.remove('has-detail');
 
-                    layout.classList.remove('has-detail');
-
-                }
-            );
+            });
 
         }
 
     });
 
 });
-
 </script>
 
 @endsection

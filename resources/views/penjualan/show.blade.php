@@ -1,84 +1,93 @@
 @extends('layout')
 
-@section('title', 'Detail Transaksi')
+@section('title', 'Detail Penjualan')
 
 @section('content')
 
-    <div class="bg-white rounded-lg shadow p-6 max-w-2xl">
+<div style="max-width:720px;margin:0 auto;font-family:'Inter',sans-serif;color:#4f3929;">
 
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Detail Transaksi</h1>
+    <div style="background:#fff;border:1px solid #eee5dc;border-radius:14px;padding:24px;">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <h1 style="font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;color:#3f3025;margin:0;">
+                Detail Penjualan
+            </h1>
             <a href="{{ route('penjualan.index') }}"
-               class="text-gray-500 hover:text-gray-700 text-sm">
+               style="color:#a89a8c;text-decoration:none;font-size:12px;">
                 ← Kembali
             </a>
         </div>
 
-        {{-- Info Transaksi --}}
-        <table class="w-full text-sm mb-6">
-            <tr class="border-b">
-                <td class="py-3 text-gray-500 w-40">No. Struk</td>
-                <td class="py-3 font-mono">
+        {{-- Info --}}
+        <table style="width:100%;font-size:13px;margin-bottom:20px;">
+            <tr style="border-bottom:1px solid #f4eee8;">
+                <td style="padding:10px 0;color:#8a7a6a;width:160px;">No. Struk</td>
+                <td style="padding:10px 0;font-family:'Courier New',monospace;font-weight:600;">
                     INV-{{ str_pad($penjualan->id, 4, '0', STR_PAD_LEFT) }}
                 </td>
             </tr>
-            <tr class="border-b">
-                <td class="py-3 text-gray-500">Tanggal</td>
-                <td class="py-3">{{ $penjualan->tanggal->format('d-m-Y') }}</td>
+            <tr style="border-bottom:1px solid #f4eee8;">
+                <td style="padding:10px 0;color:#8a7a6a;">Tanggal</td>
+                <td style="padding:10px 0;font-weight:600;">{{ $penjualan->tanggal->format('d-m-Y') }}</td>
             </tr>
-            <tr class="border-b">
-                <td class="py-3 text-gray-500">Status</td>
-                <td class="py-3">
-                    <span class="px-2 py-1 rounded text-xs {{ $penjualan->warna_status }}">
-                        {{ $penjualan->label_status }}
-                    </span>
-                </td>
+            <tr style="border-bottom:1px solid #f4eee8;">
+                <td style="padding:10px 0;color:#8a7a6a;">Total Item</td>
+                <td style="padding:10px 0;">{{ $penjualan->total_item }}</td>
             </tr>
-            <tr class="border-b">
-                <td class="py-3 text-gray-500">Total Item</td>
-                <td class="py-3">{{ $penjualan->total_item }}</td>
-            </tr>
-            <tr class="border-b">
-                <td class="py-3 text-gray-500">Total Harga</td>
-                <td class="py-3 font-semibold">
+            <tr>
+                <td style="padding:10px 0;color:#8a7a6a;">Total Harga</td>
+                <td style="padding:10px 0;font-weight:700;">
                     Rp {{ number_format($penjualan->total_pemasukan, 0, ',', '.') }}
                 </td>
             </tr>
         </table>
 
         {{-- Detail Produk --}}
-        <h3 class="font-semibold text-gray-800 mb-2">Detail Produk</h3>
-        <table class="w-full text-sm">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Kode</th>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nama Produk</th>
-                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase">Harga</th>
-                    <th class="px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase">Jumlah</th>
-                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase">Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($penjualan->detailPenjualan as $index => $d)
-                    <tr class="border-b">
-                        <td class="px-3 py-2">{{ $index + 1 }}</td>
-                        <td class="px-3 py-2 font-mono">{{ $d->produk->kode_produk ?? '-' }}</td>
-                        <td class="px-3 py-2">{{ $d->produk->nama_produk ?? '-' }}</td>
-                        <td class="px-3 py-2 text-right">Rp {{ number_format($d->harga_jual, 0, ',', '.') }}</td>
-                        <td class="px-3 py-2 text-center">{{ $d->jumlah }}</td>
-                        <td class="px-3 py-2 text-right">Rp {{ number_format($d->subtotal, 0, ',', '.') }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="px-3 py-4 text-center text-gray-500">
-                            Tidak ada detail produk.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+        <h3 style="font-size:13px;font-weight:700;color:#3f3025;margin-bottom:10px;">
+            Produk yang Dibeli
+        </h3>
+
+        @foreach($penjualan->detailPenjualan as $d)
+            <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed #f4eee8;">
+                <div style="width:50px;height:50px;border-radius:8px;overflow:hidden;background:#f7f2ed;border:1px solid #eee5dc;flex-shrink:0;">
+                    @if($d->produk && $d->produk->gambar)
+                        <img src="{{ asset('images/' . $d->produk->gambar) }}"
+                             style="width:100%;height:100%;object-fit:cover;"
+                             alt="{{ $d->produk->nama_produk }}">
+                    @else
+                        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#a89a8c;">
+                            <i data-lucide="package" style="width:18px;height:18px;"></i>
+                        </div>
+                    @endif
+                </div>
+                <div style="flex:1;">
+                    <div style="font-size:13px;font-weight:700;color:#3f3025;">
+                        {{ $d->produk->nama_produk ?? '-' }}
+                    </div>
+                    <div style="font-family:'Courier New',monospace;font-size:10px;color:#a89a8c;">
+                        {{ $d->produk->kode_produk ?? '-' }}
+                    </div>
+                    <div style="font-size:11px;color:#6b4d38;margin-top:4px;">
+                        {{ $d->jumlah }} x Rp {{ number_format($d->harga_jual, 0, ',', '.') }}
+                    </div>
+                </div>
+                <div style="font-size:13px;font-weight:700;color:#3f3025;white-space:nowrap;">
+                    Rp {{ number_format($d->subtotal, 0, ',', '.') }}
+                </div>
+            </div>
+        @endforeach
+
+        <div style="display:flex;justify-content:space-between;padding-top:14px;margin-top:8px;border-top:2px solid #eee5dc;font-size:14px;font-weight:700;">
+            <span>Total</span>
+            <span>Rp {{ number_format($penjualan->total_pemasukan, 0, ',', '.') }}</span>
+        </div>
 
     </div>
+
+</div>
+
+<script>
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+</script>
 
 @endsection

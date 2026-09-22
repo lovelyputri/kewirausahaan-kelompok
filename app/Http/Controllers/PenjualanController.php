@@ -2,28 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\helper;
 use App\Models\Penjualan;
+use App\Models\DetailPenjualan;
+use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PenjualanController extends Controller
 {
     // ============================
-    // INDEX - Riwayat transaksi
+    // INDEX - List penjualan + filter
     // ============================
     public function index(Request $request)
     {
         $query = Penjualan::with('detailPenjualan.produk');
 
-        // Filter tanggal (pakai helper)
-        $query = helper::tanggal($query, $request->start_date, $request->end_date);
-
-        // Filter status
-        if ($request->status) {
-            $query->where('status', $request->status);
+        // Filter tanggal (1 hari)
+        if ($request->tanggal) {
+            $query->whereDate('tanggal', $request->tanggal);
         }
 
-        // Search by kode barang / no invoice (opsional)
+        // Search by nama produk / kode barang
         if ($request->keyword) {
             $query->where(function ($q) use ($request) {
                 $q->where('id', 'LIKE', "%{$request->keyword}%")
@@ -34,19 +33,97 @@ class PenjualanController extends Controller
             });
         }
 
-        $penjualans = $query->orderBy('tanggal', 'desc')->get();
+        $penjualans = $query->orderBy('tanggal', 'desc')->orderBy('id', 'desc')->get();
 
         return view('penjualan.index', compact('penjualans'));
     }
 
     // ============================
-    // SHOW - Detail transaksi (support JSON untuk panel)
+    // CREATE - Form tambah penjualan
+    // ============================
+    public function create()
+    {
+        $produks = Produk::orderBy('nama_produk')->get();
+
+        return view('penjualan.create', compact('produks'));
+    }
+
+    // ============================
+    // STORE - Simpan penjualan + detail
+    // ============================
+    public function store(Request $request)
+    {
+        $request->validate([
+            'tanggal' => 'required|date',
+            'status' => 'required|in:selesai,pending,batal',
+            'produk_id' => 'required|array|min:1',
+            'produk_id.*' => 'required|exists:produk,id',
+            'jumlah' => 'required|array|min:1',
+            'jumlah.*' => 'required|integer|min:1',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            // Buat header penjualan
+            $penjualan = Penjualan::create([
+                'tanggal' => $request->tanggal,
+                'status' => $request->status,
+                'total_pemasukan' => 0,
+            ]);
+
+            $totalPemasukan = 0;
+
+            // Loop produk yang dibeli
+            foreach ($request->produk_id as $index => $produkId) {
+                $produk = Produk::findOrFail($produkId);
+                $jumlah = $request->jumlah[$index];
+
+                $subtotal = $jumlah * $produk->harga_jual;
+                $laba = $jumlah * ($produk->harga_jual - $produk->harga_beli);
+
+                DetailPenjualan::create([
+                    'id_penjualan' => $penjualan->id,
+                    'id_produk' => $produk->id,
+                    'jumlah' => $jumlah,
+                    'harga_jual' => $produk->harga_jual,
+                    'harga_modal' => $produk->harga_beli,
+                    'subtotal' => $subtotal,
+                    'laba' => $laba,
+                ]);
+
+                // ✅ Kurangi stok
+                $produk->stok -= $jumlah;
+                $produk->save();
+
+                $totalPemasukan += $subtotal;
+            }
+
+            // Update total pemasukan
+            $penjualan->update([
+                'total_pemasukan' => $totalPemasukan,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('penjualan.index')
+                ->with('success', 'Transaksi penjualan berhasil disimpan!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'Gagal menyimpan transaksi: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    // ============================
+    // SHOW - Detail penjualan (support JSON)
     // ============================
     public function show(Request $request, $id)
     {
         $penjualan = Penjualan::with('detailPenjualan.produk')->findOrFail($id);
 
-        // Kalau request AJAX → balikin JSON
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'id' => $penjualan->id,
@@ -61,6 +138,7 @@ class PenjualanController extends Controller
                     return [
                         'nama_produk' => $d->produk->nama_produk ?? '-',
                         'kode_produk' => $d->produk->kode_produk ?? '-',
+                        'gambar' => $d->produk->gambar ? asset('images/' . $d->produk->gambar) : null,
                         'jumlah' => $d->jumlah,
                         'harga_jual' => $d->harga_jual,
                         'subtotal' => $d->subtotal,
@@ -69,81 +147,40 @@ class PenjualanController extends Controller
             ]);
         }
 
-        // Request biasa → fallback view
         return view('penjualan.show', compact('penjualan'));
     }
 
     // ============================
-    // CREATE
-    // ============================
-    public function create()
-    {
-        return view('penjualan.create');
-    }
-
-    // ============================
-    // STORE
-    // ============================
-    public function store(Request $request)
-    {
-        $request->validate([
-            'tanggal' => 'required|date',
-            'total_pemasukan' => 'required|numeric',
-            'status' => 'required|in:pending,selesai,batal',
-        ]);
-
-        Penjualan::create([
-            'tanggal' => $request->tanggal,
-            'total_pemasukan' => $request->total_pemasukan,
-            'status' => $request->status,
-        ]);
-
-        return redirect()->route('penjualan.index')
-            ->with('success', 'Transaksi berhasil ditambahkan!');
-    }
-
-    // ============================
-    // EDIT
-    // ============================
-    public function edit($id)
-    {
-        $penjualan = Penjualan::findOrFail($id);
-
-        return view('penjualan.edit', compact('penjualan'));
-    }
-
-    // ============================
-    // UPDATE (fix typo!)
-    // ============================
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'tanggal' => 'required|date',
-            'total_pemasukan' => 'required|numeric',
-            'status' => 'required|in:pending,selesai,batal',
-        ]);
-
-        $penjualan = Penjualan::findOrFail($id);
-
-        $penjualan->update([
-            'tanggal' => $request->tanggal,
-            'total_pemasukan' => $request->total_pemasukan,   // ✅ FIX TYPO
-            'status' => $request->status,
-        ]);
-
-        return redirect()->route('penjualan.index')
-            ->with('success', 'Transaksi berhasil diupdate!');
-    }
-
-    // ============================
-    // DESTROY
+    // DESTROY - Hapus penjualan + kembalikan stok
     // ============================
     public function destroy($id)
     {
-        $penjualan = Penjualan::findOrFail($id);
-        $penjualan->delete();
+        DB::beginTransaction();
 
-        return redirect()->route('penjualan.index')
-            ->with('success', 'Transaksi berhasil dihapus!');
+        try {
+            $penjualan = Penjualan::with('detailPenjualan.produk')->findOrFail($id);
+
+            // ✅ Kembalikan stok
+            foreach ($penjualan->detailPenjualan as $detail) {
+                if ($detail->produk) {
+                    $detail->produk->stok += $detail->jumlah;
+                    $detail->produk->save();
+                }
+            }
+
+            // Hapus detail & header
+            $penjualan->detailPenjualan()->delete();
+            $penjualan->delete();
+
+            DB::commit();
+
+            return redirect()->route('penjualan.index')
+                ->with('success', 'Transaksi penjualan berhasil dihapus!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'Gagal menghapus transaksi: ' . $e->getMessage());
+        }
     }
 }
