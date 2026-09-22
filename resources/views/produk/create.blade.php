@@ -53,11 +53,26 @@
     .produk-form-page .gambar-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     @media (max-width: 700px) {
-        .produk-form-page .page-title { font-size: 22px; }
-        .produk-form-page .form-card { padding: 20px; }
-        .produk-form-page .form-row { grid-template-columns: 1fr; }
-        .produk-form-page .form-actions { flex-direction: column-reverse; }
-        .produk-form-page .btn-submit, .produk-form-page .btn-cancel { width: 100%; }
+        .produk-form-page .page-title {
+            font-size: 22px;
+        }
+
+        .produk-form-page .form-card {
+            padding: 20px;
+        }
+
+        .produk-form-page .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .produk-form-page .form-actions {
+            flex-direction: column-reverse;
+        }
+
+        .produk-form-page .btn-submit,
+        .produk-form-page .btn-cancel {
+            width: 100%;
+        }
     }
 </style>
 
@@ -79,23 +94,39 @@
                 <p class="page-subtitle">Lengkapi data produk baru yang akan dijual.</p>
             </div>
         </div>
-        <a href="{{ route('produk.index') }}" class="btn-back">
-            <i data-lucide="arrow-left"></i> Kembali
-        </a>
+
     </div>
 
     <div class="form-card">
 
-        @if($errors->any())
-            <div class="alert-error">
-                <strong>Ada {{ $errors->count() }} kesalahan:</strong>
+    {{-- =========================
+         ERROR VALIDATION
+    ========================== --}}
+    @if ($errors->any())
+
+        <div class="alert-error">
+
+            <i data-lucide="circle-alert"></i>
+
+            <div>
+
+                <strong>
+                    Periksa kembali data yang dimasukkan.
+                </strong>
+
                 <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
+                    @foreach ($errors->all() as $error)
+                        <li>
+                            {{ $error }}
+                        </li>
                     @endforeach
                 </ul>
+
             </div>
-        @endif
+
+        </div>
+
+    @endif
 
         <form method="POST" action="{{ route('produk.store') }}" enctype="multipart/form-data">
             @csrf
@@ -131,23 +162,61 @@
                 Harga
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Harga Beli <span class="req">*</span></label>
-                    <div class="input-rp">
-                        <span class="rp-prefix">Rp</span>
-                        <input type="number" name="harga_beli" value="{{ old('harga_beli') }}"
-                               placeholder="0" class="form-input" min="0" required>
-                    </div>
+        <div class="form-row">
+
+            {{-- HARGA BELI --}}
+            <div class="form-group">
+
+                <label class="form-label">
+                    Harga Beli <span class="req">*</span>
+                </label>
+
+                <div class="input-rp">
+
+                    <span class="rp-prefix">
+                        Rp
+                    </span>
+
+                    <input
+                        type="number"
+                        name="harga_beli"
+                        value="{{ old('harga_beli') }}"
+                        placeholder="0"
+                        class="form-input"
+                        min="0"
+                        required
+                    >
+
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Harga Jual <span class="req">*</span></label>
-                    <div class="input-rp">
-                        <span class="rp-prefix">Rp</span>
-                        <input type="number" name="harga_jual" value="{{ old('harga_jual') }}"
-                               placeholder="0" class="form-input" min="0" required>
-                    </div>
+
+            </div>
+
+
+            {{-- HARGA JUAL --}}
+            <div class="form-group">
+
+                <label class="form-label">
+                    Harga Jual <span class="req">*</span>
+                </label>
+
+                <div class="input-rp">
+
+                    <span class="rp-prefix">
+                        Rp
+                    </span>
+
+                    <input
+                        type="number"
+                        name="harga_jual"
+                        value="{{ old('harga_jual') }}"
+                        placeholder="0"
+                        class="form-input"
+                        min="0"
+                        required
+                    >
+
                 </div>
+
             </div>
 
             <div class="form-section-title" style="margin-top:8px;">
@@ -155,13 +224,29 @@
                 Stok
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Jumlah Stok <span class="req">*</span></label>
-                <div class="input-wrap">
-                    <i data-lucide="package" class="input-icon"></i>
-                    <input type="number" name="stok" value="{{ old('stok', 0) }}"
-                           placeholder="0" class="form-input" min="0" required>
-                </div>
+        <div class="form-group">
+
+            <label class="form-label">
+                Jumlah Stok <span class="req">*</span>
+            </label>
+
+            <div class="input-wrap">
+
+                <i
+                    data-lucide="package"
+                    class="input-icon"
+                ></i>
+
+                <input
+                    type="number"
+                    name="stok"
+                    value="{{ old('stok', 0) }}"
+                    placeholder="0"
+                    class="form-input"
+                    min="0"
+                    required
+                >
+
             </div>
 
             {{-- ✅ Upload Gambar --}}
@@ -176,9 +261,16 @@
                     </div>
                 </div>
 
-                <div class="gambar-preview" id="gambarPreview">
-                    <span>Preview</span>
-                </div>
+
+            {{-- PREVIEW --}}
+            <div
+                class="gambar-preview"
+                id="gambarPreview"
+            >
+                <span>
+                    Preview
+                </span>
+            </div>
 
                 <small style="color:#a89a8c; font-size:11px; margin-top:6px; display:block;">
                     Format: JPG, PNG, WEBP. Maks 2MB.
@@ -193,8 +285,10 @@
                 <a href="{{ route('produk.index') }}" class="btn-cancel">Batal</a>
             </div>
 
-        </form>
-    </div>
+    </form>
+
+</div>
+
 </div>
 
 <script>
