@@ -910,7 +910,7 @@
                 <i data-lucide="receipt-text" class="nav-icon"></i>
                 <span class="nav-text">
                     Penjualan
-                    
+
                 </span>
             </a>
 
@@ -934,19 +934,6 @@
                 <span class="nav-text">Riwayat Transaksi</span>
             </a>
 
-
-            <!-- Pengaturan (NONAKTIF) -->
-            <a
-                href="javascript:void(0)"
-                onclick="alert('Halaman Pengaturan belum tersedia')"
-                class="nav-item nav-disabled"
-            >
-                <i data-lucide="settings" class="nav-icon"></i>
-                <span class="nav-text">
-                    Pengaturan
-                    <small>(Segera Hadir)</small>
-                </span>
-            </a>
 
         </nav>
 

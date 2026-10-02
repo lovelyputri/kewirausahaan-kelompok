@@ -182,25 +182,10 @@
         flex-shrink: 0;
     }
 
-    .ll-stat-icon.green {
-        background: #e3f4eb;
-        color: #237450;
-    }
-
-    .ll-stat-icon.brown {
-        background: #f5eee7;
-        color: #76553d;
-    }
-
-    .ll-stat-icon.red {
-        background: #fde8eb;
-        color: #bd4b59;
-    }
-
-    .ll-stat-icon.blue {
-        background: #e3f0fa;
-        color: #1e6091;
-    }
+    .ll-stat-icon.green { background: #e3f4eb; color: #237450; }
+    .ll-stat-icon.brown { background: #f5eee7; color: #76553d; }
+    .ll-stat-icon.red { background: #fde8eb; color: #bd4b59; }
+    .ll-stat-icon.blue { background: #e3f0fa; color: #1e6091; }
 
     .ll-stat-label {
         color: #a89a8c;
@@ -214,13 +199,8 @@
         font-weight: 700;
     }
 
-    .ll-stat-value.red {
-        color: #bd4b59;
-    }
-
-    .ll-stat-value.green {
-        color: #237450;
-    }
+    .ll-stat-value.red { color: #bd4b59; }
+    .ll-stat-value.green { color: #237450; }
 
 
     /* =========================
@@ -460,6 +440,94 @@
         font-weight: 700;
     }
 
+    /* ✅ Badge alasan */
+    .ll-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+
+    .ll-badge.rusak { background: #fde8eb; color: #bd4b59; }
+    .ll-badge.kedaluwarsa { background: #fff3d5; color: #a96e16; }
+    .ll-badge.hilang { background: #e3f0fa; color: #1e6091; }
+    .ll-badge.lainnya { background: #f5eee7; color: #76553d; }
+
+
+    /* =========================
+       PAGINATION (KANAN)
+    ========================= */
+    .ll-pagination {
+        padding: 16px 18px;
+        border-top: 1px solid #eee5dc;
+        display: flex;
+        justify-content: flex-end;    /* ✅ POJOK KANAN */
+        align-items: center;
+        background: #fff;
+    }
+
+    .ll-pagination-inner {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .ll-page-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 34px;
+        height: 34px;
+        padding: 0 10px;
+        border-radius: 8px;
+        background: #fff;
+        color: #6b4d38;
+        font-size: 11px;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid #eaded2;
+        transition: .15s;
+        cursor: pointer;
+    }
+
+    .ll-page-btn:hover {
+        background: #f5eee7;
+    }
+
+    .ll-page-btn.active {
+        background: #6b4d38;
+        color: #fff;
+        border-color: #6b4d38;
+        font-weight: 700;
+        cursor: default;
+    }
+
+    .ll-page-btn.disabled {
+        background: #f5eee7;
+        color: #c9b5a4;
+        border-color: #eaded2;
+        cursor: not-allowed;
+    }
+
+    .ll-page-btn.disabled:hover {
+        background: #f5eee7;
+    }
+
+    .ll-page-dots {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 34px;
+        height: 34px;
+        color: #a89a8c;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
 
     /* =========================
        EMPTY STATE
@@ -538,6 +606,14 @@
 
         .ll-title {
             font-size: 24px;
+        }
+
+        .ll-pagination {
+            justify-content: center;  /* mobile → tengah */
+        }
+
+        .ll-pagination-inner {
+            justify-content: center;
         }
     }
 
@@ -868,24 +944,24 @@
 
 
     {{-- =========================
-         TABLE
+         TABLE KERUGIAN (REKAP)
     ========================= --}}
     <div class="ll-table-card">
 
         <div class="ll-table-header">
 
             <h2 class="ll-table-title">
-                Rincian Laba per Produk
+                Rekap Barang Rugi
             </h2>
 
             <div class="ll-table-sub">
-                Menampilkan {{ $laporans->count() }} produk
+                Menampilkan {{ $kerugians->count() }} dari {{ $kerugians->total() }} data kerugian
             </div>
 
         </div>
 
 
-        @if($laporans->count() > 0)
+        @if($kerugians->count() > 0)
 
             <div class="ll-table-wrapper">
 
@@ -894,12 +970,12 @@
                     <thead>
 
                         <tr>
-                            <th>Kode Barang</th>
+                            <th>Tanggal</th>
                             <th>Nama Produk</th>
-                            <th>Total Terjual</th>
-                            <th>Modal (Harga Beli)</th>
-                            <th>Penjualan (Harga Jual)</th>
-                            <th>Untung</th>
+                            <th>Jumlah Rugi</th>
+                            <th>Harga Barang</th>
+                            <th>Total Harga Rugi</th>
+                            <th>Alasan</th>
                         </tr>
 
                     </thead>
@@ -907,32 +983,34 @@
 
                     <tbody>
 
-                        @foreach($laporans as $l)
+                        @foreach($kerugians as $k)
 
                             <tr>
 
-                                <td class="ll-kode">
-                                    {{ $l->kode_produk }}
+                                <td class="ll-num">
+                                    {{ \Carbon\Carbon::parse($k->tanggal)->format('d-m-Y') }}
                                 </td>
 
                                 <td class="ll-nama">
-                                    {{ $l->nama_produk }}
+                                    {{ $k->nama_produk }}
                                 </td>
 
                                 <td class="ll-num">
-                                    {{ $l->total_terjual }}
+                                    {{ $k->jumlah }} pcs
                                 </td>
 
                                 <td>
-                                    Rp {{ number_format($l->total_modal, 0, ',', '.') }}
+                                    Rp {{ number_format($k->nilai_rugi / max($k->jumlah, 1), 0, ',', '.') }}
+                                </td>
+
+                                <td style="color:#bd4b59; font-weight:700;">
+                                    Rp {{ number_format($k->nilai_rugi, 0, ',', '.') }}
                                 </td>
 
                                 <td>
-                                    Rp {{ number_format($l->total_jual, 0, ',', '.') }}
-                                </td>
-
-                                <td class="ll-untung">
-                                    Rp {{ number_format($l->total_untung, 0, ',', '.') }}
+                                    <span class="ll-badge {{ $k->alasan }}">
+                                        {{ ucfirst($k->alasan) }}
+                                    </span>
                                 </td>
 
                             </tr>
@@ -945,23 +1023,87 @@
 
             </div>
 
+
+            {{-- =========================
+                 PAGINATION (KANAN)
+            ========================= --}}
+            @if($kerugians->hasPages())
+
+                <div class="ll-pagination">
+                    <div class="ll-pagination-inner">
+
+                        {{-- PREV --}}
+                        @if($kerugians->onFirstPage())
+                            <span class="ll-page-btn disabled">‹ Prev</span>
+                        @else
+                            <a href="{{ $kerugians->previousPageUrl() }}" class="ll-page-btn">‹ Prev</a>
+                        @endif
+
+
+                        {{-- PAGE NUMBERS (compact) --}}
+                        @php
+                            $start = max(1, $kerugians->currentPage() - 2);
+                            $end = min($kerugians->lastPage(), $kerugians->currentPage() + 2);
+                        @endphp
+
+                        {{-- First page + dots --}}
+                        @if($start > 1)
+                            <a href="{{ $kerugians->url(1) }}" class="ll-page-btn">1</a>
+                            @if($start > 2)
+                                <span class="ll-page-dots">...</span>
+                            @endif
+                        @endif
+
+
+                        {{-- Page range --}}
+                        @foreach(range($start, $end) as $page)
+                            @if($page == $kerugians->currentPage())
+                                <span class="ll-page-btn active">{{ $page }}</span>
+                            @else
+                                <a href="{{ $kerugians->url($page) }}" class="ll-page-btn">{{ $page }}</a>
+                            @endif
+                        @endforeach
+
+
+                        {{-- Last page + dots --}}
+                        @if($end < $kerugians->lastPage())
+                            @if($end < $kerugians->lastPage() - 1)
+                                <span class="ll-page-dots">...</span>
+                            @endif
+                            <a href="{{ $kerugians->url($kerugians->lastPage()) }}" class="ll-page-btn">
+                                {{ $kerugians->lastPage() }}
+                            </a>
+                        @endif
+
+
+                        {{-- NEXT --}}
+                        @if($kerugians->hasMorePages())
+                            <a href="{{ $kerugians->nextPageUrl() }}" class="ll-page-btn">Next ›</a>
+                        @else
+                            <span class="ll-page-btn disabled">Next ›</span>
+                        @endif
+
+                    </div>
+                </div>
+
+            @endif
+
+
         @else
 
             {{-- EMPTY STATE --}}
             <div class="ll-empty">
 
                 <div class="ll-empty-icon">
-
-                    <i data-lucide="chart-column"></i>
-
+                    <i data-lucide="alert-triangle"></i>
                 </div>
 
                 <div class="ll-empty-title">
-                    Belum ada data laba
+                    Belum ada data kerugian
                 </div>
 
                 <div class="ll-empty-text">
-                    Data akan muncul setelah ada transaksi penjualan.
+                    Data kerugian akan muncul setelah ada catatan kerugian.
                 </div>
 
             </div>

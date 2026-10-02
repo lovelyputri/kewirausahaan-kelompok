@@ -28,8 +28,12 @@ class LaporanLabaController extends Controller
 
         $kategoris = Kategori::all();
 
+        // ✅ REKAP KERUGIAN (dengan pagination)
+        $kerugians = $this->getKerugianQuery($request)->paginate(10);
+
         return view('laporan_laba.index', compact(
             'laporans',
+            'kerugians',
             'kategoris',
             'totalPenjualan',
             'totalModal',
@@ -70,7 +74,7 @@ class LaporanLabaController extends Controller
             )
             ->groupBy('produk.id', 'produk.kode_produk', 'produk.nama_produk', 'kategori.nama_kategori');
 
-        // ✅ Filter tanggal (range)
+        // Filter tanggal
         if ($request->start_date && $request->end_date) {
             $query->whereBetween('penjualan.tanggal', [$request->start_date, $request->end_date]);
         }
@@ -92,15 +96,70 @@ class LaporanLabaController extends Controller
     }
 
     // ============================
-    // HELPER: Total kerugian (dengan filter tanggal)
+    // HELPER: Query rekap kerugian
+    // ============================
+    private function getKerugianQuery(Request $request)
+    {
+        $query = Kerugian::query()
+            ->join('produk', 'kerugian.id_produk', '=', 'produk.id')
+            ->join('kategori', 'produk.id_kategori', '=', 'kategori.id')
+            ->select(
+                'kerugian.id',
+                'kerugian.tanggal',
+                'produk.kode_produk',
+                'produk.nama_produk',
+                'kategori.nama_kategori',
+                'kerugian.jumlah',
+                'kerugian.nilai_rugi',
+                'kerugian.alasan',
+                'kerugian.catatan'
+            )
+            ->orderBy('kerugian.tanggal', 'desc')
+            ->orderBy('kerugian.id', 'desc');
+
+        // Filter tanggal
+        if ($request->start_date && $request->end_date) {
+            $query->whereBetween('kerugian.tanggal', [$request->start_date, $request->end_date]);
+        }
+
+        // Filter search
+        if ($request->keyword) {
+            $query->where(function ($q) use ($request) {
+                $q->where('produk.nama_produk', 'LIKE', "%{$request->keyword}%")
+                  ->orWhere('produk.kode_produk', 'LIKE', "%{$request->keyword}%");
+            });
+        }
+
+        // Filter kategori
+        if ($request->id_kategori) {
+            $query->where('produk.id_kategori', $request->id_kategori);
+        }
+
+        return $query;
+    }
+
+    // ============================
+    // HELPER: Total kerugian
     // ============================
     private function getTotalKerugian(Request $request)
     {
         $query = Kerugian::query();
 
-        // Filter tanggal
         if ($request->start_date && $request->end_date) {
             $query->whereBetween('tanggal', [$request->start_date, $request->end_date]);
+        }
+
+        if ($request->keyword) {
+            $query->whereHas('produk', function ($q) use ($request) {
+                $q->where('nama_produk', 'LIKE', "%{$request->keyword}%")
+                  ->orWhere('kode_produk', 'LIKE', "%{$request->keyword}%");
+            });
+        }
+
+        if ($request->id_kategori) {
+            $query->whereHas('produk', function ($q) use ($request) {
+                $q->where('id_kategori', $request->id_kategori);
+            });
         }
 
         return $query->sum('nilai_rugi');
